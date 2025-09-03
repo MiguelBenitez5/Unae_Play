@@ -13,15 +13,26 @@ def renderPage(request):
     #aqui se pasa la logica que se quiera renderizar en la pagina 
     return render(request, 'tateti.html')
 
+"""
+Realiza la jugada, recibiendo la peticion del cliente y envia los resultados a traves de on JSON\n
+Estados retornados:
+    -status : error (cuando la jugada es incorrecta)
+    -status : success (cuando la jugada se realizo correctamente)
+Estado de la partida retornados:
+    -game_status : 0 (la partida continua, aun no esta definodo el ganador o empate)
+    -game_status : win (el jugador gana la partida, es decir logra vencer a la maquina en todas sus dificultades)
+"""
 def playTateti(request,position):
     row = int(position[0])
     column = int(position[2])
+
     #guardar los datos en la sesion
     def saveSession(board, playerMoves, machineMoves, level):
         request.session['tateti']['board'] = board
         request.session['tateti']['player_moves'] = playerMoves
         request.session['tateti']['macine_moves'] = machineMoves
         request.session['tateti']['level'] = level
+
     #crear una sesion si aun no existe una
     if 'tateti' not in request.session:
         board = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
@@ -69,12 +80,14 @@ def playTateti(request,position):
         elif data['level'] == 'medium':
             data['level'] = 'hard'
         else:
+            response['game_status'] = 'win_game'
             #si el jugador gana deberia colocar su puntaje en la base de datos
             try:
                 del request.session['tateti']
             except:
                 pass
         saveSession(tateti.restartBoard(),data['player_moves'],data['machine_moves'],data['level'])
+        response['level'] = data['level']
         return JsonResponse(response)
     
     if check is 0 and data['player_moves'] >= 5:
