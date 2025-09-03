@@ -1,0 +1,29 @@
+:root{
+    --color-tablero: #000;
+    --color-celda: #555;
+    --color-celda-hover: #ff3;
+    --color-borde-tablero: #000;
+}
+/* El tablero funciona con flexbox y sus cassillas estan espaciadas gracias a gap */
+.tablero{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    background-color: var(--color-tablero);
+    width: 600px;
+    height: 600px;
+}
+
+.celda{
+    background-color: var(--color-celda);
+    flex: 1 1 30%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.activo:hover{
+    background-color: var(--color-celda-hover);
+    cursor: pointer;
+}

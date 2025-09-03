@@ -278,19 +278,19 @@ class Tateti:
             #primer movimiento
             case 1:
                 self.__board[0][0] = '0'
-                return [0,0]
+                return '0-0'
             #segundo movimiento
             case 2:
                 if self.__board[0][2] is not 'X' and self.__board[0][0] is '0' and self.__board[0][1] is not 'X':
                     self.__board[0][2] = '0'
-                    return [0,2]
+                    return "0-2"
                 else:
                     return False
             #tercer movimiento
             case 3:
                 if self.__board[0][0] is '0' and self.__board[0][2] is '0' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X':
                     self.__board[1][1] = '0'
-                    return [1,1]
+                    return "1-1"
                 else:
                     return False
 
@@ -299,17 +299,17 @@ class Tateti:
         match moves:
             case 1:
                 self.__board[0][2] = '0'
-                return [0,2]
+                return "0-2"
             case 2:
                 if self.__board[0][0] is not 'X' and self.__board[0][2] is '0' and self.__board[0][1] is not 'X':
                     self.__board[0][0] = '0'
-                    return [0,0]
+                    return "0-0"
                 else:
                     return False
             case 3:
                 if self.__board[0][0] is '0' and self.__board[0][2] is '0' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X':
                     self.__board[1][1] = '0'
-                    return [1,1]
+                    return "1-1"
                 else:
                     return False
                 
@@ -317,17 +317,17 @@ class Tateti:
         match moves:
             case 1:
                 self.__board[2][2] = '0'
-                return [2,2]
+                return "2-2"
             case 2:
                 if self.__board[0][2] is not 'X' and self.__board[2][2] is '0' and self.__board[1][2] is not 'X':
                     self.__board[0][2] = '0'
-                    return [0,2]
+                    return "0-2"
                 else:
                     return False
             case 3:
                 if self.__board[2][2] is '0' and self.__board[0][2] is '0' and self.__board[2][0] is not 'X' and self.__board[0][0] is not 'X':
                     self.__board[1][1] = '0'
-                    return [1,1]
+                    return "1-1"
                 else:
                     return False
     
@@ -335,17 +335,17 @@ class Tateti:
         match moves:
             case 1:
                 self.__board[2][0] = '0'
-                return [2,0]
+                return "2-0"
             case 2:
                 if self.__board[0][0] is not 'X' and self.__board[2][0] is '0' and self.__board[1][0] is not 'X':
                     self.__board[0][0] = '0'
-                    return [0,0]
+                    return "0-0"
                 else:
                     return False
             case 3:
                 if self.__board[2][0] is '0' and self.__board[0][0] is '0' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X':
                     self.__board[1][1] = '0'
-                    return [1,1]
+                    return "1-1"
                 else:
                     return False
                 
@@ -353,17 +353,17 @@ class Tateti:
         match moves:
             case 1:
                 self.__board[1][1] = '0'
-                return [1,1]
+                return "1-1"
             case 2:
                 if self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X' and self.__board[0][1] is not 'X' and self.__board[2][1] is not 'X':
                     self.__board[2][1] = '0'
-                    return [2,1]
+                    return "2-1"
                 else:
                     return False
             case 3:
                 if self.__board[2][1] is '0' and self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[2][0] is not 'X':
                     self.__board[2][2] = '0'
-                    return [2,2]
+                    return "2-2"
                 else:
                     return False
                 
@@ -371,17 +371,17 @@ class Tateti:
         match moves:
             case 1:
                 self.__board[1][1] = '0'
-                return [1,1]
+                return "1-1"
             case 2:
                 if self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X' and self.__board[1][0] is not 'X' and self.__board[1][2] is not 'X':
                     self.__board[1][2] = '0'
-                    return [1,2]
+                    return "1-2"
                 else:
                     return False
             case 3:
                 if self.__board[1][2] is '0' and self.__board[1][1] is '0' and self.__board[2][0] is not 'X' and self.__board[2][2] is not 'X':
                     self.__board[0][2] = '0'
-                    return [0,2]
+                    return "0-2"
                 else:
                     return False
                 
@@ -389,17 +389,17 @@ class Tateti:
         match moves:
             case 1:
                 self.__board[1][1] = '0'
-                return [1,1]
+                return "1-1"
             case 2:
                 if self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X' and self.__board[1][2] is not 'X' and self.__board[1][0] is not 'X':
                     self.__board[1][0] = '0'
-                    return [1,0]
+                    return "1-0"
                 else:
                     return False
             case 3:
                 if self.__board[1][0] is '0' and self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X':
                     self.__board[2][0] = '0'
-                    return [2,0]
+                    return "2-0"
                 else:
                     return False
     
@@ -407,16 +407,16 @@ class Tateti:
         match moves:
             case 1:
                 self.__board[1][1] = '0'
-                return [1,1]
+                return "1-1"
             case 2:
                 if self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X' and self.__board[0][1] is not 'X' and self.__board[2][1] is not 'X':
                     self.__board[2][1] = '0'
-                    return [2,1]
+                    return "2-1"
                 else:
                     return False
             case 3:
                 if self.__board[0][1] is '0' and self.__board[1][1] is '0' and self.__board[0][2] is not 'X' and self.__board[0][0] is not 'X':
                     self.__board[2][2] = '0'
-                    return [2,2]
+                    return "2-2"
                 else:
                     return False
