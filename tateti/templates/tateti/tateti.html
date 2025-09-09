@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titulo del minijuego</title>
+    <link rel="stylesheet" href="{% static 'tateti/css/tablero.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!--Lugar para el header global del sitio web-->
+
+    <!--Muestra la dificultad actual// es temporal, borrar en desarrollo-->
+    <p class="level">Facil</p>
+    <!--lugar para el tablero-->
+    {% include 'tablero.html' %}
+    <!--Parafo temporal solo para comprobar funcionalidad--borrar en desarrollo :D-->
+    <p class="borrar-despues"></p>
+
+    <!--lugar para los dialogos del personaje junto con el personaje-->
+
+    <!--lugar para el footer global del sitio web-->
+    
+    <script src="{% static 'tateti/js/play_game.js' %}"></script>
+</body>
+</html>
