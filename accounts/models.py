@@ -7,6 +7,9 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)  # asegura emails únicos
     register_date = models.DateTimeField(default=timezone.now)
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
     class Meta:
         db_table = 'users'
 
