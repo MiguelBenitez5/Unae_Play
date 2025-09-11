@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+}
+.section{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header{
+    height: 50px;
+    background-color: black;
+    text-align: center;
+    color: aliceblue;
+    padding: 15px;
+    font-size: 50px;
+}
+.main{
+    flex-grow: 1;
+}
+.footer{
+    height: 50px;
+    background-color: black;
+    text-align: center;
+    color: aliceblue;
+    padding: 15px;
+    font-size: 50px;
+}

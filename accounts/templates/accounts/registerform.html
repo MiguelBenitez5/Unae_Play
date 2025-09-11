@@ -1,4 +1,5 @@
 <form action="" method="POST">
+    {% csrf_token %}
     <h2>Registrate</h2>
     <label for="username">Nombre de usuario (maximo 10 caracteres)</label>
     <input name="username" id="username" type="text" maxlength="10" required placeholder="Ej: Marcos360">
@@ -7,12 +8,12 @@
     <label for="password">Contraseña</label>
     <input name="password" id="password" type="password" required>
     <div class="terms">
-        <input type="checkbox" id="checkbox" name="checkbox">
+        <input type="checkbox" id="checkbox" name="checkbox" value="1">
         <p>Acepto los <a href="#" target="_blank">terminos y condiciones</a></p>
     </div>
     <button type="submit">Registrarse</button>
     <div class="reg-footer">
         <p>Ya tienes una cuenta?</p>
-        <p>Inicia sesion</p>
+        <p><a href="login.html">Inicia sesion</a></p>
     </div>
 </form>
