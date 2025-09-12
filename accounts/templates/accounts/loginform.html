@@ -1,4 +1,5 @@
 <form action="" method="POST">
+    {% csrf_token %}
     <h2>Inicar Sesion</h2>
     <label for="email">Correo electronico</label>
     <input name="email" id="email" type="email" required>
@@ -8,6 +9,6 @@
     <div class="login-footer">
         <p><a href="#">Olvidé mi contraseña</a></p>
         <p>Aún no tienes una cuenta?</p>
-        <p>Registrate</p>
+        <p><a href="../register">Registrate</a></p>
     </div>
 </form>
