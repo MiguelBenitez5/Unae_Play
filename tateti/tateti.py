@@ -40,7 +40,7 @@ class Tateti:
         Returna: True en caso de que la jugada fue realizada correctamente y False en caso contrario
         """
         #unicamente se realiza la jugada si la posicion seleccionada aun no fue jugada
-        if self.__board[row][column] is  ' ':
+        if self.__board[row][column] ==  ' ':
             self.__board = 'X'
             self.__playerMoves += 1
             return True
@@ -126,7 +126,7 @@ class Tateti:
             randomColumn = int(random.uniform(0,2))
             if self.__board[randomRow][randomColumn] == ' ':
                self.__board[randomRow][randomColumn] = '0'
-               return [randomRow, randomColumn]
+               return randomRow+'-'+randomColumn
 
     def __machineMedium(self):
         """
@@ -226,7 +226,7 @@ class Tateti:
         El modo mas inteligente de la maquina, donde ella empieza el juego y planea estrategias para ganar
         """
         #juega aleatorio si el jugador ha marcado en el centro
-        if self.__board[1][1] is 'X':
+        if self.__board[1][1] == 'X':
             return self.__machineEasy()
          
         tries = 0
@@ -281,14 +281,14 @@ class Tateti:
                 return '0-0'
             #segundo movimiento
             case 2:
-                if self.__board[0][2] is not 'X' and self.__board[0][0] is '0' and self.__board[0][1] is not 'X':
+                if self.__board[0][2] != 'X' and self.__board[0][0] == '0' and self.__board[0][1] != 'X':
                     self.__board[0][2] = '0'
                     return "0-2"
                 else:
                     return False
             #tercer movimiento
             case 3:
-                if self.__board[0][0] is '0' and self.__board[0][2] is '0' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X':
+                if self.__board[0][0] == '0' and self.__board[0][2] == '0' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X':
                     self.__board[1][1] = '0'
                     return "1-1"
                 else:
@@ -301,13 +301,13 @@ class Tateti:
                 self.__board[0][2] = '0'
                 return "0-2"
             case 2:
-                if self.__board[0][0] is not 'X' and self.__board[0][2] is '0' and self.__board[0][1] is not 'X':
+                if self.__board[0][0] != 'X' and self.__board[0][2] == '0' and self.__board[0][1] != 'X':
                     self.__board[0][0] = '0'
                     return "0-0"
                 else:
                     return False
             case 3:
-                if self.__board[0][0] is '0' and self.__board[0][2] is '0' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X':
+                if self.__board[0][0] == '0' and self.__board[0][2] == '0' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X':
                     self.__board[1][1] = '0'
                     return "1-1"
                 else:
@@ -319,13 +319,13 @@ class Tateti:
                 self.__board[2][2] = '0'
                 return "2-2"
             case 2:
-                if self.__board[0][2] is not 'X' and self.__board[2][2] is '0' and self.__board[1][2] is not 'X':
+                if self.__board[0][2] != 'X' and self.__board[2][2] == '0' and self.__board[1][2] != 'X':
                     self.__board[0][2] = '0'
                     return "0-2"
                 else:
                     return False
             case 3:
-                if self.__board[2][2] is '0' and self.__board[0][2] is '0' and self.__board[2][0] is not 'X' and self.__board[0][0] is not 'X':
+                if self.__board[2][2] == '0' and self.__board[0][2] == '0' and self.__board[2][0] != 'X' and self.__board[0][0] != 'X':
                     self.__board[1][1] = '0'
                     return "1-1"
                 else:
@@ -337,13 +337,13 @@ class Tateti:
                 self.__board[2][0] = '0'
                 return "2-0"
             case 2:
-                if self.__board[0][0] is not 'X' and self.__board[2][0] is '0' and self.__board[1][0] is not 'X':
+                if self.__board[0][0] != 'X' and self.__board[2][0] == '0' and self.__board[1][0] != 'X':
                     self.__board[0][0] = '0'
                     return "0-0"
                 else:
                     return False
             case 3:
-                if self.__board[2][0] is '0' and self.__board[0][0] is '0' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X':
+                if self.__board[2][0] == '0' and self.__board[0][0] == '0' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X':
                     self.__board[1][1] = '0'
                     return "1-1"
                 else:
@@ -355,13 +355,13 @@ class Tateti:
                 self.__board[1][1] = '0'
                 return "1-1"
             case 2:
-                if self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X' and self.__board[0][1] is not 'X' and self.__board[2][1] is not 'X':
+                if self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X' and self.__board[0][1] != 'X' and self.__board[2][1] != 'X':
                     self.__board[2][1] = '0'
                     return "2-1"
                 else:
                     return False
             case 3:
-                if self.__board[2][1] is '0' and self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[2][0] is not 'X':
+                if self.__board[2][1] == '0' and self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[2][0] != 'X':
                     self.__board[2][2] = '0'
                     return "2-2"
                 else:
@@ -373,13 +373,13 @@ class Tateti:
                 self.__board[1][1] = '0'
                 return "1-1"
             case 2:
-                if self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X' and self.__board[1][0] is not 'X' and self.__board[1][2] is not 'X':
+                if self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X' and self.__board[1][0] != 'X' and self.__board[1][2] != 'X':
                     self.__board[1][2] = '0'
                     return "1-2"
                 else:
                     return False
             case 3:
-                if self.__board[1][2] is '0' and self.__board[1][1] is '0' and self.__board[2][0] is not 'X' and self.__board[2][2] is not 'X':
+                if self.__board[1][2] == '0' and self.__board[1][1] == '0' and self.__board[2][0] != 'X' and self.__board[2][2] != 'X':
                     self.__board[0][2] = '0'
                     return "0-2"
                 else:
@@ -391,13 +391,13 @@ class Tateti:
                 self.__board[1][1] = '0'
                 return "1-1"
             case 2:
-                if self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X' and self.__board[1][2] is not 'X' and self.__board[1][0] is not 'X':
+                if self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X' and self.__board[1][2] != 'X' and self.__board[1][0] != 'X':
                     self.__board[1][0] = '0'
                     return "1-0"
                 else:
                     return False
             case 3:
-                if self.__board[1][0] is '0' and self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X':
+                if self.__board[1][0] == '0' and self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X':
                     self.__board[2][0] = '0'
                     return "2-0"
                 else:
@@ -409,13 +409,13 @@ class Tateti:
                 self.__board[1][1] = '0'
                 return "1-1"
             case 2:
-                if self.__board[1][1] is '0' and self.__board[0][0] is not 'X' and self.__board[0][2] is not 'X' and self.__board[2][2] is not 'X' and self.__board[2][0] is not 'X' and self.__board[0][1] is not 'X' and self.__board[2][1] is not 'X':
+                if self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X' and self.__board[0][1] != 'X' and self.__board[2][1] != 'X':
                     self.__board[2][1] = '0'
                     return "2-1"
                 else:
                     return False
             case 3:
-                if self.__board[0][1] is '0' and self.__board[1][1] is '0' and self.__board[0][2] is not 'X' and self.__board[0][0] is not 'X':
+                if self.__board[0][1] == '0' and self.__board[1][1] == '0' and self.__board[0][2] != 'X' and self.__board[0][0] != 'X':
                     self.__board[2][2] = '0'
                     return "2-2"
                 else:

@@ -1,12 +1,17 @@
 *{
     margin: 0;
 }
+
+/* todo el contenido de la pagina esta envuelto en el section, a considerar:
+display:flex , flex-direction: column y min-height: 100vh son indispensables 
+para que el footer pueda quedar debajo */
 .section{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+/* Estilos temporales, se pueden cambiar todos sin problema sin afectar a la funcionalidad */
 .header{
     height: 50px;
     background-color: black;
@@ -15,9 +20,14 @@
     padding: 15px;
     font-size: 50px;
 }
+
+/*flex-grow: 1 perimte que el contenido del main ocupe toda la pantalla restante
+y de esta forma el footer quedara debajo siempre  */
 .main{
     flex-grow: 1;
 }
+
+/* Estilos temporales, ninguno es necesario para que el footer quede debajo de la pagina */
 .footer{
     height: 50px;
     background-color: black;
