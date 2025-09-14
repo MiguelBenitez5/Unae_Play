@@ -1,29 +1,43 @@
 :root{
-    --color-tablero: #000;
-    --color-celda: #555;
-    --color-celda-hover: #ff3;
-    --color-borde-tablero: #000;
-}
-/* El tablero funciona con flexbox y sus cassillas estan espaciadas gracias a gap */
-.tablero{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    background-color: var(--color-tablero);
-    width: 600px;
-    height: 600px;
-}
+      --board-size: min(320px, 40vw);
+      --gap: 8px;
+      --cell-bg: #071027;
+      --cell-radius: 8px;
+      --line-color: rgba(255,255,255,0.06);
+      --accent: #7c3aed;
+    }
 
-.celda{
-    background-color: var(--color-celda);
-    flex: 1 1 30%;
-    height: 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+.board {
+      width: var(--board-size);
+      aspect-ratio: 1 / 1;              /* mantiene el cuadrado */
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: var(--gap);
+      padding: var(--gap);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+      border: 1px solid var(--line-color);
+    }
 
-.activo:hover{
-    background-color: var(--color-celda-hover);
-    cursor: pointer;
-}
+    .cell {
+      background: linear-gradient(180deg, var(--cell-bg), rgba(7,16,42,0.6));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: clamp(36px, 8vw, 64px);
+      font-weight:800;
+      color: rgba(255,255,255,0.92);
+      user-select:none;
+      border-radius: var(--cell-radius);
+      cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+      box-shadow: 0 6px 16px rgba(2,6,23,0.5);
+    }
+
+    .cell:active{ transform: translateY(2px); }
+    .cell.empty:hover{ transform: translateY(-4px); box-shadow: 0 12px 28px rgba(2,6,23,0.65); }
+
+    /* Accesibilidad: bordes claros en foco */
+    .cell:focus { outline: 3px solid rgba(124,58,237,0.18); outline-offset: 2px; }

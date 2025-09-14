@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
+    {% block content%}
+    {{block.super}}
+    <div class="game">
+        {% block game%}
 
-{% block content%}
-    <div class="">
-        
+        {% endblock %}
     </div>
-{% endblock %}
+    
+    <div class="character">
+        <div class="dialog-container">
+            <p class="dialog-text">...</p>
+            <img class="dialog-char" src="{% static 'img/imagenEjemplo-removebg-preview (1).png' %}" alt="undino">
+        </div>
+    </div>
+    {% endblock%}

@@ -1,44 +1,122 @@
-import time
 import random
+#Constantes de la aplicacion:
+#para calcular los puntajes se utilizara la formula de CIELO/tiempo donde tiempo se representa en minutos
+MAX_WIN = 100000
+MAX_DRAW = 50000
+MAX_DEFEAT = 20000
+
+MIN_WIN = 1000
+MIN_DRAW = 500
+MIN_DEFEAT = 200
+
 
 class Tateti:
 
-    def __init__(self, board,playerMoves,machineMoves, level):
-        self.__board = board
-        self.__level = level
-        self.__playerMoves = playerMoves
-        self.__machineMoves = machineMoves
+    def __init__(self, session_data):
+        self.__start_time = session_data['start_time']
+        self.__score = session_data['score']
+        self.__board = session_data['board']
+        self.__level = session_data['level']
+        self.__playerMoves = session_data['player_moves']
+        self.__machineMoves = session_data['machine_moves']
 
-    def getBoard(self):
-        """
-        Se obtiene el tablero actual del objeto\n
-        Retorna: un array bidimensional con los valores del tablero 
 
-        """
-        return self.__board
-    
-    def getLevel(self):
-        """
-        Se obtiene el nivel de dificultad actual
+    def __restart_game(self):
+        self.__board = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
+        self.__playerMoves = 0
+        self.__machineMoves = 0
 
-        Retorna: el nivel de difucultad
-        """
-        return self.__level
-    
-    def setLevel(self, level):
-        """
-        Cambia el nivel de dificultad
-        Param(level): el nivel de dificultad deseado (easy,medium,hard)
-        """
-        self.__level = level
-    
-    def playPlayer(self, row, column):
+    def __next_level(self):
+        match self.__level:
+            case 'easy':
+                return 'medium'
+            case 'medium':
+                return 'hard'
+        
+            
+
+    def play_game(self, row, column):
+        # #en dificultad facil y medio empieza a jugar el jugador
+        # if self.__level == 'easy' or self.__level == 'medium':
+        #empieza el jugador
+        #si la jugada es incorrecta se retorna false
+        if not self.__playPlayer(row, column):
+            return False
+        #se suma un movimiento al jugador
+        self.__playerMoves += 1
+        #por defecto el estado del juego esta en 0, esto indica que el juego continua
+        game_status = 0
+        #se comprueba si gano el usuario
+        if self.__checkBoard() == 1:
+            #calcular puntaje del jugador
+            score = MAX_WIN/(self.__start_time/60)
+            if score < MIN_WIN:
+                score =  MIN_WIN
+            self.__score += score
+            self.__level = self.__next_level()
+            game_status = 'win'
+            self.__restart_game()
+        
+        #se comprueba empate
+        elif self.__playerMoves >= 5:
+            score = MAX_DRAW/(self.__start_time/60)
+            if score < MIN_DRAW:
+                score = MIN_DRAW
+            self.__score += score
+            game_status = 'draw'
+            self.__restart_game()
+        
+        #juega la maquina
+        else: 
+            machine_move = self.__playMachine
+            self.__machineMoves += 1
+            #se comprueba si gana la maquina
+            if self.__checkBoard() == -1:
+                score = MAX_DEFEAT/(self.__start_time/60)
+                if score < MIN_DEFEAT:
+                    score = MIN_DEFEAT
+                self.__score += score
+                game_status = 'defeat'
+                self.__restart_game()
+            
+            #se comprueba empate 
+            elif self.__machineMoves >= 5:
+                score = MAX_DEFEAT/(self.__start_time/60)
+                if score < MIN_DEFEAT:
+                    score = MIN_DEFEAT
+                self.__score += score
+                game_status = 'defeat'
+                self.__restart_game()
+
+        #jugada extra en caso de que la maquina sea dificil
+        if self.__level == 'hard' and self.__machineMoves == 0:
+            self.__machineMoves += 1
+            hard_machine_move = self.__playMachine()
+
+        response = {
+            'status': 'success',
+            'start_time': self.__start_time,
+            'board': self.__board,
+            'level': self.__level,
+            'score': self.__score,
+            'player_moves': self.__playerMoves,
+            'machine_moves': self.__machineMoves,
+            'game_status': game_status,
+        }
+        if hard_machine_move:
+            response['hard_machine_move'] = hard_machine_move
+        
+        #retorno de diccionario con el fin de utilizarlo en la sesion y la respues al usuario
+        return response
+
+    def __playPlayer(self, row, column):
         """
         Jugada del jugador\n
         Param (row): la fila seleccionada\n
         Param (column): la columna seleccionada\n
         Returna: True en caso de que la jugada fue realizada correctamente y False en caso contrario
         """
+        #tener en cuenta la comprobacion de los valores fuera de rango de la lista
         #unicamente se realiza la jugada si la posicion seleccionada aun no fue jugada
         if self.__board[row][column] ==  ' ':
             self.__board = 'X'
@@ -48,7 +126,7 @@ class Tateti:
             return False
 
     
-    def playMachine(self):
+    def __playMachine(self):
         """
         Juega la maquina
         """
@@ -69,7 +147,7 @@ class Tateti:
                     return self.__machineHard()
     
 
-    def checkBoard(self):
+    def __checkBoard(self):
         """
         Comprobar el tablero.
 
@@ -105,7 +183,7 @@ class Tateti:
             ##Si no gana ninguno el juego continua##
             return 0
         
-    def restartBoard(self):
+    def __restartBoard(self):
         """
         Reiniciar el tablero a los valores iniciales 
         """
