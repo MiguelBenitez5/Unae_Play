@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    background: white;
+    color: black;
+}
+
+#game {
+    display: grid;
+    grid-template-columns: repeat(8, 40px);
+    grid-template-rows: repeat(8, 40px);
+    gap: 2px;
+    justify-content: center;
+    margin-top: 20px auto;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    background: #444;
+    border: 1px solid #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cell.revealed {
+    background: #ddd;
+    cursor: default;    
+}
