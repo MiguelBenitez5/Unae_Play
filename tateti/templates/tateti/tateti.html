@@ -4,6 +4,7 @@
 {% block head%}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'tateti/css/tablero.css' %}">
+    <link rel="stylesheet" href="{% static 'tateti/css/ui-components.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 {% endblock %}
@@ -12,9 +13,18 @@
 {% block game %}
     <div class="game-box">
         <!--Muestra la dificultad actual// es temporal, borrar en desarrollo-->
-        <p class="level">Facil</p>
+        <div class="header-game">
+            <p class="level">Nivel: Facil</p>
+            <button class="reset">Reiniciar</button>
+            <p class="score">Puntaje: 0</p>
+        </div>
         <!--lugar para el tablero-->
         {% include 'tateti/tablero.html' %}
+        <div class="footer-game">
+            <button class="giveup">Me rindo</button>
+            <button class="next-level hidden">Siguiente Nivel</button>
+            <button class="try-again hidden">Reintentar</button>
+        </div>
     </div>
 
 {% endblock %}

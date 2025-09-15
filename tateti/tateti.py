@@ -1,14 +1,39 @@
-import random
+import random, time
 #Constantes de la aplicacion:
 #para calcular los puntajes se utilizara la formula de CIELO/tiempo donde tiempo se representa en minutos
-MAX_WIN = 100000
-MAX_DRAW = 50000
-MAX_DEFEAT = 20000
+#considerar funcion para calcular puntaje y calcular puntaje segun nivel de dificultad
+MAX_WIN_HARD = 10000
+MAX_DRAW_HARD = 5000
+MAX_DEFEAT_HARD = 2000
 
-MIN_WIN = 1000
-MIN_DRAW = 500
-MIN_DEFEAT = 200
+MIN_WIN_HARD = 1000
+MIN_DRAW_HARD = 500
+MIN_DEFEAT_HARD = 200
 
+MAX_WIN_MEDIUM = 5000
+MAX_DRAW_MEDIUM = 2500
+MAX_DEFEAT_MEDIUM = 1000
+
+MIN_WIN_MEDIUM = 500
+MIN_DRAW_MEDIUM = 250
+MIN_DEFEAT_MEDIUM = 100
+
+MAX_WIN_EASY = 2500
+MAX_DRAW_EASY = 1250
+MAX_DEFEAT_EASY = 500
+
+MIN_WIN_EASY = 250
+MIN_DRAW_EASY = 125
+MIN_DEFEAT_EASY = 50
+#dialogos unicamente de prueba
+dialogos_prueba = ['Este es el dialogo 1',
+                   'Este es el dialogo 2',
+                   'Este es el dialogo 3',
+                   'Este es el dialogo 4',
+                   'Este es el dialogo 5',
+                   'Este es el dialogo 6',
+                   'Este es el dialogo 7',
+                   'Este es el dialogo 8',]
 
 class Tateti:
 
@@ -27,13 +52,60 @@ class Tateti:
         self.__playerMoves = 0
         self.__machineMoves = 0
 
-    def __next_level(self):
+    # def __next_level(self):
+    #     match self.__level:
+    #         case 'easy':
+    #             return 'medium'
+    #         case 'medium':
+    #             return 'hard'
+            
+    def __get_score(self, result):
+        elapsed_time = max((time.time() - self.__start_time)/60, 0.1)
         match self.__level:
             case 'easy':
-                return 'medium'
+                if result == 'win':
+                    score = MAX_WIN_EASY/elapsed_time
+                    if score < MIN_WIN_EASY:
+                        score = MIN_WIN_EASY
+                elif result == 'draw':
+                    score = MAX_DRAW_EASY/elapsed_time
+                    if score < MIN_DRAW_EASY:
+                        score = MIN_DRAW_EASY
+                else:
+                    score = MAX_DEFEAT_EASY/elapsed_time
+                    if score < MIN_DEFEAT_EASY:
+                        score = MIN_DEFEAT_EASY
             case 'medium':
-                return 'hard'
+                if result == 'win':
+                    score = MAX_WIN_MEDIUM/elapsed_time
+                    if score < MIN_WIN_MEDIUM:
+                        score = MIN_WIN_MEDIUM
+                elif result == 'draw':
+                    score = MAX_DRAW_MEDIUM/elapsed_time
+                    if score < MIN_DRAW_MEDIUM:
+                        score = MIN_DRAW_MEDIUM
+                else:
+                    score = MAX_DEFEAT_MEDIUM/elapsed_time
+                    if score < MIN_DEFEAT_MEDIUM:
+                        score = MIN_DEFEAT_MEDIUM
+            case 'hard':
+                if result == 'win':
+                    score = MAX_WIN_HARD/elapsed_time
+                    if score < MIN_WIN_HARD:
+                        score = MIN_WIN_HARD
+                elif result == 'draw':
+                    score = MAX_DRAW_HARD/elapsed_time
+                    if score < MIN_DRAW_HARD:
+                        score = MIN_DRAW_HARD
+                else:
+                    score = MAX_DEFEAT_HARD/elapsed_time
+                    if score < MIN_DEFEAT_HARD:
+                        score = MIN_DEFEAT_HARD
+            case _:
+                score = 0
         
+        return int(score)
+                    
             
 
     def play_game(self, row, column):
@@ -41,6 +113,7 @@ class Tateti:
         hard_machine_move = None
         #si la jugada es incorrecta se retorna false
         if not self.__playPlayer(row, column):
+            print('Error aqui')
             return False
         #se suma un movimiento al jugador
         self.__playerMoves += 1
@@ -49,13 +122,14 @@ class Tateti:
         #se comprueba si gano el usuario
         if self.__checkBoard() == 1:
             #calcular puntaje del jugador
-            score = MAX_WIN/(self.__start_time/60)
-            if score < MIN_WIN:
-                score =  MIN_WIN
+            score = self.__get_score('win')
             self.__score += score
-            self.__level = self.__next_level()
             game_status = 'win'
-            self.__restart_game()
+            #si el player gano en 'medio', la maquina empieza en dificil
+            if self.__level == 'medium':
+                hard_machine_move = self.__playMachine()
+                self.__machineMoves += 1
+            #se podria incluir dialogo en esta seccion creo
         
         #se comprueba empate
         elif self.__playerMoves >= 5:
@@ -63,12 +137,10 @@ class Tateti:
             if self.__draws >=3:
                 game_status = 'defeat'
             else:
-                score = MAX_DRAW/(self.__start_time/60)
-                if score < MIN_DRAW:
-                    score = MIN_DRAW
+                score = self.__get_score('draw')
                 self.__score += score
                 game_status = 'draw'
-            self.__restart_game()
+                self.__restart_game()
         
         #juega la maquina
         else: 
@@ -76,26 +148,23 @@ class Tateti:
             self.__machineMoves += 1
             #se comprueba si gana la maquina
             if self.__checkBoard() == -1:
-                score = MAX_DEFEAT/(self.__start_time/60)
-                if score < MIN_DEFEAT:
-                    score = MIN_DEFEAT
+                score = self.__get_score('defeat')
                 self.__score += score
                 game_status = 'defeat'
-                self.__restart_game()
             
             #se comprueba empate 
             elif self.__machineMoves >= 5:
-                score = MAX_DRAW/(self.__start_time/60)
-                if score < MIN_DRAW:
-                    score = MIN_DRAW
-                self.__score += score
-                game_status = 'defeat'
-                self.__restart_game()
-
-        #jugada extra en caso de que la maquina sea dificil
-        if self.__level == 'hard' and self.__machineMoves == 0:
-            self.__machineMoves += 1
-            hard_machine_move = self.__playMachine()
+                self.__draws += 1
+                if self.__draws >= 3:
+                    game_status = 'defeat'
+                else:
+                    score = self.__get_score('draw')
+                    self.__score += score
+                    game_status = 'draw'
+                    self.__restart_game()
+        
+        random.shuffle(dialogos_prueba)
+        dialog = dialogos_prueba[0]
 
         response = {
             'status': 'success',
@@ -107,6 +176,7 @@ class Tateti:
             'machine_moves': self.__machineMoves,
             'game_status': game_status,
             'player_draws': self.__draws,
+            'dialog': dialog,
         }
         if machine_move:
             response['machine_move'] = machine_move
@@ -188,16 +258,16 @@ class Tateti:
         ##Si no gana ninguno el juego continua##
         return 0
         
-    def __restartBoard(self):
-        """
-        Reiniciar el tablero a los valores iniciales 
-        """
-        for i in range(3):
-            self.__board[i][0] = ' '
-            self.__board[i][1] = ' '
-            self.__board[i][2] = ' '
+    # def __restartBoard(self):
+    #     """
+    #     Reiniciar el tablero a los valores iniciales 
+    #     """
+    #     for i in range(3):
+    #         self.__board[i][0] = ' '
+    #         self.__board[i][1] = ' '
+    #         self.__board[i][2] = ' '
         
-        return self.__board
+    #     return self.__board
     
 
     def __machineEasy(self):
@@ -205,8 +275,8 @@ class Tateti:
         La jugada de la maquina en su nivel mas facil, solo juega una posicion aleatoria en cada turno
         """
         while True:
-            randomRow = int(random.uniform(0,2))
-            randomColumn = int(random.uniform(0,2))
+            randomRow = random.randint(0,2)
+            randomColumn = random.randint(0,2)
             if self.__board[randomRow][randomColumn] == ' ':
                self.__board[randomRow][randomColumn] = '0'
                return str(randomRow)+'-'+str(randomColumn)
@@ -266,7 +336,7 @@ class Tateti:
                 if ' ' in self.__board[i]:
                     index = self.__board[i].index(' ')
                     self.__board[i][index] = '0'
-                    return True
+                    return f'{i}-{index}'
             #comprobando columnas
             if (self.__board[0][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[2][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[0][i] == 'X' and self.__board[2][i] == 'X'):
                 for f in range(3):    
@@ -315,7 +385,7 @@ class Tateti:
         tries = 0
         while tries < 10 :
             #hacer 10 intentos, aqui creo un numero aleatorio para seleccionar aleatoriamente una jugada
-            randomNumber = int(random.uniform(1,8))
+            randomNumber = random.randint(1,8)
             #aplicar la estrategia dependiendo del numero aleatorio generado
             match randomNumber:
                 case 1:
@@ -359,18 +429,18 @@ class Tateti:
     def __strategy_1(self,moves):
         match moves:
             #primer movimiento
-            case 1:
+            case 0:
                 self.__board[0][0] = '0'
                 return '0-0'
             #segundo movimiento
-            case 2:
+            case 1:
                 if self.__board[0][2] != 'X' and self.__board[0][0] == '0' and self.__board[0][1] != 'X':
                     self.__board[0][2] = '0'
                     return "0-2"
                 else:
                     return False
             #tercer movimiento
-            case 3:
+            case 2:
                 if self.__board[0][0] == '0' and self.__board[0][2] == '0' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X':
                     self.__board[1][1] = '0'
                     return "1-1"
@@ -380,16 +450,16 @@ class Tateti:
 
     def __strategy_2(self,moves):
         match moves:
-            case 1:
+            case 0:
                 self.__board[0][2] = '0'
                 return "0-2"
-            case 2:
+            case 1:
                 if self.__board[0][0] != 'X' and self.__board[0][2] == '0' and self.__board[0][1] != 'X':
                     self.__board[0][0] = '0'
                     return "0-0"
                 else:
                     return False
-            case 3:
+            case 2:
                 if self.__board[0][0] == '0' and self.__board[0][2] == '0' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X':
                     self.__board[1][1] = '0'
                     return "1-1"
@@ -398,16 +468,16 @@ class Tateti:
                 
     def __strategy_3(self,moves):
         match moves:
-            case 1:
+            case 0:
                 self.__board[2][2] = '0'
                 return "2-2"
-            case 2:
+            case 1:
                 if self.__board[0][2] != 'X' and self.__board[2][2] == '0' and self.__board[1][2] != 'X':
                     self.__board[0][2] = '0'
                     return "0-2"
                 else:
                     return False
-            case 3:
+            case 2:
                 if self.__board[2][2] == '0' and self.__board[0][2] == '0' and self.__board[2][0] != 'X' and self.__board[0][0] != 'X':
                     self.__board[1][1] = '0'
                     return "1-1"
@@ -416,16 +486,16 @@ class Tateti:
     
     def __strategy_4(self,moves):
         match moves:
-            case 1:
+            case 0:
                 self.__board[2][0] = '0'
                 return "2-0"
-            case 2:
+            case 1:
                 if self.__board[0][0] != 'X' and self.__board[2][0] == '0' and self.__board[1][0] != 'X':
                     self.__board[0][0] = '0'
                     return "0-0"
                 else:
                     return False
-            case 3:
+            case 2:
                 if self.__board[2][0] == '0' and self.__board[0][0] == '0' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X':
                     self.__board[1][1] = '0'
                     return "1-1"
@@ -434,16 +504,16 @@ class Tateti:
                 
     def __strategy_5(self,moves):
         match moves:
-            case 1:
+            case 0:
                 self.__board[1][1] = '0'
                 return "1-1"
-            case 2:
+            case 1:
                 if self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X' and self.__board[0][1] != 'X' and self.__board[2][1] != 'X':
                     self.__board[2][1] = '0'
                     return "2-1"
                 else:
                     return False
-            case 3:
+            case 2:
                 if self.__board[2][1] == '0' and self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[2][0] != 'X':
                     self.__board[2][2] = '0'
                     return "2-2"
@@ -452,16 +522,16 @@ class Tateti:
                 
     def __strategy_6(self,moves):
         match moves:
-            case 1:
+            case 0:
                 self.__board[1][1] = '0'
                 return "1-1"
-            case 2:
+            case 1:
                 if self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X' and self.__board[1][0] != 'X' and self.__board[1][2] != 'X':
                     self.__board[1][2] = '0'
                     return "1-2"
                 else:
                     return False
-            case 3:
+            case 2:
                 if self.__board[1][2] == '0' and self.__board[1][1] == '0' and self.__board[2][0] != 'X' and self.__board[2][2] != 'X':
                     self.__board[0][2] = '0'
                     return "0-2"
@@ -470,16 +540,16 @@ class Tateti:
                 
     def __strategy_7(self,moves):
         match moves:
-            case 1:
+            case 0:
                 self.__board[1][1] = '0'
                 return "1-1"
-            case 2:
+            case 1:
                 if self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X' and self.__board[1][2] != 'X' and self.__board[1][0] != 'X':
                     self.__board[1][0] = '0'
                     return "1-0"
                 else:
                     return False
-            case 3:
+            case 2:
                 if self.__board[1][0] == '0' and self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X':
                     self.__board[2][0] = '0'
                     return "2-0"
@@ -488,16 +558,16 @@ class Tateti:
     
     def __strategy_8(self,moves):
         match moves:
-            case 1:
+            case 0:
                 self.__board[1][1] = '0'
                 return "1-1"
-            case 2:
+            case 1:
                 if self.__board[1][1] == '0' and self.__board[0][0] != 'X' and self.__board[0][2] != 'X' and self.__board[2][2] != 'X' and self.__board[2][0] != 'X' and self.__board[0][1] != 'X' and self.__board[2][1] != 'X':
                     self.__board[2][1] = '0'
                     return "2-1"
                 else:
                     return False
-            case 3:
+            case 2:
                 if self.__board[0][1] == '0' and self.__board[1][1] == '0' and self.__board[0][2] != 'X' and self.__board[0][0] != 'X':
                     self.__board[2][2] = '0'
                     return "2-2"

@@ -1,17 +1,16 @@
 //el juego se reinicia cada vez que carga la pagina
-window.onload = function(){
-    fetch('http://127.0.0.1:8000/tateti/action/restart')
-    .then(response => response.json())
-    .then(data =>{
-        console.log(data)
-    })
-}
+window.onload = restart_game
 
 const cells = document.querySelectorAll(".cell")
 //parrafo de prueba, borrar luego
 const parrafo = document.querySelector('.dialog-text')
 //parrafo de prueba, borrar luego
 const level = document.querySelector('.level')
+const nextLevel = document.querySelector('.next-level')
+const giveup = document.querySelector('.giveup')
+const reset = document.querySelector('.reset')
+const score = document.querySelector('.score')
+const tryAgain = document.querySelector('.try-again')
 
 const circle = '<i class="fa-regular fa-circle" style="color: #cb151e;"></i>'
 const xmark = '<i class="fa-solid fa-xmark" style="color: #0c7b0a;"></i>'
@@ -19,76 +18,100 @@ const xmark = '<i class="fa-solid fa-xmark" style="color: #0c7b0a;"></i>'
 function cleanBoard(){
     cells.forEach(cell =>{
         cell.innerHTML = ''
-        cell.classList.add('activo')
+        cell.classList.add('empty')
+        cell.addEventListener('click', clientPlay)
     })
 }
 
-cells.forEach(cell =>{
-    cell.addEventListener("click", function(){
-        fetch(`http://127.0.0.1:8000/tateti/${this.id}`)
+function paintBoard(board){
+    for (let row = 0; row < 3; row++ ){
+        for (let col = 0; col < 3; col++ ){
+            if(board[row][col] == 'X' || board[row][col] == '0'){
+                let content
+                switch (board[row][col]){
+                    case 'X': content = xmark; break
+                    case '0': content = circle; break
+                }
+                const cell = document.getElementById(row+'-'+col)
+                cell.innerHTML = content
+                cell.removeEventListener('click', clientPlay)
+                cell.classList.remove('empty')
+            }
+        }
+    }
+}
+
+function restart_game(){
+    fetch('http://127.0.0.1:3000/tateti/action/restart')
+    .then(response => response.json())
+    .then(data =>{
+        console.log(data)
+        cleanBoard()
+        level.textContent = 'Nivel: Facil'
+        nextLevel.classList.add('hidden')
+        score.textContent = 'Puntaje: 0'
+    }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+}
+
+//evento para el boton de siguiente nivel
+nextLevel.addEventListener('click', function(){
+    fetch('http://127.0.0.1:3000/tateti/action/nextlevel')
+        .then(response => response.json())
+            .then(data =>{
+                level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
+                cleanBoard()
+                if(data.hard_machine_move){
+                    parrafo = data.dialog
+                    paintBoard(data.board)
+                }
+            }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+})
+
+//evento para el boton de reiniciar partida
+reset.addEventListener('click', restart_game)
+
+//evento para el boton de rendirse
+giveup.addEventListener('click', function(){
+    fetch('http://127.0.0.1:3000/tateti/giveup/')
+        .then(response => response.json())
+            .then(data =>{
+                parrafo.textContent = 'Tu puntaje final es: '+data.score
+            }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+})
+
+function clientPlay(){
+        fetch(`http://127.0.0.1:3000/tateti/${this.id}`)
         .then(response => response.json())
         .then(data =>{
+
+            console.log('Respuesta del servidor: ',data)
+
+            
             if (data.status == 'error') {
                 console.log(data.status)
                 return
             }
-            level.textContent = data.level
-            this.innerHTML = circle
-            this.classList.remove('activo')
-            
-            if (data.hard_machine_move){
-                cleanBoard()
-                parrafo.textContent = 'Ahora empiezo yo'
-                cells.forEach(c =>{
-                    if (c.id == data.hard_machine_move){
-                        c.innerHTML = xmark
-                        return
-                    }
-                })
-            }
-
-            if(data.game_status == 'win_game'){
-                parrafo.textContent = 'Felicidades, ganaste la partida'
-                setTimeout(2000)
-                parrafo.textContent = 'Tu puntaje es: '+data.score
-                cleanBoard()
-                return
-            }
+            level.textContent = (data.level == 'easy')? 'Nivel: Facil' : (data.level == 'medium')? 'Nivel: Normal' : 'Nivel: Dificil'
+            parrafo.textContent = data.dialog
             if(data.game_status == 'win'){
-                cleanBoard()
-                if(data.level == 'medium'){
-                    parrafo.textContent = 'Me ganaste, pero eso solo fue el prinicipio. Ganame ahora'
-                }else{
-                    parrafo.textContent = 'Esta vez juego yo primero'
-                    
-                }
-                return
+                nextLevel.classList.remove('hidden')
+                score.textContent = 'Puntaje: ' + data.score
+            }else{
+                nextLevel.classList.add('hidden')
             }
             if(data.game_status == 'draw'){
-                cleanBoard()
-                parrafo.textContent = 'Guau, nadie gano, sigue intentandolo.'
-                setTimeout(2000)
-                parrafo.textContent = 'Tu puntaje es '+ response.score
-                return                
+                tryAgain.classList.remove('hidden')
             }
             if(data.game_status == 'defeat'){
-                cleanBoard()
-                parrafo.textContent = 'Gane esta vez, nadie puede conmigo'
-                setTimeout(2000)
-                parrafo.textContent = 'Tu puntaje es '+ response.score
-                return
+                parrafo.textContent = 'Perdiste ajajaja'
             }
+            //se pinta el tablero en cada jugada
+            paintBoard(data.board)
+            //aqui la logica para mostrar pantalla de puntaje   
+        }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+    }
 
-            //turno de la maquina
-            machineCell = data.machine_move
-            cells.forEach(c =>{
-                if(c.id == data.machine_move){
-                    c.innerHTML = '<i class="fa-solid fa-xmark" style="color: #3f2;"></i>'
-                    c.classList.remove('activo')
-                    return
-                }
-            })
-            
-        })
-    })
+//eventos para cada celda del tablero
+cells.forEach(cell =>{
+    cell.addEventListener("click", clientPlay )
 })
