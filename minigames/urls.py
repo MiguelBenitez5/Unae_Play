@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls, name = admin),
     path('accounts/', include('accounts.urls')),
     path('',include('globals.urls')),
+    path('tateti/', include('tateti.urls')),
 ]

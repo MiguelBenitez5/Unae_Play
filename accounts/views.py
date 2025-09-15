@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from globals.views import is_session_active
+from globals.utils import is_session_active
 from django.shortcuts import redirect
 from django.contrib import messages
 from .models import CustomUser
@@ -43,7 +43,10 @@ def render_login(request):
         user = authenticate(email = email, password = password)
 
         if user:
+            #revisar
+            user_id = user.id
             request.session['access'] = True
+            request.session['user_id'] = user_id
             return redirect('homepage')
         else: 
             messages.error(request, 'Correo electronico o contraseña incorrecta')

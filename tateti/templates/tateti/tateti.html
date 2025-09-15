@@ -1,27 +1,37 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titulo del minijuego</title>
+{% extends 'base_game.html' %}
+{% load static%}
+
+{% block head%}
+    {{ block.super }}
     <link rel="stylesheet" href="{% static 'tateti/css/tablero.css' %}">
+    <link rel="stylesheet" href="{% static 'tateti/css/ui-components.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-<body>
-    <!--Lugar para el header global del sitio web-->
 
-    <!--Muestra la dificultad actual// es temporal, borrar en desarrollo-->
-    <p class="level">Facil</p>
-    <!--lugar para el tablero-->
-    {% include 'tablero.html' %}
-    <!--Parafo temporal solo para comprobar funcionalidad--borrar en desarrollo :D-->
-    <p class="borrar-despues"></p>
+{% endblock %}
+{% block title %} TaTeTi {% endblock %}
 
-    <!--lugar para los dialogos del personaje junto con el personaje-->
+{% block game %}
+    <div class="game-box">
+        <!--Muestra la dificultad actual// es temporal, borrar en desarrollo-->
+        <div class="header-game">
+            <p class="level">Nivel: Facil</p>
+            <button class="reset">Reiniciar</button>
+            <p class="score">Puntaje: 0</p>
+        </div>
+        <!--lugar para el tablero-->
+        {% include 'tateti/tablero.html' %}
+        <div class="footer-game">
+            <button class="giveup">Me rindo</button>
+            <button class="next-level hidden">Siguiente Nivel</button>
+            <button class="try-again hidden">Reintentar</button>
+        </div>
+    </div>
 
-    <!--lugar para el footer global del sitio web-->
-    
+{% endblock %}
+
+{% block script %}
     <script src="{% static 'tateti/js/play_game.js' %}"></script>
-</body>
-</html>
+{% endblock %}
+
+    
+ 
