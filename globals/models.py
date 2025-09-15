@@ -5,7 +5,7 @@ from accounts.models import CustomUser
 
 class Game(models.Model):
     id = models.AutoField(primary_key=True)
-    game_name = models.CharField(max_length=50)
+    game_name = models.CharField(max_length=50, verbose_name='Nombre')
     description = models.TextField()
     rules = models.TextField()
     url = models.URLField()

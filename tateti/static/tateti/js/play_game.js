@@ -1,17 +1,20 @@
 //el juego se reinicia cada vez que carga la pagina
 window.onload = function(){
-    fetch('localhost:8000/tateti/restart')
+    fetch('http://127.0.0.1:8000/tateti/action/restart')
     .then(response => response.json())
     .then(data =>{
         console.log(data)
     })
 }
 
-const cells = document.querySelectorAll(".celda")
+const cells = document.querySelectorAll(".cell")
 //parrafo de prueba, borrar luego
 const parrafo = document.querySelector('.dialog-text')
 //parrafo de prueba, borrar luego
 const level = document.querySelector('.level')
+
+const circle = '<i class="fa-regular fa-circle" style="color: #cb151e;"></i>'
+const xmark = '<i class="fa-solid fa-xmark" style="color: #0c7b0a;"></i>'
 
 function cleanBoard(){
     cells.forEach(cell =>{
@@ -22,7 +25,7 @@ function cleanBoard(){
 
 cells.forEach(cell =>{
     cell.addEventListener("click", function(){
-        fetch(`localhost:8000/tateti/${this.id}`)
+        fetch(`http://127.0.0.1:8000/tateti/${this.id}`)
         .then(response => response.json())
         .then(data =>{
             if (data.status == 'error') {
@@ -30,7 +33,7 @@ cells.forEach(cell =>{
                 return
             }
             level.textContent = data.level
-            this.innerHTML = '<i class="fa-solid fa-xmark" style="color: #c60c0c;"></i>'
+            this.innerHTML = circle
             this.classList.remove('activo')
             
             if (data.hard_machine_move){
@@ -38,7 +41,7 @@ cells.forEach(cell =>{
                 parrafo.textContent = 'Ahora empiezo yo'
                 cells.forEach(c =>{
                     if (c.id == data.hard_machine_move){
-                        c.innerHTML = '<i class="fa-solid fa-xmark" style="color: #3f2;"></i>'
+                        c.innerHTML = xmark
                         return
                     }
                 })

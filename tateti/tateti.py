@@ -19,10 +19,11 @@ class Tateti:
         self.__level = session_data['level']
         self.__playerMoves = session_data['player_moves']
         self.__machineMoves = session_data['machine_moves']
+        self.__draws = session_data['player_draws']
 
 
     def __restart_game(self):
-        self.__board = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
+        self.__board = [[" " for _ in range(3)] for _ in range(3)]
         self.__playerMoves = 0
         self.__machineMoves = 0
 
@@ -36,9 +37,8 @@ class Tateti:
             
 
     def play_game(self, row, column):
-        # #en dificultad facil y medio empieza a jugar el jugador
-        # if self.__level == 'easy' or self.__level == 'medium':
-        #empieza el jugador
+        machine_move = None
+        hard_machine_move = None
         #si la jugada es incorrecta se retorna false
         if not self.__playPlayer(row, column):
             return False
@@ -59,16 +59,20 @@ class Tateti:
         
         #se comprueba empate
         elif self.__playerMoves >= 5:
-            score = MAX_DRAW/(self.__start_time/60)
-            if score < MIN_DRAW:
-                score = MIN_DRAW
-            self.__score += score
-            game_status = 'draw'
+            self.__draws += 1
+            if self.__draws >=3:
+                game_status = 'defeat'
+            else:
+                score = MAX_DRAW/(self.__start_time/60)
+                if score < MIN_DRAW:
+                    score = MIN_DRAW
+                self.__score += score
+                game_status = 'draw'
             self.__restart_game()
         
         #juega la maquina
         else: 
-            machine_move = self.__playMachine
+            machine_move = self.__playMachine()
             self.__machineMoves += 1
             #se comprueba si gana la maquina
             if self.__checkBoard() == -1:
@@ -81,9 +85,9 @@ class Tateti:
             
             #se comprueba empate 
             elif self.__machineMoves >= 5:
-                score = MAX_DEFEAT/(self.__start_time/60)
-                if score < MIN_DEFEAT:
-                    score = MIN_DEFEAT
+                score = MAX_DRAW/(self.__start_time/60)
+                if score < MIN_DRAW:
+                    score = MIN_DRAW
                 self.__score += score
                 game_status = 'defeat'
                 self.__restart_game()
@@ -102,7 +106,10 @@ class Tateti:
             'player_moves': self.__playerMoves,
             'machine_moves': self.__machineMoves,
             'game_status': game_status,
+            'player_draws': self.__draws,
         }
+        if machine_move:
+            response['machine_move'] = machine_move
         if hard_machine_move:
             response['hard_machine_move'] = hard_machine_move
         
@@ -119,8 +126,7 @@ class Tateti:
         #tener en cuenta la comprobacion de los valores fuera de rango de la lista
         #unicamente se realiza la jugada si la posicion seleccionada aun no fue jugada
         if self.__board[row][column] ==  ' ':
-            self.__board = 'X'
-            self.__playerMoves += 1
+            self.__board[row][column] = 'X'
             return True
         else :
             return False
@@ -131,11 +137,10 @@ class Tateti:
         Juega la maquina
         """
         #se suma una jugada a la maquina
-        self.__machineMoves += 1
         match self.__level:
             case 'easy':
                 return self.__machineEasy()
-            case 'mediun':
+            case 'medium':
                 #juega una posicion aleatoria en caso de retornar False
                 machinePlay = self.__machineMedium()
                 if not machinePlay:
@@ -160,28 +165,28 @@ class Tateti:
         for i in range(3):
             ##Comprobar si gana el jugador##
             #comprobando filas
-            if ((self.__board[i][0] == 'X' and self._board[i][1] == 'X' and self._board[i][2] == 'X') or
+            if ((self.__board[i][0] == 'X' and self.__board[i][1] == 'X' and self.__board[i][2] == 'X') or
             #comprobando columnas
-            (self.__board[0][i] == 'X' and self._board[1][i] == 'X' and self._board[2][i] == 'X') or
+            (self.__board[0][i] == 'X' and self.__board[1][i] == 'X' and self.__board[2][i] == 'X') or
             #comprobando diagonal principal
-            (self.__board[0][0] == 'X' and self._board[1][1] == 'X' and self._board[2][2] == 'X') or
+            (self.__board[0][0] == 'X' and self.__board[1][1] == 'X' and self.__board[2][2] == 'X') or
             #comprobando diagonal secundaria
-            (self.__board[0][2] == 'X' and self._board[1][1] == 'X' and self._board[2][0] == 'X')):
+            (self.__board[0][2] == 'X' and self.__board[1][1] == 'X' and self.__board[2][0] == 'X')):
                 return 1
             
             ##Comprobar si gana la maquina
             #comprobando filas
-            if ((self.__board[i][0] == '0' and self._board[i][1] == '0' and self._board[i][2] == '0') or
+            if ((self.__board[i][0] == '0' and self.__board[i][1] == '0' and self.__board[i][2] == '0') or
             #comprobando columnas
-            (self.__board[0][i] == '0' and self._board[1][i] == '0' and self._board[2][i] == '0') or
+            (self.__board[0][i] == '0' and self.__board[1][i] == '0' and self.__board[2][i] == '0') or
             #comprobando diagonal principal
-            (self.__board[0][0] == '0' and self._board[1][1] == '0' and self._board[2][2] == '0') or
+            (self.__board[0][0] == '0' and self.__board[1][1] == '0' and self.__board[2][2] == '0') or
             #comprobando diagonal secundaria
-            (self.__board[0][2] == '0' and self._board[1][1] == '0' and self._board[2][0] == '0')):
+            (self.__board[0][2] == '0' and self.__board[1][1] == '0' and self.__board[2][0] == '0')):
                 return -1
             
-            ##Si no gana ninguno el juego continua##
-            return 0
+        ##Si no gana ninguno el juego continua##
+        return 0
         
     def __restartBoard(self):
         """
@@ -204,7 +209,7 @@ class Tateti:
             randomColumn = int(random.uniform(0,2))
             if self.__board[randomRow][randomColumn] == ' ':
                self.__board[randomRow][randomColumn] = '0'
-               return randomRow+'-'+randomColumn
+               return str(randomRow)+'-'+str(randomColumn)
 
     def __machineMedium(self):
         """
@@ -216,85 +221,85 @@ class Tateti:
         for i in range(3):
             ##Comprobar si la maquina esta a punto de ganar##
             #comprobando filas
-            if (self.__board[i][0] == '0' and self._board[i][1] == '0') or (self._board[i][2] == '0' and self._board[i][1] == '0') or (self._board[i][0] == '0' and self._board[i][2] == '0'):
+            if (self.__board[i][0] == '0' and self.__board[i][1] == '0') or (self.__board[i][2] == '0' and self.__board[i][1] == '0') or (self.__board[i][0] == '0' and self.__board[i][2] == '0'):
                 if ' ' in self.__board[i]:
                     index = self.__board[i].index(' ')
                     self.__board[i][index] = '0'
-                    return i+'-'+index
+                    return f"{i}-{index}"
             #comprobando columnas
-            if (self.__board[0][i] == '0' and self._board[1][i] == '0') or (self._board[2][i] == '0' and self._board[1][i] == '0') or (self._board[0][i] == '0' and self._board[2][i] == '0'):
+            if (self.__board[0][i] == '0' and self.__board[1][i] == '0') or (self.__board[2][i] == '0' and self.__board[1][i] == '0') or (self.__board[0][i] == '0' and self.__board[2][i] == '0'):
                 for f in range(3):    
                     if self.__board[f][i] == ' ':
                         self.__board[f][i] = '0'
-                        return f+'-'+i
+                        return f'{f}-{i}'
             #comprobando diagonal principal
-            if self.__board[0][0] == '0' and self._board[1][1] == '0':
+            if self.__board[0][0] == '0' and self.__board[1][1] == '0':
                 if self.__board[2][2] == ' ':
                     self.__board[2][2] = '0'
-                    return 2+'-'+2
-            elif self._board[2][2] == '0' and self.__board[1][1] == '0':
+                    return '2-2'
+            elif self.__board[2][2] == '0' and self.__board[1][1] == '0':
                 if self.__board[0][0] == ' ':
                     self.__board[0][0] = '0'
-                    return 0+'-'+0
+                    return '0-0'
             elif self.__board[0][0] =='0' and self.__board[2][2] == '0':
                 if self.__board[1][1] == ' ':
                     self.__board[1][1] = '0'
-                    return 1+'-'+1  
+                    return '1-1'  
 
             #comprobando diagonal secundaria
-            if self.__board[0][2] == '0' and self._board[2][0] == '0':
+            if self.__board[0][2] == '0' and self.__board[2][0] == '0':
                 if self.__board[1][1] == ' ':
                     self.__board[1][1] = '0'
-                    return 1+'-'+1
-            elif self._board[0][2] == '0' and self.__board[1][1] == '0':
+                    return '1-1'
+            elif self.__board[0][2] == '0' and self.__board[1][1] == '0':
                 if self.__board[2][0] == ' ':
                     self.__board[2][0] = '0'
-                    return 2+'-'+0
+                    return '2-0'
             elif self.__board[2][0] =='0' and self.__board[1][1] == '0':
                 if self.__board[0][2] == ' ':
                     self.__board[0][2] = '0'
-                    return 0+'-'+2    
+                    return '0-2'    
             
             ##Comprobar si el jugador esta a punto de ganar##
             #comprobando filas
-            if (self.__board[i][0] == 'X' and self._board[i][1] == 'X') or (self._board[i][2] == 'X' and self._board[i][1] == 'X') or (self._board[i][0] == 'X' and self._board[i][2] == 'X'):
+            if (self.__board[i][0] == 'X' and self.__board[i][1] == 'X') or (self.__board[i][2] == 'X' and self.__board[i][1] == 'X') or (self.__board[i][0] == 'X' and self.__board[i][2] == 'X'):
                 if ' ' in self.__board[i]:
                     index = self.__board[i].index(' ')
                     self.__board[i][index] = '0'
                     return True
             #comprobando columnas
-            if (self.__board[0][i] == 'X' and self._board[1][i] == 'X') or (self._board[2][i] == 'X' and self._board[1][i] == 'X') or (self._board[0][i] == 'X' and self._board[2][i] == 'X'):
+            if (self.__board[0][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[2][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[0][i] == 'X' and self.__board[2][i] == 'X'):
                 for f in range(3):    
                     if self.__board[f][i] == ' ':
                         self.__board[f][i] = '0'
-                        return f+'-'+i
+                        return f'{f}-{i}'
             #comprobando diagonal principal
-            if self.__board[0][0] == 'X' and self._board[1][1] == 'X':
+            if self.__board[0][0] == 'X' and self.__board[1][1] == 'X':
                 if self.__board[2][2] == ' ':
                     self.__board[2][2] = '0'
-                    return 2+'-'+2
-            elif self._board[2][2] == 'X' and self.__board[1][1] == 'X':
+                    return '2-2'
+            elif self.__board[2][2] == 'X' and self.__board[1][1] == 'X':
                 if self.__board[0][0] == ' ':
                     self.__board[0][0] = '0'
-                    return 0+'-'+0
+                    return '0-0'
             elif self.__board[0][0] =='X' and self.__board[2][2] == 'X':
                 if self.__board[1][1] == ' ':
                     self.__board[1][1] = '0'
-                    return 1+'-'+1   
+                    return '1-1'   
 
             #comprobando diagonal secundaria
-            if self.__board[0][2] == 'X' and self._board[2][0] == 'X':
+            if self.__board[0][2] == 'X' and self.__board[2][0] == 'X':
                 if self.__board[1][1] == ' ':
                     self.__board[1][1] = '0'
-                    return 1+'-'+1
-            elif self._board[0][2] == 'X' and self.__board[1][1] == 'X':
+                    return '1-1'
+            elif self.__board[0][2] == 'X' and self.__board[1][1] == 'X':
                 if self.__board[2][0] == ' ':
                     self.__board[2][0] = '0'
-                    return 2+'-'+0
+                    return '2-0'
             elif self.__board[2][0] =='X' and self.__board[1][1] == 'X':
                 if self.__board[0][2] == ' ':
                     self.__board[0][2] = '0'
-                    return 0+'-'+2
+                    return '0-2'
             
         #si al finalizar el recorrido no se cumple ninguna retorna False
         return False

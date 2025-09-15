@@ -4,6 +4,7 @@
 {% block head%}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'tateti/css/tablero.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 {% endblock %}
 {% block title %} TaTeTi {% endblock %}
@@ -17,5 +18,10 @@
     </div>
 
 {% endblock %}
+
+{% block script %}
+    <script src="{% static 'tateti/js/play_game.js' %}"></script>
+{% endblock %}
+
     
  

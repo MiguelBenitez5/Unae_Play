@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .tateti import Tateti
-import time, secrets
+import time
 from globals.utils import is_session_active, save_score
 
 # Create your views here.
+def restartGame(request):
+    request.session.pop('tateti', None)
+    return JsonResponse({'status': 'success', 'message': 'La sesion fue eliminada correctamente'})
 
 def renderPage(request):
     #comprobar que el usuario esta loguedado para acceder al juego
@@ -25,12 +28,14 @@ Estado de la partida retornados:
 def playTateti(request,position):
 
     #comprobando la sesion del usuario
-    if not is_session_active():
+    if not is_session_active(request):
         return JsonResponse({'status':'error',
                              'message':'No se puede realizar la jugada porque la sesion no esta iniciada'})
     
     row = int(position[0])
     column = int(position[2])
+    print(row)
+    print(column)
 
     ##comprobar posiciones correctas
     if row > 2 or row < 0 or column > 2 or column < 0:
@@ -40,13 +45,15 @@ def playTateti(request,position):
             })
 
     #asignar valores por defecto para la partida
+    board = [[" " for _ in range(3)] for _ in range(3)]
     request.session.setdefault('tateti',{
         'start_time':time.time(),
         'score': 0,
-        'board':[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']],
+        'board': board,
         'level':'easy',
         'player_moves': 0,
-        'machine_moves': 0
+        'machine_moves': 0,
+        'player_draws': 0,
     })
 
     #recuperar los valores de la sesion (si no existen se utilizan los valores por defecto)
@@ -55,7 +62,7 @@ def playTateti(request,position):
     #se crea el objeto tateti con los datos de sesion
     tateti = Tateti(session_data)
 
-    game_data = tateti.play_game()
+    game_data = tateti.play_game(row, column)
 
     #comprobar si la jugada es correcta
     if not game_data:
@@ -70,7 +77,7 @@ def playTateti(request,position):
     match game_data['game_status']:
         case 'defeat','win':
             if game_data['level'] == 'hard':
-                save_score('tateti', game_data['score'])
+                save_score(request,'tateti', game_data['score'])
     
     #se guardan los datos en sesion
     request.session['tateti'] = game_data
@@ -186,10 +193,4 @@ def playTateti(request,position):
 
     # return JsonResponse(response)
 
-def restartGame(request):
-    try:
-        del request.session['tateti']
-        return JsonResponse({'status': 'success', 'message': 'La sesion fue eliminada correctamente'})
-    except:
-        return JsonResponse({'status': 'error', 'message': 'No se pudo eliminar la sesion'})
 
