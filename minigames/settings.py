@@ -84,7 +84,7 @@ DATABASES = {
         'USER': 'neondb_owner',                        
         'PASSWORD': 'npg_4D5ztgJnuWAf',                   
         'HOST': 'ep-frosty-moon-acgunntj-pooler.sa-east-1.aws.neon.tech',                          
-        # 'PORT': '5432',   
+        'PORT': '5432',   
     }
 }
 
