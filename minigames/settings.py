@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o4*r76diz!m%jf0gzoz-jm7-_^rzakkjik_u1vqvmnt^w2aaqh'
+SECRET_KEY = 'django-insecure-o4*r76diz!m%jf0gzoz-jm7-_^rzakkjik_u1vqvmnt^w2aaqh_adasd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'minigames.wsgi.app'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'minigames_project',                          
-        'USER': 'postgres',                        
-        'PASSWORD': 'Miguel1234',                   
-        'HOST': 'localhost',                          
-        'PORT': '5432',   
+        'NAME': 'neondb',                          
+        'USER': 'neondb_owner',                        
+        'PASSWORD': 'npg_4D5ztgJnuWAf',                   
+        'HOST': 'ep-frosty-moon-acgunntj-pooler.sa-east-1.aws.neon.tech',                          
+        # 'PORT': '5432',   
     }
 }
 
