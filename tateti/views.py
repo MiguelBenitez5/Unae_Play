@@ -25,19 +25,29 @@ def next_level(request):
         case 'medium':
             level = 'hard'
 
+    response = {}
+    machine_moves = 0
+
+    if 'hard_machine_move' in request.session['tateti']:
+        machine_moves = 1
+        board = request.session['tateti']['hard_machine_move']['board']
+        response['hard_machine_move'] = {
+            'board': board
+        }
     restart_values = {
             'level': level, 
             'board': board,
             'player_moves': 0,
-            'machine_moves': 0,
+            'machine_moves': machine_moves,
             'player_draws': 0,
         } 
     request.session['tateti'].update(restart_values)
     request.session.modified = True
     dialog = request.session.get('dialog', None)
-    response = {'level': level, 'dialog': dialog}
-    if 'hard_machine_move' in request.session['tateti']:
-        response['hard_machine_move'] = True 
+    response['level'] = level 
+    response['dialog'] = dialog
+
+
     return JsonResponse(response)
 
 def giveup(request):

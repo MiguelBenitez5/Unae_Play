@@ -41,6 +41,11 @@ function paintBoard(board){
     }
 }
 
+function removeEvents(){
+    cells.removeEventListener('click', clientPlay)
+    cells.classList.remove('empty')
+}
+
 function restart_game(){
     fetch('http://127.0.0.1:3000/tateti/action/restart')
     .then(response => response.json())
@@ -58,11 +63,15 @@ nextLevel.addEventListener('click', function(){
     fetch('http://127.0.0.1:3000/tateti/action/nextlevel')
         .then(response => response.json())
             .then(data =>{
+
+                console.log(data)
+
                 level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
                 cleanBoard()
-                if(data.hard_machine_move){
-                    parrafo = data.dialog
-                    paintBoard(data.board)
+                if(data.hard_machine_move.board){
+                    parrafo.textContent = 'Esta vez empiezo yo'
+                    paintBoard(data.hard_machine_move.board)
+                    console.log('hey')
                 }
             }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
 })
@@ -91,22 +100,31 @@ function clientPlay(){
                 console.log(data.status)
                 return
             }
+            //se pinta el tablero en cada jugada
+            paintBoard(data.board)
             level.textContent = (data.level == 'easy')? 'Nivel: Facil' : (data.level == 'medium')? 'Nivel: Normal' : 'Nivel: Dificil'
             parrafo.textContent = data.dialog
             if(data.game_status == 'win'){
+                parrafo.textContent = (data.level == 'hard')? 'Felicidades ganaste la partida, tu puntaje es: '+data.score :
+                                                              'Ganaste, pasemos al siguiente nivel' 
                 nextLevel.classList.remove('hidden')
-                score.textContent = 'Puntaje: ' + data.score
             }else{
                 nextLevel.classList.add('hidden')
             }
             if(data.game_status == 'draw'){
+                parrafo.textContent = 'Empatamos, intentalo de nuevo..'
                 tryAgain.classList.remove('hidden')
+                return
             }
             if(data.game_status == 'defeat'){
                 parrafo.textContent = 'Perdiste ajajaja'
+                giveup.classList.add('hidden')
+            }else{
+                giveup.classList.remove('hidden')
             }
-            //se pinta el tablero en cada jugada
-            paintBoard(data.board)
+            tryAgain.classList.add('hidden')
+            //se muestra el score
+            score.textContent = 'Puntaje: ' + data.score
             //aqui la logica para mostrar pantalla de puntaje   
         }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
     }

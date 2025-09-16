@@ -127,8 +127,14 @@ class Tateti:
             game_status = 'win'
             #si el player gano en 'medio', la maquina empieza en dificil
             if self.__level == 'medium':
+                self.__level = 'hard'
+                old_board = self.__board
+                self.__restart_game()
                 hard_machine_move = self.__playMachine()
                 self.__machineMoves += 1
+                new_board = self.__board
+                self.__board = old_board
+                self.__level = 'medium'
             #se podria incluir dialogo en esta seccion creo
         
         #se comprueba empate
@@ -140,7 +146,7 @@ class Tateti:
                 score = self.__get_score('draw')
                 self.__score += score
                 game_status = 'draw'
-                self.__restart_game()
+                # self.__restart_game()
         
         #juega la maquina
         else: 
@@ -161,7 +167,7 @@ class Tateti:
                     score = self.__get_score('draw')
                     self.__score += score
                     game_status = 'draw'
-                    self.__restart_game()
+                    # self.__restart_game()
         
         random.shuffle(dialogos_prueba)
         dialog = dialogos_prueba[0]
@@ -181,7 +187,9 @@ class Tateti:
         if machine_move:
             response['machine_move'] = machine_move
         if hard_machine_move:
-            response['hard_machine_move'] = hard_machine_move
+            response['hard_machine_move'] = {"board": new_board,
+                                             "move": hard_machine_move
+                                             }
         
         #retorno de diccionario con el fin de utilizarlo en la sesion y la respues al usuario
         return response
