@@ -11,10 +11,15 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+import dj_database_url
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Cargar .env (sólo para desarrollo/local)
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -77,17 +82,24 @@ WSGI_APPLICATION = 'minigames.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'neondb',                          
-        'USER': 'neondb_owner',                        
-        'PASSWORD': 'npg_4D5ztgJnuWAf',                   
-        'HOST': 'ep-frosty-moon-acgunntj-pooler.sa-east-1.aws.neon.tech',                          
-        'PORT': '5432',   
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'neondb',                          
+#         'USER': 'neondb_owner',                        
+#         'PASSWORD': 'npg_4D5ztgJnuWAf',                   
+#         'HOST': 'ep-frosty-moon-acgunntj-pooler.sa-east-1.aws.neon.tech',                          
+#         'PORT': '5432',   
+#     }
+# }
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('POSTGRES_URL'),
+        conn_max_age=600,
+        ssl_require=True  # obliga SSL para Neon
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
