@@ -41,8 +41,13 @@ function paintBoard(board){
     }
 }
 
+function removeEvents(){
+    cells.removeEventListener('click', clientPlay)
+    cells.classList.remove('empty')
+}
+
 function restart_game(){
-    fetch('http://127.0.0.1:3000/tateti/action/restart')
+    fetch('https://unae-play.onrender.com/tateti/action/restart')
     .then(response => response.json())
     .then(data =>{
         console.log(data)
@@ -55,14 +60,18 @@ function restart_game(){
 
 //evento para el boton de siguiente nivel
 nextLevel.addEventListener('click', function(){
-    fetch('http://127.0.0.1:3000/tateti/action/nextlevel')
+    fetch('https://unae-play.onrender.com/tateti/action/nextlevel')
         .then(response => response.json())
             .then(data =>{
+
+                console.log(data)
+
                 level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
                 cleanBoard()
-                if(data.hard_machine_move){
-                    parrafo = data.dialog
-                    paintBoard(data.board)
+                if(data.hard_machine_move.board){
+                    parrafo.textContent = 'Esta vez empiezo yo'
+                    paintBoard(data.hard_machine_move.board)
+                    console.log('hey')
                 }
             }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
 })
@@ -72,7 +81,7 @@ reset.addEventListener('click', restart_game)
 
 //evento para el boton de rendirse
 giveup.addEventListener('click', function(){
-    fetch('http://127.0.0.1:3000/tateti/giveup/')
+    fetch('https://unae-play.onrender.com/tateti/giveup/')
         .then(response => response.json())
             .then(data =>{
                 parrafo.textContent = 'Tu puntaje final es: '+data.score
@@ -80,36 +89,48 @@ giveup.addEventListener('click', function(){
 })
 
 function clientPlay(){
-        fetch(`http://127.0.0.1:3000/tateti/${this.id}`)
-        .then(response => response.json())
-        .then(data =>{
-
-            console.log('Respuesta del servidor: ',data)
-
-            
-            if (data.status == 'error') {
-                console.log(data.status)
-                return
-            }
-            level.textContent = (data.level == 'easy')? 'Nivel: Facil' : (data.level == 'medium')? 'Nivel: Normal' : 'Nivel: Dificil'
-            parrafo.textContent = data.dialog
-            if(data.game_status == 'win'){
-                nextLevel.classList.remove('hidden')
-                score.textContent = 'Puntaje: ' + data.score
-            }else{
-                nextLevel.classList.add('hidden')
-            }
-            if(data.game_status == 'draw'){
-                tryAgain.classList.remove('hidden')
-            }
-            if(data.game_status == 'defeat'){
-                parrafo.textContent = 'Perdiste ajajaja'
-            }
-            //se pinta el tablero en cada jugada
-            paintBoard(data.board)
-            //aqui la logica para mostrar pantalla de puntaje   
-        }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
-    }
+    const starTime = Math.floor(Date.now()/1000)
+    fetch(`https://unae-play.onrender.com/tateti/${this.id}`)
+    .then(response => response.json())
+    .then(data =>{
+        let timeNow = Math.floor(Date.now()/1000)
+        const elapsedTime = timeNow - starTime
+        console.log('Primero: ', elapsedTime)
+        console.log('Respuesta del servidor: ',data)
+        
+        
+        if (data.status == 'error') {
+            console.log(data.status)
+            return
+        }
+        //se pinta el tablero en cada jugada
+        paintBoard(data.board)
+        level.textContent = (data.level == 'easy')? 'Nivel: Facil' : (data.level == 'medium')? 'Nivel: Normal' : 'Nivel: Dificil'
+        parrafo.textContent = data.dialog
+        if(data.game_status == 'win'){
+            parrafo.textContent = (data.level == 'hard')? 'Felicidades ganaste la partida, tu puntaje es: '+data.score :
+                                                            'Ganaste, pasemos al siguiente nivel' 
+            nextLevel.classList.remove('hidden')
+        }else{
+            nextLevel.classList.add('hidden')
+        }
+        if(data.game_status == 'draw'){
+            parrafo.textContent = 'Empatamos, intentalo de nuevo..'
+            tryAgain.classList.remove('hidden')
+            return
+        }
+        if(data.game_status == 'defeat'){
+            parrafo.textContent = 'Perdiste ajajaja'
+            giveup.classList.add('hidden')
+        }else{
+            giveup.classList.remove('hidden')
+        }
+        tryAgain.classList.add('hidden')
+        //se muestra el score
+        score.textContent = 'Puntaje: ' + data.score
+        //aqui la logica para mostrar pantalla de puntaje   
+    }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+}
 
 //eventos para cada celda del tablero
 cells.forEach(cell =>{

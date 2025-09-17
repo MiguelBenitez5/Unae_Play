@@ -25,19 +25,29 @@ def next_level(request):
         case 'medium':
             level = 'hard'
 
+    response = {}
+    machine_moves = 0
+
+    if 'hard_machine_move' in request.session['tateti']:
+        machine_moves = 1
+        board = request.session['tateti']['hard_machine_move']['board']
+        response['hard_machine_move'] = {
+            'board': board
+        }
     restart_values = {
             'level': level, 
             'board': board,
             'player_moves': 0,
-            'machine_moves': 0,
+            'machine_moves': machine_moves,
             'player_draws': 0,
         } 
     request.session['tateti'].update(restart_values)
     request.session.modified = True
     dialog = request.session.get('dialog', None)
-    response = {'level': level, 'dialog': dialog}
-    if 'hard_machine_move' in request.session['tateti']:
-        response['hard_machine_move'] = True 
+    response['level'] = level 
+    response['dialog'] = dialog
+
+
     return JsonResponse(response)
 
 def giveup(request):
@@ -64,6 +74,7 @@ def playTateti(request,position):
         return JsonResponse({'status':'error',
                              'message':'No se puede realizar la jugada porque la sesion no esta iniciada'})
     
+    start_time_play = time.time() 
     row = int(position[0])
     column = int(position[2])
     print(row)
@@ -122,6 +133,9 @@ def playTateti(request,position):
     #se guardan los datos en sesion
     request.session['tateti'] = game_data
     #se retorna la respuesta al cliente
+    time_now = time.time()
+    elapsed_time = time_now - start_time_play
+    game_data['tiempo_respuesta'] = elapsed_time
     return JsonResponse(game_data)
    
 
