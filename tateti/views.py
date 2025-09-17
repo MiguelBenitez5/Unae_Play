@@ -74,6 +74,7 @@ def playTateti(request,position):
         return JsonResponse({'status':'error',
                              'message':'No se puede realizar la jugada porque la sesion no esta iniciada'})
     
+    start_time_play = time.time() 
     row = int(position[0])
     column = int(position[2])
     print(row)
@@ -132,6 +133,9 @@ def playTateti(request,position):
     #se guardan los datos en sesion
     request.session['tateti'] = game_data
     #se retorna la respuesta al cliente
+    time_now = time.time()
+    elapsed_time = time_now - start_time_play
+    game_data['tiempo_respuesta'] = elapsed_time
     return JsonResponse(game_data)
    
 
