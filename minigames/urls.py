@@ -24,6 +24,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('',include('globals.urls')),
     path('tateti/', include('tateti.urls')),
+    path('wordle/', include('wordle.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
