@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'globals',
     'tateti',
-    
+    'wordle',
 ]
 
 MIDDLEWARE = [

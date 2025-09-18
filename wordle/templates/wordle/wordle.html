@@ -1,0 +1,20 @@
+{% extends 'base_game.html' %}
+{% load static %}
+
+
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="">
+{% endblock %}
+
+{% block tittle %} Wordle {% endblock %}
+
+{% block game %}
+    <input type="text">
+    <button type="button">asdasd</button>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'wordle/js/play_game.js' %}"></script>
+{% endblock %}
+
