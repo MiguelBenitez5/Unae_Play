@@ -13,6 +13,7 @@ class Wordle:
         self.__word = session_data['word']
         self.__tries = session_data['tries']
         self.__score = 0
+        self.__len = session_data['word_len']
     
     """
     Se realiza y analiza la jugada\n
@@ -26,22 +27,22 @@ class Wordle:
                 'status' : 'error',
                 'message': 'La longitud del texto es superior o inferior de lo esperado'
             }
+        
+        self.__tries += 1
 
         response={
-            'status'   : 'success',
-            'result'   : result,
-            'game_data': {
-                           'tries' : self.__tries,
-                           'score' : self.__score
-                         }
+            'status'     : 'success',
+            'result'     : result,
+            'game_data'  : {
+                           'tries' : self.__tries ,
+                           'score' : self.__score,
+                           },
         }
         user_win = False
-        
         if userword == self.__word:
             response['game_status'] = 'win'
             response['game_data']['score'] = self.__calculate_final_score()* WIN_POINTS
-            user_win = True
-        self.__tries += 1    
+            user_win = True    
         if self.__tries > 6 and not user_win:
             response['game_status'] = 'defeat'
             response['game_data']['score'] = self.__calculate_final_score()* DEFEAT_POINTS
@@ -57,7 +58,7 @@ class Wordle:
         for i, char in enumerate(self.__word):
             if not char in word_data:
                 word_data[f'{char}'] = {'positions': [i],
-                                      'amount'  : 1
+                                         'amount'  : 1
                                       }
             else:
                 word_data[f'{char}']['positions'].append(i)
@@ -90,7 +91,7 @@ class Wordle:
     """
     def __compare_words(self, userword):
         #se compara longitud para evitar errores en el recorrido del bucle
-        if len(userword) != len(self.__word):
+        if len(userword) != self.__len:
             return False
         
         word_generated = self.__get_word_data()
@@ -99,21 +100,22 @@ class Wordle:
         for i, char in enumerate(userword):
             #si el caracter no se encuentra en el diccionario es gris
             if char not in word_generated:
-                result[f'{i}'] = 'grey'
+                result[f'{i}'] = {'color':'grey','char': char}
             #si el indice actual se encuentra entre las posiciones del caracter es verde
             #el puntaje calculado es de correspondiente a letra verde
             elif i in word_generated[f'{char}']['positions']:
-                result[f'{i}'] = 'green'
+                result[f'{i}'] = {'color':'green','char': char}
+                word_generated[f'{char}']['amount'] -= 1
                 self.__calculate_score('green')
             #si existe la letra en diferente posicion y cantidad adecuada es amarilla
             #el puntaje calculado es de correspondiente a letra amarilla
-            elif word_generated[f'{char}']['amount'] > 0:
-                result[f'{i}'] = 'yellow'
+            elif word_generated[f'{char}']['amount'] > 0 and i not in word_generated[f'{char}']['positions']:
+                result[f'{i}'] = {'color':'yellow','char': char}
                 word_generated[f'{char}']['amount'] -= 1
                 self.__calculate_score('yellow')
             #si se supera la cantidad maxima de letras
             else:
-                result[f'{i}'] = 'grey'
+                result[f'{i}'] = {'color':'grey','char': char}
         #al finalizar se retorna el diccionario con los datos
         return result
     
