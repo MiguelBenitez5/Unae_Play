@@ -42,7 +42,11 @@ def play_wordle(request, userword):
                 save_score(request,'wordle',response['game_data']['score'])
         
         #guardar la respuespta en sesion
-        history = request.session.setdefault('wordle',{}).setdefault('history',{}).setdefault(f'{response['game_data']['tries']}', response)
+        wordle = request.session.setdefault('wordle',{})
+        history = wordle.session.setdefault('history',{})
+        history[f'{response['game_data']['tries']}'] = response
+        
+
         #para probar, borrar luego
         print(history)
         request.session.modified = True
