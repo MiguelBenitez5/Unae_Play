@@ -4,17 +4,26 @@
 
 {% block head %}
     {{block.super}}
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="{% static 'wordle/css/style.css' %}">
 {% endblock %}
 
 {% block tittle %} Wordle {% endblock %}
 
 {% block game %}
-    <input type="text">
-    <button type="button">asdasd</button>
+    <input type="text" class="my-input">
+    <p class="score">Puntaje: 0</p>
+    <p class="time">Tiempo transcurrido: </p>
+    <div class="container">
+        {% include 'wordle/word_board.html' %}
+        {% include 'wordle/keyboard.html' %}
+        <button class="new-word" type="button">Nueva palabra</button>
+    </div>
+{% endblock %}
+
+{% block footer %}
+ {{block.super}}
 {% endblock %}
 
 {% block script %}
     <script src="{% static 'wordle/js/play_game.js' %}"></script>
 {% endblock %}
-
