@@ -2,6 +2,7 @@
 const board = document.querySelector('.board')
 //variable global para controlar la fila
 let row_board = 1
+let maxChars = 0;
 
 function paintBoard(){
     fetch('https://unae-play.onrender.com/wordle/action/getdata')
@@ -13,7 +14,8 @@ function paintBoard(){
                     return
                 }
 
-                if (data.basic_data.tries) row_board = data.basic_data.tries 
+                if (data.basic_data.tries) row_board = data.basic_data.tries
+                if (data.basic_data.word_len) maxChars = data.basic_data.word_len 
                 
                 for (let i = 1; i< 7; i++){
                     const row = document.createElement('div')
@@ -75,7 +77,6 @@ const cells = document.querySelectorAll('.cell')
 
 // teclado
 const input = document.querySelector(".my-input");
-const maxChars = 5;
 const keys = document.querySelectorAll('.key')
 input.focus()
 

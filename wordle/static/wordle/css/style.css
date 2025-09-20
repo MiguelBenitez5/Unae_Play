@@ -40,8 +40,8 @@
     }
     .row-board {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: 4px;
     }
     .cell {
       width: 60px;
