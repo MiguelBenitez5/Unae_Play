@@ -37,6 +37,7 @@ class Wordle:
                            'tries' : self.__tries ,
                            'score' : self.__score,
                            },
+            'game_status': 0
         }
         user_win = False
         if userword == self.__word:
