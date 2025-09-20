@@ -102,6 +102,7 @@ input.addEventListener('keydown', (e)=>{
         console.log('Borrar')
         cell.textContent = ''
     }
+    if (e.key === 'Enter') send_word()
 })
 
 //agregar eventos a todas la teclas del teclado en pantalla
@@ -137,9 +138,5 @@ input.addEventListener("blur", () => {
     setTimeout(() => input.focus(), 0);
 });
 
-//evento de envio presionando la tecla enter
-input.addEventListener("keydown",(e)=>{
-    if (e.key === 'Enter') send_word
-})
 
 

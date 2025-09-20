@@ -80,7 +80,8 @@ def init_game(request):
                 'word' : word.word,
                 'word_len'  : len(word.word),
             },
-            'backlist': backlist.append(word.word)
+            'backlist': backlist.append(word.word),
+            'game_status': 0
         })
 
 def get_initial_data(request):
