@@ -14,6 +14,8 @@ function paintBoard(){
                     return
                 }
 
+                console.log(data)
+
                 if (data.basic_data.tries) row_board = data.basic_data.tries
                 if (data.basic_data.word_len) maxChars = data.basic_data.word_len 
                 
@@ -56,7 +58,7 @@ function send_word(){
                 }
 
                 console.log(data)
-            })
+            }).catch(error => console.error("Ha ocurrido un error ", error))
 }
 
 // //plantear un get_all_data para recibir los datos necesarios para dibujar el tablero
@@ -105,7 +107,7 @@ input.addEventListener('keydown', (e)=>{
 //agregar eventos a todas la teclas del teclado en pantalla
 keys.forEach(key =>{
     if (key.textContent == 'Enter'){
-        key.addEventListener('click', ()=>send_word)
+        key.addEventListener('click', send_word)
     }
     else if (key.textContent == '⌫'){
         key.addEventListener('click', ()=>{
