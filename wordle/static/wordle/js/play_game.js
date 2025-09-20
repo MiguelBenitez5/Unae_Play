@@ -138,6 +138,8 @@ input.addEventListener("blur", () => {
 });
 
 //evento de envio presionando la tecla enter
-input.addEventListener("keydown", send_word)
+input.addEventListener("keydown",(e)=>{
+    if (e.key === 'Enter') send_word
+})
 
 
