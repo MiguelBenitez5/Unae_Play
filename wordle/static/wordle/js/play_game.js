@@ -28,10 +28,12 @@ function paintBoard(){
                         cell.id = `${i}-${j}`
                         if(data.history){
                             if(data.history.game_data.tries > i){
+                                console.log(data.history[i]['result'][j].char)
                                 cell.textContent = data.history[`${i}`]['result'][`${j}`].char
                                 if (data.history[`${i}`]['result'][`${j}`].color === 'green') cell.classList.add('correct')
                                 else if (data.history[`${i}`]['result'][`${j}`].color === 'yellow') cell.classList.add('present')
                                 else cell.classList.add('absent')
+                                row_board++
                             }
                         }
                         row.appendChild(cell)
@@ -46,7 +48,7 @@ window.onload = paintBoard
 
 function send_word(){
     const startTime = Date.now()
-    fetch(`https://unae-play.onrender.com/wordle/${input.value}`)
+    fetch(`https://unae-play.onrender.com/wordle/${input.value.toLowerCase()}`)
         .then(response => response.json())
             .then(data =>{
                 const resposeTime = Date.now()
@@ -58,6 +60,7 @@ function send_word(){
                 }
 
                 console.log(data)
+                row_board++
             }).catch(error => console.error("Ha ocurrido un error ", error))
 }
 
