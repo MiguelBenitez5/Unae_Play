@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'globals',
     'tateti',
     'wordle',
+    'piedrapapeltijera'
 ]
 
 MIDDLEWARE = [

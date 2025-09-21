@@ -1,0 +1,29 @@
+/* app/piedrapapeltijera/static/piedrapapeltijera/css/game.css */
+
+.game-box {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+.header-game {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.game-area {
+    margin-bottom: 20px;
+}
+
+.choices button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.footer-game {
+    text-align: right;
+}

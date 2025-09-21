@@ -1,0 +1,45 @@
+{% extends 'base_game.html' %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'piedrapapeltijera/css/game.css' %}">
+{% endblock %}
+
+{% block title %} Piedra, Papel o Tijera {% endblock %}
+
+{% block game %}
+    <div class="game-box">
+        <div class="header-game">
+            <h2>Piedra, Papel o Tijera</h2>
+            <button class="reset">Reiniciar</button>
+            <p class="score">Puntaje: <span id="current-score">0</span></p>
+        </div>
+        
+        <div class="game-area">
+            <p id="player-choice">Tu elección: ?</p>
+            <p id="machine-choice">Máquina: ?</p>
+            <h3 id="result-message">¡Elige tu movimiento!</h3>
+            
+            <div class="choices">
+                <button class="choice-btn" data-choice="piedra">Piedra</button>
+                <button class="choice-btn" data-choice="papel">Papel</button>
+                <button class="choice-btn" data-choice="tijera">Tijera</button>
+            </div>
+            
+            <div class="stats">
+                <p>Victorias: <span id="player-wins">0</span></p>
+                <p>Derrotas: <span id="machine-wins">0</span></p>
+                <p>Empates: <span id="draws">0</span></p>
+            </div>
+        </div>
+        
+        <div class="footer-game">
+            <button class="giveup">Me rindo</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'piedrapapeltijera/js/play_game.js' %}"></script>
+{% endblock %}
