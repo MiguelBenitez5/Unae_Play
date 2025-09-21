@@ -40,7 +40,7 @@ class Wordle:
             'game_status': 0
         }
         user_win = False
-        if userword == self.__word:
+        if userword.lower() == self.__word.lower():
             response['game_status'] = 'win'
             response['game_data']['score'] = self.__calculate_final_score()* WIN_POINTS
             user_win = True    

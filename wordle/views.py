@@ -24,7 +24,7 @@ def play_wordle(request, userword):
     api_response = requests.get(f'https://rae-api.com/api/words/{corrected_word}')
     data = api_response.json()
     #consultar la base de datos en busca de existencia de la palabra ingresada
-    exists = WordleWord.objects.filter(word=userword).exists()
+    exists = WordleWord.objects.filter(word__iexact=userword).exists()
     if data:
         if 'error' in data and not exists:
             return JsonResponse({"status": "not_found"})
