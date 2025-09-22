@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking Modal</title>
+  <style>
+    @import "../public/fonts/04B_30__.TTF";
+    body {
+      font-family: '04B_30__', monospace;
+      background: #2b2b2b;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Botón que abre el modal */
+    .open-modal-btn {
+      padding: 12px 24px;
+      background: #6c5ce7;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .open-modal-btn:hover {
+      background: #fe9b9b;
+    }
+
+    /* Fondo del modal */
+    .modal {
+      display: none; /* oculto por defecto */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Contenedor del modal */
+    .modal-content {
+      background: #2d3436;
+      padding: 20px;
+      border-radius: 12px;
+      width: 600px;
+      max-width: 90%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Botón de cierre */
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #fd79a8;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .close-btn:hover {
+      background: #ff6b9f;
+    }
+
+    /* Dropdown */
+    .select-container {
+      width: 250px;
+    }
+
+    .select-container select {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #fd79a8;
+      background: rgba(255,255,255,0.1);
+      color: #dfe6e9;
+      font-size: 14px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Tabla */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    table th, table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    table th {
+      background: #6c5ce7;
+    }
+
+    table tr:hover {
+      background: rgba(108,92,231,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <button class="open-modal-btn">Ver Ranking</button>
+
+  <div id="rankingModal" class="modal">
+    <div class="modal-content">
+      <button class="close-btn">&times; Salir</button>
+
+      <div class="select-container">
+        <label for="rankingFilter">Filtrar ranking:</label>
+        <select id="rankingFilter">
+          <option value="global">Top Global</option>
+          <option value="tic-tac-toe">Tic Tac Toe</option>
+          <option value="wordle">Wordle</option>
+          <option value="ppt">Piedra Papel Tijeras</option>
+        </select>
+      </div>
+
+      <table id="rankingTable">
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>Jugador</th>
+            <th>Puntaje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Datos estáticos de ejemplo -->
+          <tr>
+            <td>1</td>
+            <td>Player1</td>
+            <td>1500</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Player2</td>
+            <td>1400</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Player3</td>
+            <td>1300</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('rankingModal');
+    const openBtn = document.querySelector('.open-modal-btn');
+    const closeBtn = document.querySelector('.close-btn');
+    const rankingFilter = document.getElementById('rankingFilter');
+    const rankingTable = document.getElementById('rankingTable').querySelector('tbody');
+
+    // Abrir modal
+    openBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    // Cerrar modal
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    // Cerrar modal haciendo click fuera del contenido
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Filtrar ranking (simulación con datos estáticos)
+    rankingFilter.addEventListener('change', () => {
+      const value = rankingFilter.value;
+
+      let data = [];
+      if(value === 'global') {
+        data = [
+          {pos:1, player:'Player1', score:1500},
+          {pos:2, player:'Player2', score:1400},
+          {pos:3, player:'Player3', score:1300}
+        ];
+      } else if(value === 'tic-tac-toe') {
+        data = [
+          {pos:1, player:'TT_Player1', score:300},
+          {pos:2, player:'TT_Player2', score:250},
+          {pos:3, player:'TT_Player3', score:200}
+        ];
+      } else if(value === 'wordle') {
+        data = [
+          {pos:1, player:'Wordle1', score:180},
+          {pos:2, player:'Wordle2', score:150},
+          {pos:3, player:'Wordle3', score:120}
+        ];
+      } else if(value === 'ppt') {
+        data = [
+          {pos:1, player:'RPS1', score:90},
+          {pos:2, player:'RPS2', score:80},
+          {pos:3, player:'RPS3', score:70}
+        ];
+      }
+
+      // Limpiar tabla
+      rankingTable.innerHTML = '';
+
+      // Insertar filas nuevas
+      data.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${item.pos}</td><td>${item.player}</td><td>${item.score}</td>`;
+        rankingTable.appendChild(row);
+      });
+    });
+  </script>
+
+</body>
+</html>
