@@ -95,8 +95,8 @@ def init_game(request):
 
 
 def get_initial_data(request):
-    request.session.setdefault('wordle',{}).setdefault('game_data', {'tries': 0, 'word_len': 0})
-    history = request.session['wordle'].get('history', None)
+    request.session.setdefault('ahorcado',{}).setdefault('game_data', {'tries': 0, 'word_len': 0})
+    history = request.session['ahorcado'].get('history', None)
     response = {'basic_data': {
                     'tries': request.session['wordle']['game_data']['tries'],
                     'word_len': request.session['wordle']['game_data']['word_len']
