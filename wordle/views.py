@@ -20,14 +20,13 @@ def play_wordle(request, userword):
     if not is_session_active(request):
         return JsonResponse({'status': 'error', 'message': 'La sesion no esta iniciada'})
     #consultar si la palabra ingresada por el usuario es una palabra valida del diccionario español
-    corrected_word = correct_word(userword)
-    api_response = requests.get(f'https://rae-api.com/api/words/{corrected_word}')
+    api_response = requests.get(f'https://rae-api.com/api/words/{userword.lower()}')
     data = api_response.json()
     #consultar la base de datos en busca de existencia de la palabra ingresada
     exists = WordleWord.objects.filter(word__iexact=userword).exists()
-    if data:
-        if 'error' in data and not exists:
-            return JsonResponse({"status": "not_found"})
+
+    if 'error' in data and not exists:
+        return JsonResponse({"status": "not_found"})
         
 
     if 'game_data' in request.session.get('wordle',{}):
@@ -41,14 +40,15 @@ def play_wordle(request, userword):
             case 'win' | 'defeat':
                 save_score(request,'wordle',response['game_data']['score'])
         
+        #guardar datos en sesion
+        request.session['wordle']['game_data'].update(response['game_data'])
+
         #guardar la respuespta en sesion
-        wordle = request.session.setdefault('wordle',{})
-        history = wordle.session.setdefault('history',{})
-        history[f'{response['game_data']['tries']}'] = response
-        
+        request.session.setdefault('wordle', {}).setdefault('history',{})
+        request.session['wordle']['history'][f'{response['game_data']['tries']}'] = response
 
         #para probar, borrar luego
-        print(history)
+        print(request.session['wordle']['history'])
         request.session.modified = True
         
         return JsonResponse(response)
@@ -60,6 +60,7 @@ def play_wordle(request, userword):
 def reset_game(request):
     if 'wordle' in request.session:
         request.session['wordle'].pop('game_data', None)
+        request.session['wordle'].pop('history', None)
         request.session.modified = True
         init_game(request)
         return JsonResponse({'status':'success', 'message':'Juego restablecido correctamente'})
@@ -70,32 +71,38 @@ def init_game(request):
     #se genera una nueva palabra si no existe en la sesion
     word = None
     if not request.session.get('wordle',{}).get('game_data', {}):
-        backlist = list(request.session.get('wordle', {}).get('blacklist', []))
+        print("Estoy aqui god")
+        blacklist = list(request.session.get('wordle', {}).get('blacklist', []))
         #se obtiene una palabra aleatoria de la base de datos
-        word = WordleWord.objects.exclude(word__in = backlist).order_by(Random()).first()
+        word = WordleWord.objects.exclude(word__in=blacklist).order_by(Random()).first()
         if 'wordle' in request.session:
-            request.session['wordle']['blacklist'].append(word.word)
-            request.session.modified = True
+            if word:
+                blacklist.append(word.word)
+                request.session['wordle']['blacklist'] = blacklist
+                request.session.modified = True
+            else:
+                word = WordleWord.objects.order_by(Random()).first()
         #se crea la palabra al ingresar a la pagina
-        request.session.setdefault('wordle', {
-            'game_data': {
+        wordle = request.session.setdefault('wordle',{'blacklist': blacklist})
+        wordle.setdefault('game_data', {
                 'start_time': time.time(),
                 'tries': 0,
                 'word' : word.word,
                 'word_len'  : len(word.word),
-            },
-            'backlist': backlist.append(word.word),
-            'game_status': 0
-        })
+            })
+        wordle.setdefault('game_status', 0)
+        request.session.modified = True
+
 
 def get_initial_data(request):
-    request.session.setdefault('wordle',{'game_data': {'tries': 0, 'word_len': 0}, 'history': None})
-    history = request.session.get('history', None)
+    request.session.setdefault('wordle',{}).setdefault('game_data', {'tries': 0, 'word_len': 0})
+    history = request.session['wordle'].get('history', None)
     response = {'basic_data': {
                     'tries': request.session['wordle']['game_data']['tries'],
                     'word_len': request.session['wordle']['game_data']['word_len']
                     },
                  'history': history
                 }
+    print(f'Datos basicos: {response}')
     
     return JsonResponse(response)

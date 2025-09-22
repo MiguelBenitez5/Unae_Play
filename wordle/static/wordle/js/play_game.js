@@ -3,9 +3,11 @@ const board = document.querySelector('.board')
 //variable global para controlar la fila
 let row_board = 1
 let maxChars = 0;
+const restartButton = document.querySelector('.new-word') 
 
 function paintBoard(){
-    fetch('https://unae-play.onrender.com/wordle/action/getdata')
+    board.innerHTML = ''
+    fetch('/wordle/action/getdata')
         .then(response => response.json())
             .then(data =>{
                 //comprobar error
@@ -16,7 +18,7 @@ function paintBoard(){
 
                 console.log(data)
 
-                if (data.basic_data.tries) row_board = data.basic_data.tries
+                if (data.basic_data.tries) row_board = data.basic_data.tries + 1
                 if (data.basic_data.word_len) maxChars = data.basic_data.word_len 
                 
                 for (let i = 1; i< 7; i++){
@@ -27,13 +29,13 @@ function paintBoard(){
                         cell.classList.add('cell')
                         cell.id = `${i}-${j}`
                         if(data.history){
-                            if(data.history.game_data.tries > i){
+                            console.log("Historial: ",data.history)
+                            if(data.basic_data.tries >= i){
                                 console.log(data.history[i]['result'][j].char)
                                 cell.textContent = data.history[`${i}`]['result'][`${j}`].char
                                 if (data.history[`${i}`]['result'][`${j}`].color === 'green') cell.classList.add('correct')
                                 else if (data.history[`${i}`]['result'][`${j}`].color === 'yellow') cell.classList.add('present')
                                 else cell.classList.add('absent')
-                                row_board++
                             }
                         }
                         row.appendChild(cell)
@@ -44,38 +46,69 @@ function paintBoard(){
             }).catch(error => console.log('Ocurrio un error ', error)) 
 }
 
-window.onload = paintBoard
+window.onload = paintBoard()
 
 function send_word(){
     const startTime = Date.now()
-    fetch(`https://unae-play.onrender.com/wordle/${input.value.toLowerCase()}`)
+    fetch(`/wordle/${input.value.toLowerCase()}`)
         .then(response => response.json())
             .then(data =>{
                 const resposeTime = Date.now()
-                const elapsedTime = resposeTime - startTime
+                const elapsedTime = (resposeTime - startTime)/1000
                 console.log('Tiempo transcurrido: ',elapsedTime)
-                if (data.status === 'error'){
-                    console.log('Detalle del error: ',data.message)
-                    return
+
+                switch(data.status){
+                    case 'error': console.log('Detalle del error: ',data.message); return
+                    // hacer alguna animacion para informar al usuario de palabra incorrecta
+                    case 'not_found': console.log("Palabra incorrecta"); return
+
                 }
+                // pintar letras
+                paintRow(data)
+
+                switch(data.game_status){
+                    //mostrar la pantalla modal con los puntajes
+                    case 'win': 
+                        console.log('Felicidades, ganaste')
+                        resetGame()
+                        return
+                    case 'defeat': 
+                        console.log('Perdiste')
+                        resetGame()
+                        return
+                }
+
 
                 console.log(data)
                 row_board++
+                input.value = ''
             }).catch(error => console.error("Ha ocurrido un error ", error))
 }
 
-// //plantear un get_all_data para recibir los datos necesarios para dibujar el tablero
-// for (let i = 1; i< 7; i++){
-//     const row = document.createElement('div')
-//     row.classList.add('row-board')
-//     for(let j = 0; j< 5; j++){
-//         const cell = document.createElement('div')
-//         cell.classList.add('cell')
-//         cell.id = `${i}-${j}`
-//         row.appendChild(cell)
-//     }
-//     board.appendChild(row)
-// }
+function paintRow(data){
+    for (let i = 0; i< maxChars; i++){
+        const cell = document.getElementById(`${row_board}-${i}`)
+        setColor(data, cell, i)
+    }
+}
+
+function resetGame(){
+    fetch('/wordle/action/restart/')
+        .then(response => response.json())
+            .then(data => {
+                console.log(data.message)
+                paintBoard()
+                input.value = ''
+                row_board = 1
+            })
+                .catch(error => console.error('No se pudo establecer la conexion', error))
+}
+
+function setColor(data,cell, index){
+    if (data.result[index].color === 'green') cell.classList.add('correct')
+    else if (data.result[index].color === 'yellow') cell.classList.add('present')
+    else cell.classList.add('absent') 
+}
 
 const cells = document.querySelectorAll('.cell')
 
@@ -105,7 +138,10 @@ input.addEventListener('keydown', (e)=>{
         console.log('Borrar')
         cell.textContent = ''
     }
-    if (e.key === 'Enter') send_word()
+    if (e.key === 'Enter'){ 
+        send_word()
+        input.focus()
+    }
 })
 
 //agregar eventos a todas la teclas del teclado en pantalla
@@ -140,6 +176,10 @@ keys.forEach(key =>{
 input.addEventListener("blur", () => {
     setTimeout(() => input.focus(), 0);
 });
+
+
+restartButton.addEventListener('click', resetGame)
+
 
 
 

@@ -47,7 +47,7 @@ function removeEvents(){
 }
 
 function restart_game(){
-    fetch('https://unae-play.onrender.com/tateti/action/restart')
+    fetch('/tateti/action/restart')
     .then(response => response.json())
     .then(data =>{
         console.log(data)
@@ -60,7 +60,7 @@ function restart_game(){
 
 //evento para el boton de siguiente nivel
 nextLevel.addEventListener('click', function(){
-    fetch('https://unae-play.onrender.com/tateti/action/nextlevel')
+    fetch('/tateti/action/nextlevel')
         .then(response => response.json())
             .then(data =>{
 
@@ -81,7 +81,7 @@ reset.addEventListener('click', restart_game)
 
 //evento para el boton de rendirse
 giveup.addEventListener('click', function(){
-    fetch('https://unae-play.onrender.com/tateti/giveup/')
+    fetch('/tateti/giveup/')
         .then(response => response.json())
             .then(data =>{
                 parrafo.textContent = 'Tu puntaje final es: '+data.score
@@ -90,7 +90,7 @@ giveup.addEventListener('click', function(){
 
 function clientPlay(){
     const starTime = Math.floor(Date.now()/1000)
-    fetch(`https://unae-play.onrender.com/tateti/${this.id}`)
+    fetch(`/tateti/${this.id}`)
     .then(response => response.json())
     .then(data =>{
         let timeNow = Math.floor(Date.now()/1000)

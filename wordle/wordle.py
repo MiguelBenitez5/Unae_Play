@@ -10,7 +10,7 @@ class Wordle:
 
     def __init__(self, session_data):
         self.__start_time = session_data['start_time']
-        self.__word = session_data['word']
+        self.__word = session_data['word'].lower()
         self.__tries = session_data['tries']
         self.__score = 0
         self.__len = session_data['word_len']
@@ -40,11 +40,11 @@ class Wordle:
             'game_status': 0
         }
         user_win = False
-        if userword.lower() == self.__word.lower():
+        if userword == self.__word:
             response['game_status'] = 'win'
             response['game_data']['score'] = self.__calculate_final_score()* WIN_POINTS
             user_win = True    
-        if self.__tries > 6 and not user_win:
+        if self.__tries >= 6 and not user_win:
             response['game_status'] = 'defeat'
             response['game_data']['score'] = self.__calculate_final_score()* DEFEAT_POINTS
         return response
@@ -80,8 +80,8 @@ class Wordle:
     
     def __calculate_final_score(self):
         #formula: (Puntaje/tiempo)/intentos
-        current_time = time.time()/60
-        elapsed_time = current_time - (self.__start_time/60) 
+        current_time = time.time()
+        elapsed_time = current_time - self.__start_time
         return int((self.__score/elapsed_time)/self.__tries)
 
     """
@@ -110,7 +110,7 @@ class Wordle:
                 self.__calculate_score('green')
             #si existe la letra en diferente posicion y cantidad adecuada es amarilla
             #el puntaje calculado es de correspondiente a letra amarilla
-            elif word_generated[f'{char}']['amount'] > 0 and i not in word_generated[f'{char}']['positions']:
+            elif word_generated[f'{char}']['amount'] > 0 and i not in word_generated[f'{char}']['positions'] and char not in userword[i+1:]:
                 result[f'{i}'] = {'color':'yellow','char': char}
                 word_generated[f'{char}']['amount'] -= 1
                 self.__calculate_score('yellow')
