@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'header.css' %}">
+{% endblock %}
+
+{% block title %}Inicio | Un@e Play{% endblock %}
+
+{% block content %}
+    <h1>Bienvenido a Un@e Play 🎮</h1>
+    <p>Tu plataforma de juegos favorita.</p>
+{% endblock %}

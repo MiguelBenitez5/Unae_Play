@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Iniciar Sesion
+{% endblock %}
+
+{% block content%}
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{message}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% include 'accounts/loginform.html' %}
+{% endblock %}

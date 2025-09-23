@@ -1,0 +1,67 @@
+  .keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .row-keyboard {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
+  .key {
+    background: #d3d6da;
+    border: none;
+    padding: 15px 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    min-width: 40px;
+    text-transform: uppercase;
+  }
+  .key.correct { background: #6aaa64; color: white; }   /* Verde */
+  .key.present { background: #c9b458; color: white; }   /* Amarillo */
+  .key.absent { background: #787c7e; color: white; }    /* Gris */
+  .key.special { min-width: 60px; } /* Enter, borrar */
+
+
+  .my-input{
+      opacity: 0;
+      position: absolute;
+  }
+
+
+  /* estilos para el tablero */
+
+  .board {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-content: center;
+  }
+  .row-board {
+    flex-basis: 60px;
+    display: flex;
+    gap: 4px;
+  }
+  .cell {
+    flex-basis: 60px;
+    max-width: 60px;
+    flex-grow: 1;
+    border: 2px solid #d3d6da;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: white;
+  }
+  .cell.correct { background: #6aaa64; color: white; border-color: #6aaa64; }  /* verde */
+  .cell.present { background: #c9b458; color: white; border-color: #c9b458; }  /* amarillo */
+  .cell.absent  { background: #787c7e; color: white; border-color: #787c7e; }
+
+  /* estilo temporal para pruebas */
+  .character{
+    display: none;
+  }
