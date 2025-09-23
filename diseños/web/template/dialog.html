@@ -12,19 +12,70 @@
             color: #fff;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 50px;
+            align-items: center;
             margin: 0;
         }
 
-        /* Botón para mostrar mensaje */
-        .dialog-btn {
+        /* Header fijo arriba */
+        .encabezado {
             position: fixed;
-            bottom: 200px;
-            left: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(6px);
+            padding: 15px 20px;
+            border-radius: 0 0 12px 12px;
+            z-index: 10;
+        }
+
+        /* Footer fijo abajo */
+        .pie {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(6px);
+            padding: 15px 20px;
+            border-radius: 12px 12px 0 0;
+            z-index: 10;
+        }
+
+        h1.titulo {
+            margin: 0;
+            font-size: 24px;
+            color: #dfe6e9;
+        }
+
+        /* Contenedor de diálogo */
+        .dialogue-ui {
+            position: fixed;
+            bottom: 80px; /* lo empuja por encima del footer */
+            left: 51%;
             transform: translateX(-50%);
-            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 550px;
+            padding: 0 10px;
+            z-index: 5;
+        }
+
+        .dialogue-btn {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dialog-btn {
+            padding: 12px 24px;
             background: #6c5ce7;
             border: none;
             border-radius: 8px;
@@ -38,7 +89,6 @@
             background: #a29bfe;
         }
 
-        /* Contenedor viñeta */
         .dialogue-container {
             display: flex;
             justify-content: space-between;
@@ -47,12 +97,8 @@
             backdrop-filter: blur(6px);
             padding: 15px 20px;
             border-radius: 12px;
-            width: 500px;
-            max-width: 90%;
-            position: fixed;
+            width: 100%;
             gap: 15px;
-            overflow: hidden;
-            bottom: 25px;
         }
 
         .dialogue-text {
@@ -70,42 +116,53 @@
 </head>
 <body>
 
-    <button class="dialog-btn">Habla</button>
-
-    <section class="dialogue-container" id="dialogue" style="display:none;">
-        <p class="dialogue-text" id="dialogueText"></p>
-        <section class="dialogue-character">
-            <img src="../public/img/personajes.png" alt="Personaje">
+    <header class="encabezado">
+        <h1 class="titulo">Hola mundo</h1>
+    </header>
+    
+    <section class="dialogue-ui">
+        <section class="dialogue-btn">
+            <button class="dialog-btn">Habla</button>
         </section>
 
-        <script>
-            // Mensajes simulando archivo JSON local
-            const messages = [
-                { "text": "¡Hola! Bienvenido al juego, ¿Cómo te va en el juego? Recuerda guardar tu progreso, Explora todos los niveles para mejorar, No olvides revisar las actualizaciones, ¡Buena suerte!" },
-                { "text": "Sabias que los camaleones pueden cambiar de color para camuflarse?" },
-            ];
+        <section class="dialogue-container" id="dialogue" style="display:none;">
+            <p class="dialogue-text" id="dialogueText"></p>
+            <section class="dialogue-character">
+                <img src="../public/img/personajes.png" alt="Personaje">
+            </section>
+        </section>
+    </section>
 
-            let currentIndex = 0;
+    <footer class="pie">
+        <h1 class="titulo">Chau Mundo</h1>
+    </footer>
 
-            const dialogue = document.getElementById('dialogue');
-            const dialogueText = document.getElementById('dialogueText');
-            const dialogBtn = document.querySelector('.dialog-btn');
+    <script>
+        // Mensajes simulando archivo JSON local
+        const messages = [
+            { "text": "¡Hola! Bienvenido al juego, ¿Cómo te va en el juego? Recuerda guardar tu progreso, Explora todos los niveles para mejorar, No olvides revisar las actualizaciones, ¡Buena suerte!" },
+            { "text": "Sabias que los camaleones pueden cambiar de color para camuflarse?" },
+        ];
 
-            dialogBtn.addEventListener('click', () => {
-                // Mostrar diálogo si estaba oculto
-                if (dialogue.style.display === 'none') {
-                    dialogue.style.display = 'flex';
-                }
+        let currentIndex = 0;
 
-                // Mostrar el siguiente mensaje
-                dialogueText.textContent = messages[currentIndex].text;
+        const dialogue = document.getElementById('dialogue');
+        const dialogueText = document.getElementById('dialogueText');
+        const dialogBtn = document.querySelector('.dialog-btn');
 
-                // Incrementar índice y reiniciar si llegamos al final
-                currentIndex++;
-                if (currentIndex >= messages.length) currentIndex = 0;
-            });
-        </script>
+        dialogBtn.addEventListener('click', () => {
+            // Mostrar diálogo si estaba oculto
+            if (dialogue.style.display === 'none') {
+                dialogue.style.display = 'flex';
+            }
 
+            // Mostrar el siguiente mensaje
+            dialogueText.textContent = messages[currentIndex].text;
+
+            // Incrementar índice y reiniciar si llegamos al final
+            currentIndex++;
+            if (currentIndex >= messages.length) currentIndex = 0;
+        });
+    </script>
 </body>
-
 </html>
