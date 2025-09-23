@@ -1,4 +1,5 @@
-  .keyboard {
+
+.keyboard {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -56,10 +57,15 @@
     font-weight: bold;
     text-transform: uppercase;
     background: white;
+
+    transition: background 0.8s, color 0.4s, border-color 0.4s, transform 0.8s ease-in;
+    will-change: background, color, border-color, transform;
+
   }
   .cell.correct { background: #6aaa64; color: white; border-color: #6aaa64; }  /* verde */
   .cell.present { background: #c9b458; color: white; border-color: #c9b458; }  /* amarillo */
   .cell.absent  { background: #787c7e; color: white; border-color: #787c7e; }
+
 
   /* estilo temporal para pruebas */
   .character{

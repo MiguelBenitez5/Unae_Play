@@ -84,7 +84,6 @@ class GuessTheWord:
         
         if userchar in word_data:
             self.__chars_played.append(userchar)
-            self.__tries -= 1
             self.__amount_words += word_data[f'{userchar}']['amount']
             response = {}
             for position in word_data[f'{userchar}']['positions']:
