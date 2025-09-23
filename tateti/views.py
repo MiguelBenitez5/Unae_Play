@@ -90,7 +90,7 @@ def playTateti(request,position):
     #asignar valores por defecto para la partida
     board = [[" " for _ in range(3)] for _ in range(3)]
     request.session.setdefault('tateti',{
-        'start_time':time.time(),
+        'start_time': time.time(),
         'score': 0,
         'board': board,
         'level':'easy',
