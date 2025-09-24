@@ -27,6 +27,7 @@ urlpatterns = [
     path('wordle/', include('wordle.urls')),
     path('piedrapapeltijera/', include('piedrapapeltijera.urls')),
     path("buscaminas/", include("buscaminas.urls")),    
+    path('ahorcado/', include('ahorcado.urls')), 
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

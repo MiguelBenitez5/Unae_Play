@@ -10,8 +10,7 @@ def is_session_active(request):
         return False
     return True
 
-def render_homepage(request):
-    return render(request, 'base.html')
+def render_homepage(request): return render(request, 'index.html')
 
 
 def save_score(request, game_name:str, score:int) -> None:

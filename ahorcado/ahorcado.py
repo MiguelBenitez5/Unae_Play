@@ -25,14 +25,13 @@ class GuessTheWord:
     
     def play_game(self, userchar:chr):
         result = self.__compare_char(userchar)
+            
 
         if not result:
             return {'status': 'error','message': 'Solo se puede jugar 1 letra por turno'}
         if result.get('error'):
             return {'key_error': result['error']}
-
-        self.__result.update(result)
-        self.__result.modified = True
+        
 
         game_data = self.__get_all_data()
 
@@ -40,6 +39,12 @@ class GuessTheWord:
             'game_data': game_data,
             'status'   : 'success'
         }
+
+        if result.get('not_found'):
+            response['not_found'] = result['not_found']
+
+        else:
+            self.__result.update(result)
 
         elapsed_time = time.time() - self.__start_time
         check_result = self.__check_result()
@@ -80,7 +85,7 @@ class GuessTheWord:
         if userchar not in word_data:
             self.__chars_played.append(userchar)
             self.__tries -= 1
-            return {'not_foud' :'Esta letra no se encuentra en la palabra'}
+            return {'not_found' :'Esta letra no se encuentra en la palabra'}
         
         if userchar in word_data:
             self.__chars_played.append(userchar)
@@ -95,7 +100,7 @@ class GuessTheWord:
         if self.__amount_words == len(self.__word):
             return 'win'
 
-        if self.__tries <= 0:
+        if self.__tries < 1:
             return 'defeat'
         
         return 0
