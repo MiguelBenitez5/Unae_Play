@@ -2,6 +2,7 @@ minigames/settings.py
 # Archivos y directorios generados por Python
 __pycache__/
 *.pyc
+migrations/
 
 # Directorios de entornos virtuales
 venv/

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'tateti',
     'wordle',
     'piedrapapeltijera',
-    'ahorcado'
+    'ahorcado',
+    'buscaminas'
 ]
 
 MIDDLEWARE = [
