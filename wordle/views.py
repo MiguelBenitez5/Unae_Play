@@ -19,6 +19,14 @@ def render_page(request):
 def play_wordle(request, userword):
     if not is_session_active(request):
         return JsonResponse({'status': 'error', 'message': 'La sesion no esta iniciada'})
+    #comprobar que la palabra no haya sido juagada en esta partida
+    wordle_data = request.session.get('wordle')
+    if wordle_data:
+        userwords = wordle_data.get('userwords', [])
+        if userword in userwords:
+            return JsonResponse({'status':'error', 'message':'Esta palabra ya fue jugada'})
+        userwords.append(userword)
+        request.session['wordle']['userwords'] = userwords
     #consultar si la palabra ingresada por el usuario es una palabra valida del diccionario español
     api_response = requests.get(f'https://rae-api.com/api/words/{userword.lower()}')
     data = api_response.json()
@@ -61,6 +69,7 @@ def reset_game(request):
     if 'wordle' in request.session:
         request.session['wordle'].pop('game_data', None)
         request.session['wordle'].pop('history', None)
+        request.session['wordle'].pop('userwords', None)
         request.session.modified = True
         init_game(request)
         return JsonResponse({'status':'success', 'message':'Juego restablecido correctamente'})
@@ -95,8 +104,8 @@ def init_game(request):
 
 
 def get_initial_data(request):
-    request.session.setdefault('ahorcado',{}).setdefault('game_data', {'tries': 0, 'word_len': 0})
-    history = request.session['ahorcado'].get('history', None)
+    request.session.setdefault('wordle',{}).setdefault('game_data', {'tries': 0, 'word_len': 0})
+    history = request.session['wordle'].get('history', None)
     response = {'basic_data': {
                     'tries': request.session['wordle']['game_data']['tries'],
                     'word_len': request.session['wordle']['game_data']['word_len']

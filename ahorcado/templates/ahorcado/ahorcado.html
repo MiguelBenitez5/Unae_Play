@@ -1,0 +1,29 @@
+{% extends 'base_game.html' %}
+{% load static %}
+
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'ahorcado/css/style.css' %}">
+{% endblock%}
+
+{% block tittle%}Adivina la palabra{% endblock %}
+
+{% block game %}
+    <div class="game-content">
+        <div class="container">
+            <!--Descripcion del juego-->
+            <div class="game-description">Adivina la palabra antes de quedarte sin vidas...</div>
+            <!--Corazones del jugador-->
+            <div class="hearts"></div>
+            <!--Aqui se ve la palabra a adivinar-->
+            <div class="word-container"></div>
+            <!--Teclado-->
+            {% include 'ahorcado/keyboard.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{block.super}}
+    <script src="{% static 'ahorcado/js/play_game.js' %}"></script>
+{% endblock %}
