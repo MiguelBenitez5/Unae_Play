@@ -1,17 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
+    {% block head%}
+        {{block.super}}
+        <link rel="stylesheet" href="{% static 'modal.css' %}">
+    {% endblock %}
     {% block content%}
-    {{block.super}}
+    {% include 'modal_ranking.html' %}
     <div class="game">
         {% block game%}
 
         {% endblock %}
     </div>
     
-    <div class="character">
-        <div class="dialog-container">
-            <p class="dialog-text">...</p>
-            <img class="dialog-char" src="{% static 'img/imagenEjemplo-removebg-preview (1).png' %}" alt="undino">
-        </div>
+    <div class="char">
+        {% include 'dialogue.html' %}
     </div>
     {% endblock%}
+
+    {% block script %}
+        {{ block.super }}
+        <script src="{% static 'modal_scripts.js' %}"></script>
+    {% endblock %}

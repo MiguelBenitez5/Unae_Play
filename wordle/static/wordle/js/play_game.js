@@ -70,11 +70,11 @@ function send_word(){
                     //mostrar la pantalla modal con los puntajes
                     case 'win': 
                         console.log('Felicidades, ganaste')
-                        resetGame()
+                        // resetGame()
                         return
                     case 'defeat': 
                         console.log('Perdiste')
-                        resetGame()
+                        // resetGame()
                         return
                 }
 
@@ -88,7 +88,8 @@ function send_word(){
 function paintRow(data){
     for (let i = 0; i< maxChars; i++){
         const cell = document.getElementById(`${row_board}-${i}`)
-        setColor(data, cell, i)
+        setTimeout(()=>setColor(data,cell,i),135*i)
+        // setColor(data, cell, i)
     }
 }
 
@@ -179,7 +180,3 @@ input.addEventListener("blur", () => {
 
 
 restartButton.addEventListener('click', resetGame)
-
-
-
-

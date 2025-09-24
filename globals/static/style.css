@@ -25,63 +25,53 @@ para que el footer pueda quedar debajo */
 y de esta forma el footer quedara debajo siempre  */
 .main{
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Estilos temporales, ninguno es necesario para que el footer quede debajo de la pagina */
-.footer{
-    height: 50px;
-    background-color: black;
-    text-align: center;
-    color: aliceblue;
-    padding: 15px;
-    font-size: 50px;
-}
 
 /* Estilos para base_game */
-.character{
-    position: absolute;
-    bottom: 0;
+.game {
+    flex-grow: 6;
+    background-color: red;
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    min-height: 350px;
-    background-color: black;
-    width: 100%;
+    padding: 10px 10px;
 }
 
-.dialog-container{
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    padding: 0 50px;
-}
-
-.dialog-text{
-    flex-grow: 3; 
-    flex-shrink: 3;
-    font-size: 50px;
-    text-align: right;
-    margin: 0 50px;
-    border: 2px solid #000;
-    border-radius: 12px;
-    min-height: 200px;
-    padding: 0 20px;
-    box-shadow: 0 0 15px #333;
-}
-
-.dialog-char{
+.char {
     flex-grow: 1;
-    flex-shrink: 1;
-    max-width: 30px;
-    min-width: 30%;
+    background-color: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Los juegos siempre estaran centrados */
-.game{
+.dialogue-container{
     display: flex;
-    flex-direction: row;
     justify-content: center;
+    align-items: center;
+    min-width: 300px;
+    margin: 0 10px;
+    gap: 10px;
+    box-sizing: border-box;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-family: '04B_30__', monospace;
+}
+.char-img{
+    width: 100%;
+}
+.dialogue-character{
+    max-width: 70px;
+}
+.dialogue-text{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    flex: 4 1 60%;
 }
 
