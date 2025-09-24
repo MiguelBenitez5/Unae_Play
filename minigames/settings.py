@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'wordle',
     'piedrapapeltijera',
     'ahorcado',
+    'buscaminas'
 ]
 
 MIDDLEWARE = [
