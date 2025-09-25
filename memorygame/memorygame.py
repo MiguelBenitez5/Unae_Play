@@ -12,12 +12,17 @@ class MemoryGame:
         self.__user_choose_2 = sessiondata['user_choose_2']
         self.__pairs = sessiondata['pairs']
         self.__score = sessiondata['score']
+        self.__position_1 = sessiondata['position_1']
+        self.__position_2 = sessiondata['position_2']
+        self.__tries = sessiondata['tries']
+
 
     def __get_data(self):
         return {
             'board': self.__board,
             'pairs': self.__pairs,
-            'score': self.__score
+            'score': self.__score,
+            'tries': self.__tries
         }
 
     def __init_board(self):
@@ -44,32 +49,41 @@ class MemoryGame:
         if row > 3 or col > 3 or row < 0 or col < 0:
             return False
         
+        self.__tries += 1
         result = 'not_pair'
-        position_1, position_2 = None, None
+        self.__position_1, self.__position_2 = None, None
+        user_choice_1, user_choice_2 = None, None
         
         if not self.__user_choose_1:
             self.__user_choose_1 = self.__board[row][col]
-            position_1 = f'{row}-{col}'
+            self.__position_1 = f'{row}-{col}'
         else:
             self.__user_choose_2 = self.__board[row][col]
             position_2 = f'{row}-{col}'
             if self.__user_choose_1 == self.__user_choose_2:
                 result = 'pair'
                 self.__pairs += 1
-                self.__score += PAIR_POINTS * self.__pairs
-
+                self.__score += PAIR_POINTS
+            #guardar las referencias
+            user_choice_1 = self.__user_choose_1
+            user_choice_2 = self.__user_choose_2
             self.__user_choose_1 = None
             self.__user_choose_2 = None
 
         response = self.__get_data()
         response['result'] = result
-        response['position_1'] = position_1
-        response['position_2'] = position_2
-        #Formula para calular puntaje = (Suma de puntajes por cada par * pares acertados) - tiempo
+        if self.__position_1:
+            response['position_1'] = self.__position_1
+        response['position_2'] = self.__position_2
+        response['user_choose_1'] = self.__user_choose_1
+        response['user_choose_2'] = self.__user_choose_2
+        response['user_choice_1'] = user_choice_1
+        response['user_choice_2'] = user_choice_2
+        #Formula para calular puntaje = (Suma de puntajes por cada par * pares acertados) - tiempo*intentos
         if self.__pairs >= 8:
             end_time = time.time()
             elapsed_time = end_time - self.__start_time
-            self.__score -= int(elapsed_time)
+            self.__score = (self.__score * self.__pairs) - (int(elapsed_time)*self.__tries)
             response['game_status'] = 'win'
         
         return response

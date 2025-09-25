@@ -1,2 +1,29 @@
 {% extends 'base_game.html' %}
+{% load static %}
 
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'memorygame/css/style.css' %}">
+{% endblock %}
+
+{% block title %}Prueba tu memoria{% endblock %}
+
+{% block game %}
+    <div class="game-header">
+        <h1 class="game-title">Prueba tu memoria con este increible minijuego</h1>
+        <section class="action-container">
+            <div class="score">Puntaje: </div>
+            <button class="reset-btn">Reiniciar</button>
+            {% include 'timer.html' %}
+        </section>
+    </div>
+    {% include 'memorygame/board.html' %}
+    <div class="game-footer">
+        <button class="giveup">Me rindo :C</button>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{block.super}}
+    <script src="{% static 'memorygame/js/play_game.js' %}"></script>
+{% endblock %}

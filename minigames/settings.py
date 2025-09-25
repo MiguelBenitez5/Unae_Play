@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'wordle',
     'ahorcado',
     'buscaminas',
-    'piedrapapeltijera'
+    'memorygame',
+    'piedrapapeltijera',
 ]
 
 MIDDLEWARE = [
