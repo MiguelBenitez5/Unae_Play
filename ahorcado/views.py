@@ -44,7 +44,7 @@ def play_game(request, userchar:chr):
 def init_game(request):
     guess_word = request.session.get('ahorcado')
     if not guess_word:
-        guess_word.setdefault('ahorcado',{})
+        guess_word = request.session.setdefault('ahorcado')
 
     guess_word.setdefault('game_data',{
         'start_time'  : time.time(),
