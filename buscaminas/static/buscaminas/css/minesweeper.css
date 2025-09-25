@@ -1,0 +1,55 @@
+.body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.text {
+    margin-bottom: 20px;
+}
+
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(8, 40px); 
+    gap: 4px;
+    justify-content: center;
+}
+
+.cell { 
+    width: 40px; 
+    height: 40px; 
+    border: 1px solid #ccc; 
+    text-align: center; 
+    cursor: pointer; 
+    font-weight: bold;
+    line-height: 40px;
+    background-color: #eee;
+    transition: background 0.3s, transform 0.2s;
+    user-select: none;
+}
+
+.cell:not(.revealed):hover {
+    background-color: #ddd;
+    transform: scale(1.1);
+}
+
+.revealed {
+    background-color: #ddd;
+    cursor: default;
+    transform: scale(1);
+}
+
+.mine {
+    background-color: red;
+    color: white;
+    transform: scale(1);
+}
+
+.cell-number-1 { color: blue; }
+.cell-number-2 { color: green; }
+.cell-number-3 { color: red; }
+.cell-number-4 { color: darkblue; }
+.cell-number-5 { color: brown; }
+.cell-number-6 { color: cyan; }
+.cell-number-7 { color: black; }
+.cell-number-8 { color: gray; }
