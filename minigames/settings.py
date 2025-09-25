@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'tateti',
     'wordle',
     'ahorcado',
-    'bucaminas',
+    'buscaminas',
     'piedrapapeltijera'
 ]
 
