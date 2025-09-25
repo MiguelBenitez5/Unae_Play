@@ -3,6 +3,7 @@
     {% block head%}
         {{block.super}}
         <link rel="stylesheet" href="{% static 'modal.css' %}">
+        <link rel="stylesheet" href="{% static 'css/timer.css' %}">
     {% endblock %}
     {% block content%}
     {% include 'modal_ranking.html' %}
@@ -20,4 +21,5 @@
     {% block script %}
         {{ block.super }}
         <script src="{% static 'modal_scripts.js' %}"></script>
+        <script src="{% static 'js/timer-script.js' %}"></script>
     {% endblock %}

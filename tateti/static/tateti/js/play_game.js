@@ -2,9 +2,6 @@
 window.onload = restart_game
 
 const cells = document.querySelectorAll(".cell")
-//parrafo de prueba, borrar luego
-const parrafo = document.querySelector('.dialog-text')
-//parrafo de prueba, borrar luego
 const level = document.querySelector('.level')
 const nextLevel = document.querySelector('.next-level')
 const giveup = document.querySelector('.giveup')
@@ -32,7 +29,7 @@ function paintBoard(board){
                     case 'X': content = xmark; break
                     case '0': content = circle; break
                 }
-                const cell = document.getElementById(row+'-'+col)
+                const cell = document.getElementById(`${row}-${col}`)
                 cell.innerHTML = content
                 cell.removeEventListener('click', clientPlay)
                 cell.classList.remove('empty')
@@ -69,9 +66,8 @@ nextLevel.addEventListener('click', function(){
                 level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
                 cleanBoard()
                 if(data.hard_machine_move.board){
-                    parrafo.textContent = 'Esta vez empiezo yo'
+                    // deberia haber dialogo
                     paintBoard(data.hard_machine_move.board)
-                    console.log('hey')
                 }
             }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
 })
@@ -84,7 +80,7 @@ giveup.addEventListener('click', function(){
     fetch('/tateti/giveup/')
         .then(response => response.json())
             .then(data =>{
-                parrafo.textContent = 'Tu puntaje final es: '+data.score
+                // dialogo de rendicion y mostrar puntaje
             }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
 })
 
@@ -106,21 +102,20 @@ function clientPlay(){
         //se pinta el tablero en cada jugada
         paintBoard(data.board)
         level.textContent = (data.level == 'easy')? 'Nivel: Facil' : (data.level == 'medium')? 'Nivel: Normal' : 'Nivel: Dificil'
-        parrafo.textContent = data.dialog
+        // posible dialogo
         if(data.game_status == 'win'){
-            parrafo.textContent = (data.level == 'hard')? 'Felicidades ganaste la partida, tu puntaje es: '+data.score :
-                                                            'Ganaste, pasemos al siguiente nivel' 
+            // dialogo de victoria 
             nextLevel.classList.remove('hidden')
         }else{
             nextLevel.classList.add('hidden')
         }
         if(data.game_status == 'draw'){
-            parrafo.textContent = 'Empatamos, intentalo de nuevo..'
+            //posible dialogo
             tryAgain.classList.remove('hidden')
             return
         }
         if(data.game_status == 'defeat'){
-            parrafo.textContent = 'Perdiste ajajaja'
+            //posible dialogo
             giveup.classList.add('hidden')
         }else{
             giveup.classList.remove('hidden')
