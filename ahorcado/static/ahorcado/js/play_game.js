@@ -132,7 +132,7 @@ keys.forEach(key =>{
 })
 
 document.addEventListener('keydown', (e)=>{
-    const allowedChars = /^[a-zñ]$/
+    const allowedChars = /^[a-zA-ZñÑ]$/
     if (allowedChars.test(e.key)){
         play_game(e.key)
     }
