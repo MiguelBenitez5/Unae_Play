@@ -54,7 +54,19 @@ def play_game(request, position):
         })
     
     response['status'] = 'success'
+
+    #guardar datos en sesion
+    if 'memorygame' not in request.session:
+        return JsonResponse({
+            'status': 'error', 
+            'message': 'No existe la sesion memorygame'
+        })
     
+    request.session['memorygame'].update(response)
+    request.session.modified = True
+
+    response['position_1'] = request.session['memorygame']['position_1']
+
     return JsonResponse(response)
 
 
@@ -64,8 +76,11 @@ def init_game(request):
         'board': None,
         'user_choose_1': None,
         'user_choose_2': None,
+        'position_1': None,
+        'position_2': None,
         'pairs': 0,
-        'score': 0
+        'score': 0,
+        'tries': 0
     })
 
 def restart_game(request):
