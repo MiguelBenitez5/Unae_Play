@@ -1,73 +1,139 @@
+/* ===== Reset básico ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+/* ===== Caja principal ===== */
+.box {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+}
+
+/* ===== Input ===== */
+.my-input {
+    opacity: 0;
+    position: absolute;
+}
+
+/* ===== Info (puntaje y tiempo) ===== */
+.score, .time {
+    font-size: 1rem;
+    margin: 0.3rem 0;
+}
+
+/* ===== Contenedor tablero + teclado ===== */
+.container {
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+/* ===== Tablero ===== */
+.board {
+  display: grid;
+  gap: 5px;
+  grid-template-rows: repeat(6, auto);
+  place-items: center;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  aspect-ratio: 1/1;
+  border: 2px solid #555;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  transition: background 0.8s, color 0.4s, border-color 0.4s, transform 0.8s ease-in;
+  will-change: background, color, border-color, transform;
+}
+
+/* ===== Teclado ===== */
 .keyboard {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-  }
-  .row-keyboard {
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.row-keyboard {
     display: flex;
     justify-content: center;
-    gap: 5px;
-  }
-  .key {
-    background: #d3d6da;
+    gap: 2px;
+}
+
+.key {
+    padding: 0.8rem 0.6rem;
+    background: #444;
     border: none;
-    padding: 15px 12px;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 0.6rem;
+    color: #fff;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    min-width: 40px;
-    text-transform: uppercase;
-  }
-  .key.correct { background: #6aaa64; color: white; }   /* Verde */
-  .key.present { background: #c9b458; color: white; }   /* Amarillo */
-  .key.absent { background: #787c7e; color: white; }    /* Gris */
-  .key.special { min-width: 60px; } /* Enter, borrar */
+    transition: all 0.2s ease;
+}
 
+.key:hover {
+    background: #666;
+    transform: translateY(-2px);
+}
 
-  .my-input{
-      opacity: 0;
-      position: absolute;
-  }
+.key.special {
+    padding: 0.8rem 1.4rem;
+    background: #89253e;
+}
 
+.key.special:hover {
+    background: #b33951;
+}
 
-  /* estilos para el tablero */
+.cell.correct { background: #6aaa64; color: white; border-color: #6aaa64; }  /* verde */
+.cell.present { background: #c9b458; color: white; border-color: #c9b458; }  /* amarillo */
+.cell.absent  { background: #787c7e; color: white; border-color: #787c7e; }
 
-  .board {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-content: center;
-  }
-  .row-board {
-    flex-basis: 60px;
-    display: flex;
-    gap: 4px;
-  }
-  .cell {
-    flex-basis: 60px;
-    max-width: 60px;
-    flex-grow: 1;
-    border: 2px solid #d3d6da;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 28px;
+/* ===== Botón nueva palabra ===== */
+.new-word {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 1rem;
+    background: #3a6186;
+    color: #fff;
     font-weight: bold;
-    text-transform: uppercase;
-    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-    transition: background 0.8s, color 0.4s, border-color 0.4s, transform 0.8s ease-in;
-    will-change: background, color, border-color, transform;
+.new-word:hover {
+    background: #4e7aa5;
+    transform: translateY(-2px);
+}
 
-  }
-  .cell.correct { background: #6aaa64; color: white; border-color: #6aaa64; }  /* verde */
-  .cell.present { background: #c9b458; color: white; border-color: #c9b458; }  /* amarillo */
-  .cell.absent  { background: #787c7e; color: white; border-color: #787c7e; }
-
-
-  /* estilo temporal para pruebas */
-  .character{
-    display: none;
-  }
+/* ===== Responsive ===== */
+@media (max-width: 350px) {
+    .cell {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.7rem;
+    }
+    .key {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.9rem;
+    }
+    .key.special {
+        padding: 0.6rem 1rem;
+    }
+}
