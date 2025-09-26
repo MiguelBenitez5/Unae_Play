@@ -1,0 +1,24 @@
+{% extends 'base_game.html' %}
+{% load static %}
+
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'questions/css/style.css' %}">
+{% endblock %}
+
+{% block title%}Preguntas{% endblock %}
+
+{% block game %}
+    <div class="game-container">
+        {% include 'questions/questions-header.html' %}
+        {% include 'questions/question-container.html' %}
+        {% include 'questions/question-footer.html' %}
+        <audio autoplay loop hidden preload="metadata" >
+            <source src="{% static 'music/Posible intro (1).wav' %}" type="audio/wav">
+        </audio>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <link rel="stylesheet" href="{% static 'questions/js/play_game.js' %}">
+{% endblock %}

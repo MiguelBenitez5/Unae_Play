@@ -23,8 +23,14 @@
             <a href="#" class="link">FAQ</a>
             <a href="#" class="link">Botón Ejemplo</a>
         </nav>
-        <section class="user-actions">
-            <a href="#" class="login-button link">Iniciar Sesión</a>
-            <a href="#" class="register-button link">Registrarse</a>
-        </section>
+        {% if data.logged %}
+            {{include 'logged.html'}}
+        
+        {% else %}
+            <section class="user-actions">
+                <a href="#" class="login-button link">Iniciar Sesión</a>
+                <a href="#" class="register-button link">Registrarse</a>
+            </section>
+        {% endif %}
+        
     </header>

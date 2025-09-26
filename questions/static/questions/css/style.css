@@ -1,0 +1,96 @@
+/* estilos del contenedor de pregunta/respuestas */
+.question-container{
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #333e;
+    box-shadow: 0 0 15px #333;
+    font-size: 2.5rem;
+}
+
+.answers{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 9px;
+    padding: 15px;
+}
+
+.answer{
+    flex: 1 1 44%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #333a;
+    box-sizing: border-box;
+}
+
+.active:hover{
+    cursor: pointer;
+    background-color: rgba(88, 88, 240, 0.528);
+}
+
+.correct-answer{
+    background-color: rgb(5, 93, 5);
+    color: white;
+}
+
+.incorrect-answer{
+    background-color: rgb(200, 34, 34);
+    color: white;
+}
+
+/* Encabezado del juego */
+
+.question-header{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    padding: 15px;
+}
+
+.score{
+    padding: 10px;
+}
+
+.question-count, .percent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* animacion para incluir en js al timer */
+/* animation: timerAnim 0.8s ease 0s 1 normal forwards; */
+
+.timer{
+    font-size: 3rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+@keyframes timerAnim {
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.1);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+/* footer del juego (botones) */
+.question-footer{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    gap: 8px;
+}
+
+.reload-btn{
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.next-btn{
+    display: none;
+}
+

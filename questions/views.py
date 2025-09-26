@@ -10,7 +10,7 @@ def render_page(request):
     if not is_session_active(request):
         return redirect('login')
     restart_game(request)
-    return redirect(request, 'questions/questions.html')
+    return render(request, 'questions/questions.html')
 
 
 
