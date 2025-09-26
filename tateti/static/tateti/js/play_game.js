@@ -3,8 +3,6 @@ window.onload = restart_game
 
 const cells = document.querySelectorAll(".cell")
 //parrafo de prueba, borrar luego
-const parrafo = document.querySelector('.dialog-text')
-//parrafo de prueba, borrar luego
 const level = document.querySelector('.level')
 const nextLevel = document.querySelector('.next-level')
 const giveup = document.querySelector('.giveup')
@@ -46,53 +44,72 @@ function removeEvents(){
     cells.classList.remove('empty')
 }
 
-function restart_game(){
-    fetch('/tateti/action/restart')
-    .then(response => response.json())
-    .then(data =>{
+async function restart_game(){
+    try{
+        const response = await fetch('/tateti/action/restart')
+        if(!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
+        const data = await response.json()
+        
         console.log(data)
         cleanBoard()
         level.textContent = 'Nivel: Facil'
         nextLevel.classList.add('hidden')
         score.textContent = 'Puntaje: 0'
-    }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+async function next_level() {
+    try{
+        const response = await fetch('/tateti/action/nextlevel')
+        if (!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
+        const data = await response.json()
+        
+        console.log(data)
+
+        level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
+        cleanBoard()
+        if(data.hard_machine_move.board){
+            paintBoard(data.hard_machine_move.board)
+            console.log('hey')
+        }
+
+    }catch(err){
+        console.log(err)
+    }
+}
+
+async function give_up() {
+    try{
+        const response = await fetch('/tateti/giveup/')
+        if (!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
+        const data = await response.json()
+        
+        console.log(data)
+    }catch(err){
+        console.log(err)
+    }
 }
 
 //evento para el boton de siguiente nivel
-nextLevel.addEventListener('click', function(){
-    fetch('/tateti/action/nextlevel')
-        .then(response => response.json())
-            .then(data =>{
-
-                console.log(data)
-
-                level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
-                cleanBoard()
-                if(data.hard_machine_move.board){
-                    parrafo.textContent = 'Esta vez empiezo yo'
-                    paintBoard(data.hard_machine_move.board)
-                    console.log('hey')
-                }
-            }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
-})
+nextLevel.addEventListener('click', next_level)
 
 //evento para el boton de reiniciar partida
 reset.addEventListener('click', restart_game)
 
 //evento para el boton de rendirse
-giveup.addEventListener('click', function(){
-    fetch('/tateti/giveup/')
-        .then(response => response.json())
-            .then(data =>{
-                parrafo.textContent = 'Tu puntaje final es: '+data.score
-            }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
-})
+giveup.addEventListener('click', give_up)
+   
 
-function clientPlay(){
+async function clientPlay(){
     const starTime = Math.floor(Date.now()/1000)
-    fetch(`/tateti/${this.id}`)
-    .then(response => response.json())
-    .then(data =>{
+    try{
+        const response = await fetch(`/tateti/${this.id}`)
+        if (!response.ok) throw new Error('Error en la consulta con el servidor: '+ response.status)
+        const data = await response.json()
+
         let timeNow = Math.floor(Date.now()/1000)
         const elapsedTime = timeNow - starTime
         console.log('Primero: ', elapsedTime)
@@ -106,21 +123,17 @@ function clientPlay(){
         //se pinta el tablero en cada jugada
         paintBoard(data.board)
         level.textContent = (data.level == 'easy')? 'Nivel: Facil' : (data.level == 'medium')? 'Nivel: Normal' : 'Nivel: Dificil'
-        parrafo.textContent = data.dialog
+        //lugar para dialogos
         if(data.game_status == 'win'){
-            parrafo.textContent = (data.level == 'hard')? 'Felicidades ganaste la partida, tu puntaje es: '+data.score :
-                                                            'Ganaste, pasemos al siguiente nivel' 
             nextLevel.classList.remove('hidden')
         }else{
             nextLevel.classList.add('hidden')
         }
         if(data.game_status == 'draw'){
-            parrafo.textContent = 'Empatamos, intentalo de nuevo..'
             tryAgain.classList.remove('hidden')
             return
         }
         if(data.game_status == 'defeat'){
-            parrafo.textContent = 'Perdiste ajajaja'
             giveup.classList.add('hidden')
         }else{
             giveup.classList.remove('hidden')
@@ -128,8 +141,11 @@ function clientPlay(){
         tryAgain.classList.add('hidden')
         //se muestra el score
         score.textContent = 'Puntaje: ' + data.score
-        //aqui la logica para mostrar pantalla de puntaje   
-    }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+        //aqui la logica para mostrar pantalla de puntaje
+    }catch(err){
+        console.log(err)
+    }   
+    
 }
 
 //eventos para cada celda del tablero

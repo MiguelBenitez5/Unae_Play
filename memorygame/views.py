@@ -66,6 +66,7 @@ def play_game(request, position):
     request.session.modified = True
 
     response['position_1'] = request.session['memorygame']['position_1']
+    response['board'] = None
 
     return JsonResponse(response)
 

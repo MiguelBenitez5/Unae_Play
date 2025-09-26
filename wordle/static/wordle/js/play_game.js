@@ -23,11 +23,12 @@ function paintBoard(){
                 
                 for (let i = 1; i< 7; i++){
                     const row = document.createElement('div')
-                    row.classList.add('row-board')
+                    row.classList.add('row-board')                   
                     for(let j = 0; j< data.basic_data.word_len ; j++){
                         const cell = document.createElement('div')
                         cell.classList.add('cell')
                         cell.id = `${i}-${j}`
+                        board.appendChild(cell)
                         if(data.history){
                             console.log("Historial: ",data.history)
                             if(data.basic_data.tries >= i){
@@ -40,6 +41,7 @@ function paintBoard(){
                         }
                         row.appendChild(cell)
                     }
+
                     board.appendChild(row)
                 }
 
