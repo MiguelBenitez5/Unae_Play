@@ -24,15 +24,24 @@ function paintBoard(board){
     for (let row = 0; row < 3; row++ ){
         for (let col = 0; col < 3; col++ ){
             if(board[row][col] == 'X' || board[row][col] == '0'){
-                let content
+                let content;
                 switch (board[row][col]){
-                    case 'X': content = xmark; break
-                    case '0': content = circle; break
+                    case 'X': content = xmark; break;
+                    case '0': content = circle; break;
                 }
-                const cell = document.getElementById(`${row}-${col}`)
-                cell.innerHTML = content
-                cell.removeEventListener('click', clientPlay)
-                cell.classList.remove('empty')
+                const cell = document.getElementById(`${row}-${col}`);
+                cell.innerHTML = content;
+
+                // Animación: agrega clase appear
+                const icon = cell.querySelector('i');
+                if(icon){
+                    icon.classList.remove('appear');   // reinicia animación si es necesario
+                    void icon.offsetWidth;             // fuerza reflow
+                    icon.classList.add('appear');      // aplica animación
+                }
+
+                cell.removeEventListener('click', clientPlay);
+                cell.classList.remove('empty');
             }
         }
     }

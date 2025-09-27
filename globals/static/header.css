@@ -1,5 +1,11 @@
 @import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
-@import "../public/fonts/04B_30__.TTF";
+
+@font-face {
+    font-family: 'general-font';
+    src: url('fonts/04B_30__.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 :root {
     --primary: #6c5ce7;
@@ -27,7 +33,7 @@
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%236c5ce7" opacity="0.2" width="20" height="20"/></svg>') fixed, linear-gradient(to right, #352d36, #1e272e);
     color: var(--light);
     line-height: 1.6;
-    font-family: '04B_30__', monospace;
+    font-family: 'general-font', monospace;
     margin: 0;
     min-height: 100vh;
     display: flex;
@@ -78,7 +84,7 @@
     backdrop-filter: blur(4px);
     color: var(--text-color);
     font-size: 14px;
-    font-family: '04B_30__', monospace;
+    font-family: 'general-font', monospace;
     appearance: none; 
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
@@ -214,20 +220,6 @@
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-.img {
-    fill: var(--light);
-    padding: 0;
-    margin: 0;
-    display: inline-block;
-    vertical-align: middle;
-    width: 200px;
-    border-radius: 35px;
-    height: 200px;
-    padding: 10px;
-    object-fit: cover;
-    transition: 2s ease;
-}
-
 .icons-trophy {
     width: 70%;
     height: auto;
@@ -262,6 +254,103 @@
 
 .play-button:hover {
     background: var(--secondary);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-btn {
+    background: var(--primary);
+    color: var(--light);
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 2px solid var(--light);
+    font-family: 'general-font', monospace;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.img {
+    fill: var(--light);
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 5px;
+    padding: 10px;
+    object-fit: cover;
+    transition: 2s ease;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    border-radius: 20px;
+    background: var(--dark);
+    min-width: 220px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    overflow: hidden;
+    z-index: 100;
+    flex-direction: column;
+}
+
+.dropdown-item {
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+    background: var(--primary);
+}
+
+.submenu {
+    display: none;
+    flex-direction: column;
+    background: var(--dark);
+}
+
+/* Items del submenú */ 
+.submenu-item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer; 
+    color: var(--text-color); 
+    transition: background 0.2s ease; 
+}
+
+
+.dropdown-item .img,
+.submenu-item .img {
+    width: auto;
+    height: 40px; /* más compacta */
+    padding: 4px;  /* menos espacio alrededor */
+    object-fit: cover;
+}
+
+.submenu-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.delete {
+    color: #ff5c5c;
 }
 
 /* Footer */
@@ -299,7 +388,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 780px) {
     .hero-title {
         font-size: 2.5rem;
     }
@@ -320,5 +409,11 @@
     .nav-links {
         flex-wrap: wrap;
         justify-content: center;
+    }
+}
+
+@media (max-width: 380px) {
+    .menu-btn {
+        content: "<i class='fa-solid fa-bars'></i>";
     }
 }

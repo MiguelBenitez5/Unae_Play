@@ -20,10 +20,8 @@ function paintBoard(){
 
                 if (data.basic_data.tries) row_board = data.basic_data.tries + 1
                 if (data.basic_data.word_len) maxChars = data.basic_data.word_len 
-                
+
                 for (let i = 1; i< 7; i++){
-                    const row = document.createElement('div')
-                    row.classList.add('row-board')                   
                     for(let j = 0; j< data.basic_data.word_len ; j++){
                         const cell = document.createElement('div')
                         cell.classList.add('cell')
@@ -35,15 +33,16 @@ function paintBoard(){
                                 console.log(data.history[i]['result'][j].char)
                                 cell.textContent = data.history[`${i}`]['result'][`${j}`].char
                                 if (data.history[`${i}`]['result'][`${j}`].color === 'green') cell.classList.add('correct')
-                                else if (data.history[`${i}`]['result'][`${j}`].color === 'yellow') cell.classList.add('present')
+                                    else if (data.history[`${i}`]['result'][`${j}`].color === 'yellow') cell.classList.add('present')
                                 else cell.classList.add('absent')
-                            }
                         }
-                        row.appendChild(cell)
                     }
 
-                    board.appendChild(row)
+                    board.appendChild(cell)
+
                 }
+            }
+            board.style.gridTemplateColumns = `repeat(${data.basic_data.word_len}, 1fr)`
 
             }).catch(error => console.log('Ocurrio un error ', error)) 
 }

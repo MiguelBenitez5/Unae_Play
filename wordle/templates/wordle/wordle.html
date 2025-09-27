@@ -10,13 +10,15 @@
 {% block tittle %} Wordle {% endblock %}
 
 {% block game %}
-    <input type="text" class="my-input" autocomplete="off">
-    <p class="score">Puntaje: 0</p>
-    <p class="time">Tiempo transcurrido: </p>
-    <div class="container">
-        {% include 'wordle/word_board.html' %}
-        {% include 'wordle/keyboard.html' %}
-        <button class="new-word" type="button">Nueva palabra</button>
+    <div class="box">
+        <input type="text" class="my-input" autocomplete="off">
+        <p class="score">Puntaje: 0</p>
+        <p class="time">Tiempo transcurrido: </p>
+        <div class="container">
+            {% include 'wordle/word_board.html' %}
+            {% include 'wordle/keyboard.html' %}
+            <button class="new-word" type="button">Nueva palabra</button>
+        </div>
     </div>
 {% endblock %}
 
