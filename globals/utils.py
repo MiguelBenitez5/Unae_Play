@@ -11,7 +11,12 @@ def is_session_active(request):
     return True
 
 def render_homepage(request):
-    return render(request, 'index.html')
+    data = {}
+    if not is_session_active(request):
+        data['logged'] = False
+    else:
+        data['logged'] = True
+    return render(request, 'index.html', data)
 
 
 def save_score(request, game_name:str, score:int) -> None:

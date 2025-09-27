@@ -1,5 +1,5 @@
 .body {
-    font-family: Arial, sans-serif;
+    font-family: 'general-font', monospace;
     text-align: center;
     padding: 20px;
     width: 100%;
@@ -25,12 +25,13 @@
     cursor: pointer; 
     font-weight: bold;
     line-height: 40px;
-    background-color: #eee;
+    background-color: #343434;
     transition: background 0.3s, transform 0.2s;
     user-select: none;
 }
 
 .cell:not(.revealed):hover {
+    color: #343434;
     background-color: #ddd;
     transform: scale(1.1);
 }
