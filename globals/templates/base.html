@@ -11,7 +11,7 @@
     {% endblock %}
     <title>{% block title %}Un@e Play{% endblock %}</title>
 </head>
-<body>
+<body class='bg-body'>
     <section class="section">
         
         {% block header %}
@@ -27,9 +27,16 @@
         {% block footer %}
             {% include "footer.html" %}
         {% endblock %}
-    </section>
-    
+    </section> 
+  
+    {%block audio%}
+        <audio id="bg-music" autoplay muted loop hidden preload="metadata">
+            <source src="{% static 'music/4audio.wav' %}" type="audio/wav">
+        </audio>
+    {% endblock %}
+
     {% block script %}
+        <script src="{% static 'js/dropdown-btn.js' %}"></script>
     {% endblock %}
 </body>
 </html>

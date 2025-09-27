@@ -21,10 +21,15 @@
                 </select>
             </section>
             <a href="#" class="link">FAQ</a>
-            <a href="#" class="link">Botón Ejemplo</a>
+            <a href="#" class="link">Boton Ejemplo</a>
         </nav>
+  
+        {% if logged %}
+            {% include 'header-log.html' %}
+        {% else %}
         <section class="user-actions">
-            <a href="#" class="login-button link">Iniciar Sesión</a>
+            <a href="#" class="login-button link">Iniciar Sesion</a>
             <a href="#" class="register-button link">Registrarse</a>
         </section>
+        {% endif %}
     </header>

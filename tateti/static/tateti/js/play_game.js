@@ -24,15 +24,24 @@ function paintBoard(board){
     for (let row = 0; row < 3; row++ ){
         for (let col = 0; col < 3; col++ ){
             if(board[row][col] == 'X' || board[row][col] == '0'){
-                let content
+                let content;
                 switch (board[row][col]){
-                    case 'X': content = xmark; break
-                    case '0': content = circle; break
+                    case 'X': content = xmark; break;
+                    case '0': content = circle; break;
                 }
-                const cell = document.getElementById(`${row}-${col}`)
-                cell.innerHTML = content
-                cell.removeEventListener('click', clientPlay)
-                cell.classList.remove('empty')
+                const cell = document.getElementById(`${row}-${col}`);
+                cell.innerHTML = content;
+
+                // Animación: agrega clase appear
+                const icon = cell.querySelector('i');
+                if(icon){
+                    icon.classList.remove('appear');   // reinicia animación si es necesario
+                    void icon.offsetWidth;             // fuerza reflow
+                    icon.classList.add('appear');      // aplica animación
+                }
+
+                cell.removeEventListener('click', clientPlay);
+                cell.classList.remove('empty');
             }
         }
     }
@@ -43,16 +52,53 @@ function removeEvents(){
     cells.classList.remove('empty')
 }
 
-function restart_game(){
-    fetch('/tateti/action/restart')
-    .then(response => response.json())
-    .then(data =>{
+async function restart_game(){
+    try{
+        const response = await fetch('/tateti/action/restart')
+        if(!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
+        const data = await response.json()
+        
         console.log(data)
         cleanBoard()
         level.textContent = 'Nivel: Facil'
         nextLevel.classList.add('hidden')
         score.textContent = 'Puntaje: 0'
-    }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+async function next_level() {
+    try{
+        const response = await fetch('/tateti/action/nextlevel')
+        if (!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
+        const data = await response.json()
+        
+        console.log(data)
+
+        level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
+        cleanBoard()
+        if(data.hard_machine_move.board){
+            paintBoard(data.hard_machine_move.board)
+            console.log('hey')
+        }
+
+    }catch(err){
+        console.log(err)
+    }
+}
+
+async function give_up() {
+    try{
+        const response = await fetch('/tateti/giveup/')
+        if (!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
+        const data = await response.json()
+        
+        console.log(data)
+    }catch(err){
+        console.log(err)
+    }
 }
 
 //evento para el boton de siguiente nivel
@@ -84,11 +130,13 @@ giveup.addEventListener('click', function(){
             }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
 })
 
-function clientPlay(){
+async function clientPlay(){
     const starTime = Math.floor(Date.now()/1000)
-    fetch(`/tateti/${this.id}`)
-    .then(response => response.json())
-    .then(data =>{
+    try{
+        const response = await fetch(`/tateti/${this.id}`)
+        if (!response.ok) throw new Error('Error en la consulta con el servidor: '+ response.status)
+        const data = await response.json()
+
         let timeNow = Math.floor(Date.now()/1000)
         const elapsedTime = timeNow - starTime
         console.log('Primero: ', elapsedTime)
@@ -123,8 +171,11 @@ function clientPlay(){
         tryAgain.classList.add('hidden')
         //se muestra el score
         score.textContent = 'Puntaje: ' + data.score
-        //aqui la logica para mostrar pantalla de puntaje   
-    }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+        //aqui la logica para mostrar pantalla de puntaje
+    }catch(err){
+        console.log(err)
+    }   
+    
 }
 
 //eventos para cada celda del tablero

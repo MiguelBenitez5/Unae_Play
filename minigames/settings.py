@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'ahorcado',
     'buscaminas',
     'memorygame',
-    'piedrapapeltijera',
+    'questions'
 ]
 
 MIDDLEWARE = [

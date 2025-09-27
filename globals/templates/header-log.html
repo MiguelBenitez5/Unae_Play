@@ -1,0 +1,68 @@
+{% load static %}
+
+<div class="dropdown">
+  <button class="menu-btn">ajustes <i class="fas fa-caret-down"></i></button>
+  <div class="dropdown-content">
+    <div class="dropdown-item" onclick="toggleSubmenu('mascotas')">
+      <div></div> Cambiar Mascota <i class="fas fa-chevron-right"></i>
+    </div>
+    <div id="mascotas" class="submenu">
+      <div class="submenu-item"><img class="img" src="{% static 'img/carpincho-1.png'%}" alt="LASI"> <span>LASI</span>
+        <div></div>
+      </div>
+      <hr>
+      <div class="submenu-item"><img class="img" src="{% static 'img/conejo.png'%}" alt="ISEDE"> <span>ISEDE</span>
+        <div></div>
+      </div>
+      <hr>
+      <div class="submenu-item"><img class="img" src="{% static 'img/camaleon.png'%}" alt="FACAT"> <span>FACAT</span>
+        <div></div>
+      </div>
+      <hr>
+      <div class="submenu-item"><img class="img" src="{% static 'img/tucan.png'%}" alt="FACEM"> <span>FACEM</span>
+        <div></div>
+      </div>
+      <hr>
+      <div class="submenu-item"><img class="img" src="{% static 'img/serpiente.png'%}" alt="FACQUF"> <span>FACQUF</span>
+        <div></div>
+      </div>
+      <hr>
+      <div class="submenu-item"><img class="img" src="{% static 'img/caballo.png'%}" alt="FACVA"> <span>FACVA</span>
+        <div></div>
+      </div>
+      <hr>
+      <div class="submenu-item"><img class="img" src="{% static 'img/buho.png'%}" alt="FCJHS"> <span>FCJHS</span>
+        <div></div>
+      </div>
+      <hr>
+      <div class="submenu-item"><img class="img" src="{% static 'img/leopardo.png'%}" alt="COLONIAS">
+        <span>COLONIAS</span>
+        <div></div>
+      </div>
+    </div>
+
+    <!-- Sonido -->
+    <div class="dropdown-item" onclick="toggleSubmenu('sonido')">
+      <div></div>
+      Sonido <i class="fas fa-chevron-right"></i>
+    </div>
+    <div id="sonido" class="submenu">
+      <div class="submenu-item" id="music-toggle" style="cursor:pointer;">
+        Música: <span id="msg">On</span> 
+      </div>
+      <hr>
+      <div class="submenu-item">
+        Volumen 
+        <input type="range" id="volume-slider" min="0" max="100" value="50" class="slider">
+      </div>
+      <hr>
+    </div>
+
+    <div class="dropdown-item">
+      <div></div> Cerrar Sesión <div></div>
+    </div>
+    <div class="dropdown-item delete">
+      <div></div> Eliminar Cuenta <div></div>
+    </div>
+  </div>
+</div>

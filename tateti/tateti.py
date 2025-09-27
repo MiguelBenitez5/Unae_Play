@@ -295,92 +295,129 @@ class Tateti:
         En caso de que ninguno tenga una jugada ganadora, juega posicion aleatoria\n
         Retorna: True si realiza una "jugada inteligente" y False si no
         """
+        winning_lines = [
+            [(0,0),(0,1),(0,2)],
+            [(1,0),(1,1),(1,2)],
+            [(2,0),(2,1),(2,2)],
+            [(0,0),(1,0),(2,0)],
+            [(0,1),(1,1),(2,1)],
+            [(0,2),(1,2),(2,2)],
+            [(0,0),(1,1),(2,2)],
+            [(1,1),(0,2),(2,0)]
+        ]
+
+        #comprobando si la maquina puede ganar y tomar su oprtunidad
+        for line in winning_lines:
+            values = [self.__board[row][col] for row, col in line]
+            if values.count('0') == 2 and values.count(' ') == 1:
+                row, col = line[values.index(' ')]
+                self.__board[row][col] = '0'
+                return f'{row}-{col}'
         
-        for i in range(3):
-            ##Comprobar si la maquina esta a punto de ganar##
-            #comprobando filas
-            if (self.__board[i][0] == '0' and self.__board[i][1] == '0') or (self.__board[i][2] == '0' and self.__board[i][1] == '0') or (self.__board[i][0] == '0' and self.__board[i][2] == '0'):
-                if ' ' in self.__board[i]:
-                    index = self.__board[i].index(' ')
-                    self.__board[i][index] = '0'
-                    return f"{i}-{index}"
-            #comprobando columnas
-            if (self.__board[0][i] == '0' and self.__board[1][i] == '0') or (self.__board[2][i] == '0' and self.__board[1][i] == '0') or (self.__board[0][i] == '0' and self.__board[2][i] == '0'):
-                for f in range(3):    
-                    if self.__board[f][i] == ' ':
-                        self.__board[f][i] = '0'
-                        return f'{f}-{i}'
-            #comprobando diagonal principal
-            if self.__board[0][0] == '0' and self.__board[1][1] == '0':
-                if self.__board[2][2] == ' ':
-                    self.__board[2][2] = '0'
-                    return '2-2'
-            elif self.__board[2][2] == '0' and self.__board[1][1] == '0':
-                if self.__board[0][0] == ' ':
-                    self.__board[0][0] = '0'
-                    return '0-0'
-            elif self.__board[0][0] =='0' and self.__board[2][2] == '0':
-                if self.__board[1][1] == ' ':
-                    self.__board[1][1] = '0'
-                    return '1-1'  
-
-            #comprobando diagonal secundaria
-            if self.__board[0][2] == '0' and self.__board[2][0] == '0':
-                if self.__board[1][1] == ' ':
-                    self.__board[1][1] = '0'
-                    return '1-1'
-            elif self.__board[0][2] == '0' and self.__board[1][1] == '0':
-                if self.__board[2][0] == ' ':
-                    self.__board[2][0] = '0'
-                    return '2-0'
-            elif self.__board[2][0] =='0' and self.__board[1][1] == '0':
-                if self.__board[0][2] == ' ':
-                    self.__board[0][2] = '0'
-                    return '0-2'    
-            
-            ##Comprobar si el jugador esta a punto de ganar##
-            #comprobando filas
-            if (self.__board[i][0] == 'X' and self.__board[i][1] == 'X') or (self.__board[i][2] == 'X' and self.__board[i][1] == 'X') or (self.__board[i][0] == 'X' and self.__board[i][2] == 'X'):
-                if ' ' in self.__board[i]:
-                    index = self.__board[i].index(' ')
-                    self.__board[i][index] = '0'
-                    return f'{i}-{index}'
-            #comprobando columnas
-            if (self.__board[0][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[2][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[0][i] == 'X' and self.__board[2][i] == 'X'):
-                for f in range(3):    
-                    if self.__board[f][i] == ' ':
-                        self.__board[f][i] = '0'
-                        return f'{f}-{i}'
-            #comprobando diagonal principal
-            if self.__board[0][0] == 'X' and self.__board[1][1] == 'X':
-                if self.__board[2][2] == ' ':
-                    self.__board[2][2] = '0'
-                    return '2-2'
-            elif self.__board[2][2] == 'X' and self.__board[1][1] == 'X':
-                if self.__board[0][0] == ' ':
-                    self.__board[0][0] = '0'
-                    return '0-0'
-            elif self.__board[0][0] =='X' and self.__board[2][2] == 'X':
-                if self.__board[1][1] == ' ':
-                    self.__board[1][1] = '0'
-                    return '1-1'   
-
-            #comprobando diagonal secundaria
-            if self.__board[0][2] == 'X' and self.__board[2][0] == 'X':
-                if self.__board[1][1] == ' ':
-                    self.__board[1][1] = '0'
-                    return '1-1'
-            elif self.__board[0][2] == 'X' and self.__board[1][1] == 'X':
-                if self.__board[2][0] == ' ':
-                    self.__board[2][0] = '0'
-                    return '2-0'
-            elif self.__board[2][0] =='X' and self.__board[1][1] == 'X':
-                if self.__board[0][2] == ' ':
-                    self.__board[0][2] = '0'
-                    return '0-2'
-            
-        #si al finalizar el recorrido no se cumple ninguna retorna False
+        #comprobando si el jugador esta a punto de ganar y bloquear
+        for line in winning_lines:
+            values = [self.__board[row][col] for row, col in line]
+            if values.count('X') == 2 and values.count(' ') == 1:
+                row, col = line[values.index(' ')]
+                self.__board[row][col] = '0'
+                return f'{row}-{col}'
+        
         return False
+
+
+
+        # ##Comprobar si la maquina esta a punto de ganar##
+        # for i in range(3):        
+        #     #comprobando filas
+        #     if (self.__board[i][0] == '0' and self.__board[i][1] == '0') or (self.__board[i][2] == '0' and self.__board[i][1] == '0') or (self.__board[i][0] == '0' and self.__board[i][2] == '0'):
+        #         if ' ' in self.__board[i]:
+        #             index = self.__board[i].index(' ')
+        #             self.__board[i][index] = '0'
+        #             return f"{i}-{index}"
+                
+        # for i in range(3):
+        #     #comprobando columnas
+        #     if (self.__board[0][i] == '0' and self.__board[1][i] == '0') or (self.__board[2][i] == '0' and self.__board[1][i] == '0') or (self.__board[0][i] == '0' and self.__board[2][i] == '0'):
+        #         for f in range(3):    
+        #             if self.__board[f][i] == ' ':
+        #                 self.__board[f][i] = '0'
+        #                 return f'{f}-{i}'
+                    
+        # #comprobando diagonal principal
+        # if self.__board[0][0] == '0' and self.__board[1][1] == '0':
+        #     if self.__board[2][2] == ' ':
+        #         self.__board[2][2] = '0'
+        #         return '2-2'
+        # elif self.__board[2][2] == '0' and self.__board[1][1] == '0':
+        #     if self.__board[0][0] == ' ':
+        #         self.__board[0][0] = '0'
+        #         return '0-0'
+        # elif self.__board[0][0] =='0' and self.__board[2][2] == '0':
+        #     if self.__board[1][1] == ' ':
+        #         self.__board[1][1] = '0'
+        #         return '1-1'  
+
+        # #comprobando diagonal secundaria
+        # if self.__board[0][2] == '0' and self.__board[2][0] == '0':
+        #     if self.__board[1][1] == ' ':
+        #         self.__board[1][1] = '0'
+        #         return '1-1'
+        # elif self.__board[0][2] == '0' and self.__board[1][1] == '0':
+        #     if self.__board[2][0] == ' ':
+        #         self.__board[2][0] = '0'
+        #         return '2-0'
+        # elif self.__board[2][0] =='0' and self.__board[1][1] == '0':
+        #     if self.__board[0][2] == ' ':
+        #         self.__board[0][2] = '0'
+        #         return '0-2'    
+            
+        # ##Comprobar si el jugador esta a punto de ganar##
+        # for i in range(3):
+        #     #comprobando filas
+        #     if (self.__board[i][0] == 'X' and self.__board[i][1] == 'X') or (self.__board[i][2] == 'X' and self.__board[i][1] == 'X') or (self.__board[i][0] == 'X' and self.__board[i][2] == 'X'):
+        #         if ' ' in self.__board[i]:
+        #             index = self.__board[i].index(' ')
+        #             self.__board[i][index] = '0'
+        #             return f'{i}-{index}'
+        
+        # for i in range(3):
+        #     #comprobando columnas
+        #     if (self.__board[0][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[2][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[0][i] == 'X' and self.__board[2][i] == 'X'):
+        #         for f in range(3):    
+        #             if self.__board[f][i] == ' ':
+        #                 self.__board[f][i] = '0'
+        #                 return f'{f}-{i}'
+                    
+        # #comprobando diagonal principal
+        # if self.__board[0][0] == 'X' and self.__board[1][1] == 'X':
+        #     if self.__board[2][2] == ' ':
+        #         self.__board[2][2] = '0'
+        #         return '2-2'
+        # elif self.__board[2][2] == 'X' and self.__board[1][1] == 'X':
+        #     if self.__board[0][0] == ' ':
+        #         self.__board[0][0] = '0'
+        #         return '0-0'
+        # elif self.__board[0][0] =='X' and self.__board[2][2] == 'X':
+        #     if self.__board[1][1] == ' ':
+        #         self.__board[1][1] = '0'
+        #         return '1-1'   
+
+        # #comprobando diagonal secundaria
+        # if self.__board[0][2] == 'X' and self.__board[2][0] == 'X':
+        #     if self.__board[1][1] == ' ':
+        #         self.__board[1][1] = '0'
+        #         return '1-1'
+        # elif self.__board[0][2] == 'X' and self.__board[1][1] == 'X':
+        #     if self.__board[2][0] == ' ':
+        #         self.__board[2][0] = '0'
+        #         return '2-0'
+        # elif self.__board[2][0] =='X' and self.__board[1][1] == 'X':
+        #     if self.__board[0][2] == ' ':
+        #         self.__board[0][2] = '0'
+        #         return '0-2'
+            
+        # #si al finalizar no se cumple ninguna retorna False
+        # return False
 
     def __machineHard(self):
         """
