@@ -2,7 +2,6 @@
 window.onload = restart_game
 
 const cells = document.querySelectorAll(".cell")
-//parrafo de prueba, borrar luego
 const level = document.querySelector('.level')
 const nextLevel = document.querySelector('.next-level')
 const giveup = document.querySelector('.giveup')
@@ -30,7 +29,7 @@ function paintBoard(board){
                     case 'X': content = xmark; break
                     case '0': content = circle; break
                 }
-                const cell = document.getElementById(row+'-'+col)
+                const cell = document.getElementById(`${row}-${col}`)
                 cell.innerHTML = content
                 cell.removeEventListener('click', clientPlay)
                 cell.classList.remove('empty')
@@ -94,14 +93,33 @@ async function give_up() {
 }
 
 //evento para el boton de siguiente nivel
-nextLevel.addEventListener('click', next_level)
+nextLevel.addEventListener('click', function(){
+    fetch('/tateti/action/nextlevel')
+        .then(response => response.json())
+            .then(data =>{
+
+                console.log(data)
+
+                level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
+                cleanBoard()
+                if(data.hard_machine_move.board){
+                    // deberia haber dialogo
+                    paintBoard(data.hard_machine_move.board)
+                }
+            }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+})
 
 //evento para el boton de reiniciar partida
 reset.addEventListener('click', restart_game)
 
 //evento para el boton de rendirse
-giveup.addEventListener('click', give_up)
-   
+giveup.addEventListener('click', function(){
+    fetch('/tateti/giveup/')
+        .then(response => response.json())
+            .then(data =>{
+                // dialogo de rendicion y mostrar puntaje
+            }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
+})
 
 async function clientPlay(){
     const starTime = Math.floor(Date.now()/1000)
@@ -123,17 +141,20 @@ async function clientPlay(){
         //se pinta el tablero en cada jugada
         paintBoard(data.board)
         level.textContent = (data.level == 'easy')? 'Nivel: Facil' : (data.level == 'medium')? 'Nivel: Normal' : 'Nivel: Dificil'
-        //lugar para dialogos
+        // posible dialogo
         if(data.game_status == 'win'){
+            // dialogo de victoria 
             nextLevel.classList.remove('hidden')
         }else{
             nextLevel.classList.add('hidden')
         }
         if(data.game_status == 'draw'){
+            //posible dialogo
             tryAgain.classList.remove('hidden')
             return
         }
         if(data.game_status == 'defeat'){
+            //posible dialogo
             giveup.classList.add('hidden')
         }else{
             giveup.classList.remove('hidden')
