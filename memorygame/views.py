@@ -11,7 +11,7 @@ def render_page(request):
         return redirect('login')
     restart_game(request)
     init_game(request)
-    return render(request, 'memorygame/memorygame.html')
+    return render(request, 'memorygame/memorygame.html',{'logged': True})
 
 def play_game(request, position):
     try:
@@ -66,6 +66,7 @@ def play_game(request, position):
     request.session.modified = True
 
     response['position_1'] = request.session['memorygame']['position_1']
+    response['board'] = None
 
     return JsonResponse(response)
 

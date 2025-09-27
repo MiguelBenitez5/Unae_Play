@@ -26,6 +26,7 @@ function paintBoard(){
                         const cell = document.createElement('div')
                         cell.classList.add('cell')
                         cell.id = `${i}-${j}`
+                        board.appendChild(cell)
                         if(data.history){
                             console.log("Historial: ",data.history)
                             if(data.basic_data.tries >= i){
@@ -36,7 +37,9 @@ function paintBoard(){
                                 else cell.classList.add('absent')
                         }
                     }
+
                     board.appendChild(cell)
+
                 }
             }
             board.style.gridTemplateColumns = `repeat(${data.basic_data.word_len}, 1fr)`
