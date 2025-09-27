@@ -52,7 +52,7 @@ def game_page(request):
     """Renderiza la página principal del juego"""
     try:
         ensure_user_session(request)
-        return render(request, 'buscaminas.html')
+        return render(request, 'buscaminas.html', {'logged': True})
     except Exception as e:
         logger.error(f"Error en game_page: {e}")
         return JsonResponse({"error": str(e)}, status=500)
