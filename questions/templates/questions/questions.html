@@ -13,12 +13,10 @@
         {% include 'questions/questions-header.html' %}
         {% include 'questions/question-container.html' %}
         {% include 'questions/question-footer.html' %}
-        <audio autoplay loop hidden preload="metadata" >
-            <source src="{% static 'music/Posible intro (1).wav' %}" type="audio/wav">
-        </audio>
     </div>
 {% endblock %}
 
 {% block script %}
-    <link rel="stylesheet" href="{% static 'questions/js/play_game.js' %}">
+    {{block.super }}
+    <script src="{% static 'questions/js/play_game.js' %}"></script> 
 {% endblock %}

@@ -30,7 +30,7 @@ def request_question(request):
         'question_info' : None,
         'tries'         : 0,
         'percent'       : 0,
-        'backlist'      : []
+        'blacklist'      : []
     })
     sessiondata = request.session.get('questions')
     if sessiondata:

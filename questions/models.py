@@ -12,4 +12,9 @@ class Questions(models.Model):
 
     class Meta:
         db_table = 'questions'
+        verbose_name = 'Pregunta'
+        verbose_name_plural = 'Preguntas'
+    
+    def __str__(self):
+        return f'{self.question}'
     

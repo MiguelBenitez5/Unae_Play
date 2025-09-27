@@ -40,7 +40,7 @@ class QuestionsGame:
             blacklist.append(question.id)
             self.__correct_answer = question.correct_answer
             self.__question_info = question.question_info
-            answer_list = [self.correct_answer, question.false_answer_1, question.false_answer_2, question.false_answer_3]
+            answer_list = [self.__correct_answer, question.false_answer_1, question.false_answer_2, question.false_answer_3]
             random.shuffle(answer_list)
             answers_random_order = {}
             #se obtiene un diccionario en orden aleatorio con las posiciones de las respuestas
