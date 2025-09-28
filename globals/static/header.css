@@ -188,16 +188,17 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 1100px;
+    width: 100%;
     height: 5px;
     background: var(--gradient);
     border-radius: 2px;
 }
 
 .games-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
-    gap: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
 .game-card {
@@ -244,23 +245,6 @@
     min-height: 60px;
 }
 
-.play-button {
-    display: block;
-    margin: 0 20px 20px;
-    text-align: center;
-    background: var(--primary);
-    box-shadow: 0 4px 14px 0 rgba(108, 92, 231, 0.4);
-}
-
-.play-button:hover {
-    background: var(--secondary);
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
 .menu-btn {
     background: var(--primary);
     color: var(--light);
@@ -289,17 +273,28 @@
     transition: 2s ease;
 }
 
+.dropdown {
+    position: relative; 
+    display: flex;      
+    justify-content: flex-end; 
+}
+
 .dropdown-content {
     display: none;
     position: absolute;
+    top: calc(100% + 8px);
     right: 0;
-    border-radius: 20px;
+    left: auto;            
+    border-radius: 12px;
     background: var(--dark);
-    min-width: 220px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    overflow: hidden;
+    width: max-content;    
+    max-width: 90vw;       
+    box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    overflow: auto;
+    max-height: 60vh;
     z-index: 100;
     flex-direction: column;
+    padding: 6px 0;
 }
 
 .dropdown-item {
@@ -319,12 +314,12 @@
 }
 
 .submenu {
-    display: none;
+    display: flex;
     flex-direction: column;
     background: var(--dark);
 }
 
-/* Items del submenú */ 
+
 .submenu-item { 
     display: flex; 
     justify-content: space-between; 
@@ -340,8 +335,8 @@
 .dropdown-item .img,
 .submenu-item .img {
     width: auto;
-    height: 40px; /* más compacta */
-    padding: 4px;  /* menos espacio alrededor */
+    height: 40px; 
+    padding: 4px;  
     object-fit: cover;
 }
 
@@ -353,17 +348,18 @@
     color: #ff5c5c;
 }
 
-/* Footer */
+
 .footer {
     background-color: var(--primary);
     text-align: center;
     border-top: 2px solid var(--secondary);
     margin-top: auto;
-    padding: 30px;
+    font-size: 16px;
+    padding: 20px;
     color: var(--light);
 }
 
-/* Animaciones */
+
 @keyframes fadeIn {
     from { 
         opacity: 0; 
@@ -387,33 +383,59 @@
     }
 }
 
-/* Responsive */
-@media (max-width: 780px) {
-    .hero-title {
-        font-size: 2.5rem;
+/* Responsividad para tablets y móviles */
+@media (max-width: 768px) {
+    .dropdown-content {
+        position: fixed;
+        top: 56px; /* debajo del header */
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-width: none;
+        max-height: 70vh;
+        border-radius: 8px;
+        padding: 4px 0; /* menos padding general */
     }
-    
-    .hero-subtitle {
-        font-size: 1.2rem;
+
+    .dropdown-item {
+        font-size: 14px;    /* más chico que desktop */
+        padding: 6px 8px;   /* más compacto */
     }
-    
-    .games-grid {
-        grid-template-columns: 1fr;
+
+    .submenu-item {
+        font-size: 13px;
+        padding: 5px 8px;
     }
-    
-    .navbar {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
+
+    .dropdown-item .img,
+    .submenu-item .img {
+        height: 28px;  /* más chico en móviles */
+        padding: 2px;
     }
 }
 
-@media (max-width: 380px) {
-    .menu-btn {
-        content: "<i class='fa-solid fa-bars'></i>";
+/* Extra pequeño (pantallas <480px) */
+@media (max-width: 480px) {
+    .dropdown-content {
+        top: 50px;
+        left: 8px;
+        right: 8px;
+        border-radius: 6px;
+        padding: 2px 0;
+    }
+
+    .dropdown-item {
+        font-size: 13px;
+        padding: 5px 6px;
+    }
+
+    .submenu-item {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+
+    .dropdown-item .img,
+    .submenu-item .img {
+        height: 24px; 
     }
 }

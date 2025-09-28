@@ -3,6 +3,12 @@
 {% block title %}Inicio | Un@e Play{% endblock %}
 
 {% block content %}
-    <h1>Bienvenido a Unae Play 🎮</h1>
-    <p>Tu plataforma de juegos favorita.</p>
+    <main class="main-content">
+        <section class="hero-section">
+            <h1 class="hero-title">Bienvenido a Unae Play</h1>
+            <p class="hero-subtitle">Tu plataforma de juegos favorita</p>
+        </section>
+
+        {% include 'landing/prizes.html' %}
+    </main>
 {% endblock %}
