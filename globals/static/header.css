@@ -278,13 +278,6 @@
     transition: 2s ease;
 }
 
-.dropdown {
-    position: relative; 
-    display: flex;      
-    justify-content: flex-end; 
-}
-
-/* Desktop / pantallas grandes */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -293,13 +286,25 @@
   border-radius: 12px;
   background: var(--dark);
   min-width: 220px;
-  max-width: calc(100vw - 24px);
+  max-width: 300px;
+  width: auto !important; 
   box-shadow: 0 8px 16px rgba(0,0,0,0.25);
   overflow: auto;
   max-height: 60vh;
   z-index: 100;
   flex-direction: column;
   padding: 6px 0;
+}
+
+.submenu-item.active-pet {
+  background: rgba(255,255,255,0.2);
+  border-left: 4px solid #fff;
+}
+
+.dropdown {
+  position: relative; 
+  display: inline-flex; 
+  justify-content: flex-end;
 }
 
 .dropdown-item {
@@ -390,7 +395,7 @@
 
 @media (max-width: 768px) {
   html {
-    font-size: 14px; /* achica todo proporcional */
+    font-size: 14px; 
   }
 }
 @media (max-width: 480px) {
@@ -399,7 +404,7 @@
   }
 }
 
-/* Navbar más compacto en móvil */
+
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: wrap;
@@ -418,20 +423,20 @@
 
 @media (max-width: 768px) {
   .dropdown-content {
-    position: fixed;        /* se pega a la pantalla */
-    top: 60px;              /* espacio para el botón de arriba */
+    position: fixed;
+    top: 60px;
     left: 0;
     right: 0;
-    width: 100%;            /* ocupa todo el ancho */
+    width: 100%;
     max-width: none;
     max-height: calc(100vh - 60px);
-    border-radius: 0;       /* sin bordes redondeados para tipo panel */
+    border-radius: 0;
     padding: 10px 0;
   }
 
   .dropdown-item {
-    font-size: 16px;        /* texto más legible */
-    padding: 12px;          /* más espacio para dedo */
+    font-size: 16px;
+    padding: 12px;
     justify-content: flex-start;
     gap: 10px;
   }
@@ -442,55 +447,10 @@
   }
 
   .submenu-item .img {
-    height: 32px; /* más chico para no ocupar tanto */
+    height: 32px;
   }
 }
 
-@media (max-height: 1220px) {
-  .dropdown-content {
-    position: fixed;        /* se pega a la pantalla */
-    top: 60px;              /* espacio para el botón de arriba */
-    left: 0;
-    right: 0;
-    width: 100%;            /* ocupa todo el ancho */
-    max-width: none;
-    max-height: calc(100vh - 60px);
-    border-radius: 0;       /* sin bordes redondeados para tipo panel */
-    padding: 10px 0;
-  }
-
-  .dropdown-item {
-    font-size: 16px;        /* texto más legible */
-    padding: 12px;          /* más espacio para dedo */
-    justify-content: flex-start;
-    gap: 10px;
-  }
-
-  .submenu-item {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .submenu-item .img {
-    height: 32px; /* más chico para no ocupar tanto */
-  }
-
-  .navbar {
-    flex-wrap: wrap;
-    padding: 10px;
-    gap: 10px;
-  }
-  .nav-links {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .nav-link {
-    padding: 6px 10px;
-    font-size: 0.9rem;
-  }
-}
-
-/* Hero section más compacta */
 @media (max-width: 768px) {
   .hero-section {
     padding: 60px 15px;
@@ -514,7 +474,7 @@
   }
 }
 
-/* Games grid: pasa a columna en móvil */
+
 @media (max-width: 768px) {
   .games-grid {
     flex-direction: column;
@@ -527,10 +487,17 @@
   }
 }
 
-/* Footer fuente más pequeña */
+
 @media (max-width: 480px) {
   .footer {
     font-size: 0.8rem;
     padding: 12px;
+  }
+}
+
+@media (max-height: 1220px) and (min-width: 769px) {
+  
+  .dropdown-content {
+    max-height: 400px; 
   }
 }
