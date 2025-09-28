@@ -1,4 +1,4 @@
-/* app/piedrapapeltijera/static/piedrapapeltijera/css/game.css */
+/* app/piedrapapeltijera/static/piedrapapeltijera/css/game.css
 
 .game-box {
     text-align: center;
@@ -26,4 +26,105 @@
 
 .footer-game {
     text-align: right;
+} */
+ /* static/piedrapapeltijera/css/game.css */
+
+.game-box {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-game {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.header-game h2 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.header-game button.reset {
+    background: #ff5252;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.header-game button.reset:hover {
+    background: #ff1744;
+}
+
+.score {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.game-area {
+    margin-top: 1rem;
+}
+
+.choices {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.choice-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    background: white;
+    color: #007bff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.choice-btn:hover {
+    background: #007bff;
+    color: white;
+}
+
+.stats p {
+    margin: 0.3rem 0;
+    font-size: 1rem;
+    color: #444;
+}
+
+.footer-game {
+    margin-top: 2rem;
+}
+
+button.giveup {
+    background: #ff9800;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button.giveup:hover {
+    background: #fb8c00;
+}
+
+#result-message {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 1rem;
 }
