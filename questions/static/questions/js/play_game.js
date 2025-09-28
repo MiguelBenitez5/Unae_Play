@@ -8,38 +8,55 @@ const giveup_btn = document.querySelector('.giveup-btn')
 const reload_btn = document.querySelector('.reload-btn')
 const question = document.querySelector('.question')
 const modal_window = document.querySelector('.modal')
+const dialogText = document.querySelector('.dialogue-text')
+
+timer_interval = null
 
 const timer_default_color = '#333'
 const timer_warning_color = '#f20'
 
+/***
+ * Obtener el CSFR token para enviar datos por post
+ */
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
-let difficulty = 'easy'
-let timer_count = 60
-let level_display = 'Fácil'
-let percent_display = '0 %'
-let questions_count = 1
-let question_count_display = `${questions_count}/15`
-let timer_interval = null
-
-let tries = 1
-
+const csrftoken = getCookie("csrftoken");
 
 window.onload =  first_events_for_answers
 
-async function new_question(){
+// se obtiene una nueva pregunta y se muestra en pantalla
+async function new_question(){ 
+    dialogText.textContent = '...'
     repaint_answers()
-    startCounting(difficulty)
     add_events_for_answers()
     show_give_up_button()
-    question_count.textContent = question_count_display
-    level.textContent = level_display
-    percent.textContent = percent_display
     try{
         const response = await fetch('/questions/action/request')
         if (!response.ok) throw new Error("Error en la respuesta del servidor: "+response.status)
         const data = await response.json()
         console.log(data)
+        // comenzar el temporizador
+        startCounting(data.level)
+        // mostrar nivel actual
+        level.textContent = get_level(data.level)
+        // mostrar cantidad de preguntas respondidas
+        question_count.textContent = `${(data.tries)+1}/15`
+        // mostrar la pregunta
         question.textContent = data.question
+        // mostrar opciones de respuesta
         paint_answers(data.answers)
     }catch(err){
         console.log(err)
@@ -59,24 +76,42 @@ function repaint_answers(){
 }
 
 async function answer_question(answer) {
+    // se envia la respuesta del jugador por metodo POST
+    const formData = new FormData()
+    formData.append('answer',answer)
     try{
-        const response = await fetch(`/questions/${answer}`)
+        const response = await fetch(`/questions/answer`, {
+            method : 'POST',
+            headers : {
+                "X-CSRFToken" : csrftoken
+            },
+            body   : formData
+        })
         if (!response.ok) throw new Error("Error en la respuesta del servidor: "+response.status)
         const data = await response.json()
         console.log(data)
-        tries = data.tries+1
-        difficulty = data.level
-        level_display = get_level()
-        questions_count++
-        percent_display = `${data.percent} %`
-
-        if (data.game_status){
-            if (data.game_status == 'end'){
-                show_modal()
-                // lugar para dialogos
+        if (data.percent){
+            percent.textContent = `${data.percent} %`
+            if (data.percent >= 60){
+                percent.style.color = '#4e2'
             }
         }
-
+        if (data.game_status){
+            if (data.game_status == 'win'){
+                // lugar para dialogo final de victoria
+                show_modal()
+                show_restart_button()
+                return data
+            }else{
+                // dialogos de derrota
+                show_modal()
+                show_restart_button()
+                return data
+            }
+        }
+        // mostrar dialogo de la descripcion de la pregunta
+        dialogText.textContent = data.question_info
+        show_next_button()
         return data
 
     }catch(err){
@@ -108,14 +143,7 @@ function run_timer(start_time){
         if (timer_count <= 0){
             clearInterval(timer_interval)
             answer_question('out_of_time')
-            // lugar para dialogo
             remove_events_from_answers()
-            if (tries >= 15){ 
-                show_restart_button()
-                show_modal()
-            }
-            else show_next_button()
-            return
         }
         if (timer_count <= 5){
             timer.style.color = timer_warning_color
@@ -167,33 +195,14 @@ function show_modal(){
     }, 1500)
 }
 
-async function answer_question_handler(event){
-    const response = await answer_question(event.currentTarget.children[1].textContent)
-    if (response.status === 'correct'){
-        event.target.classList.add('correct')
-    }else{
-        event.target.classList.add('incorrect')
-        answers.forEach(answer=>{
-            if(answer.children[1].textContent === response.correct_option){
-                answer.classList.add('correct')
-            }
-        })
-    }
-    remove_events_from_answers()
-    show_next_button()
-}
-
-function get_level(){
-    switch(difficulty){
+function get_level(level){
+    switch(level){
         case "easy":
-            level_display = 'Fácil'
-            break
+            return 'Fácil'
         case "medium":
-            level_display = 'Normal'
-            break
+            return 'Normal'
         case "hard":
-            level_display = 'Difícil'
-            break
+            return 'Difícil'
     }
 }
 
@@ -203,6 +212,8 @@ function add_events_for_answers(){
         answer.removeEventListener('click', new_question)
         answer.onclick = async () => {
             stopCounting()
+            remove_events_from_answers()
+            show_next_button()
             const response = await answer_question(answer.children[1].textContent)
             if (response.status === 'correct'){
                 answer.classList.add('correct')
@@ -214,8 +225,12 @@ function add_events_for_answers(){
                     }
                 })
             }
-            remove_events_from_answers()
-            show_next_button()
+            if (response.game_status){
+                if (response.game_status === 'end'){
+                    show_restart_button()
+                    return
+                }
+            }
         }
         answer.classList.add('active')
     })
