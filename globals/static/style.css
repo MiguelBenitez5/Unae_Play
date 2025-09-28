@@ -33,7 +33,6 @@ y de esta forma el footer quedara debajo siempre  */
 /* Estilos para base_game */
 .game {
     flex-grow: 6;
-    background-color: red;
     display: flex;
     justify-content: center;
     padding: 10px 10px;
@@ -41,7 +40,6 @@ y de esta forma el footer quedara debajo siempre  */
 
 .char {
     flex-grow: 1;
-    background-color: yellow;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,6 +69,7 @@ y de esta forma el footer quedara debajo siempre  */
 .dialogue-text{
     display: flex;
     justify-content: end;
+    text-align: end;
     align-items: center;
     flex: 4 1 60%;
 }

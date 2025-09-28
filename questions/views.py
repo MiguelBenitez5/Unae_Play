@@ -10,10 +10,7 @@ def render_page(request):
     if not is_session_active(request):
         return redirect('login')
     restart_game(request)
-    return render(request, 'questions/questions.html')
-
-
-
+    return render(request, 'questions/questions.html', {"logged": True})
 
 def restart_game(request):
     request.session.pop('questions', None)
@@ -49,12 +46,24 @@ def request_question(request):
     })
 
 
-def answer_question(request, answer):
+def answer_question(request):
     sessiondata = request.session.get('questions')
     if not sessiondata:
         return JsonResponse({
             'status' : 'error',
             'message': 'No existen datos de sesion del juego'
+        })
+    if not request.method == 'POST':
+        return JsonResponse({
+            'status' : 'error',
+            'message': 'El metodo no es post'
+        })
+    
+    answer = request.POST.get('answer')
+    if not answer:
+        return JsonResponse({
+            'status' : 'error',
+            'message': 'No se ha recibido una respuesta del usuario'
         })
 
     questions = QuestionsGame(sessiondata)
@@ -73,3 +82,19 @@ def answer_question(request, answer):
     
 
     return JsonResponse(response)
+
+"""
+Si el usuario decide rendirse, se guarda su puntaje y
+se envian sus puntajes para ser visualizados
+"""
+def give_up(request):
+    questions_data = request.session.get('questions')
+    if not questions_data:
+        return JsonResponse({
+            'status' : 'error',
+            'message': 'No hay datos en sesion'
+        })
+    response = {}
+    response['score'] = questions_data.get('score',0)
+    save_score(request, 'questions', response['score'])
+    return JsonResponse({'score': response})
