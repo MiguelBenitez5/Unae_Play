@@ -188,16 +188,18 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 1100px;
+    width: 100%;
     height: 5px;
     background: var(--gradient);
     border-radius: 2px;
 }
 
 .games-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
-    gap: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .game-card {
@@ -208,7 +210,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-basis: 150px;
+    flex-shrink: 1;
     text-align: center;
+    min-height: 250px;
+    flex-grow: 1;
     padding: 25px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: var(--shadow);
@@ -244,23 +250,6 @@
     min-height: 60px;
 }
 
-.play-button {
-    display: block;
-    margin: 0 20px 20px;
-    text-align: center;
-    background: var(--primary);
-    box-shadow: 0 4px 14px 0 rgba(108, 92, 231, 0.4);
-}
-
-.play-button:hover {
-    background: var(--secondary);
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
 .menu-btn {
     background: var(--primary);
     color: var(--light);
@@ -289,17 +278,28 @@
     transition: 2s ease;
 }
 
+.dropdown {
+    position: relative; 
+    display: flex;      
+    justify-content: flex-end; 
+}
+
+/* Desktop / pantallas grandes */
 .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    border-radius: 20px;
-    background: var(--dark);
-    min-width: 220px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    overflow: hidden;
-    z-index: 100;
-    flex-direction: column;
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  border-radius: 12px;
+  background: var(--dark);
+  min-width: 220px;
+  max-width: calc(100vw - 24px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  overflow: auto;
+  max-height: 60vh;
+  z-index: 100;
+  flex-direction: column;
+  padding: 6px 0;
 }
 
 .dropdown-item {
@@ -319,12 +319,12 @@
 }
 
 .submenu {
-    display: none;
+    display: flex;
     flex-direction: column;
     background: var(--dark);
 }
 
-/* Items del submenú */ 
+
 .submenu-item { 
     display: flex; 
     justify-content: space-between; 
@@ -340,8 +340,8 @@
 .dropdown-item .img,
 .submenu-item .img {
     width: auto;
-    height: 40px; /* más compacta */
-    padding: 4px;  /* menos espacio alrededor */
+    height: 40px; 
+    padding: 4px;  
     object-fit: cover;
 }
 
@@ -353,17 +353,18 @@
     color: #ff5c5c;
 }
 
-/* Footer */
+
 .footer {
     background-color: var(--primary);
     text-align: center;
     border-top: 2px solid var(--secondary);
     margin-top: auto;
-    padding: 30px;
+    font-size: 16px;
+    padding: 20px;
     color: var(--light);
 }
 
-/* Animaciones */
+
 @keyframes fadeIn {
     from { 
         opacity: 0; 
@@ -387,33 +388,149 @@
     }
 }
 
-/* Responsive */
-@media (max-width: 780px) {
-    .hero-title {
-        font-size: 2.5rem;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.2rem;
-    }
-    
-    .games-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .navbar {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* achica todo proporcional */
+  }
+}
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
 }
 
-@media (max-width: 380px) {
-    .menu-btn {
-        content: "<i class='fa-solid fa-bars'></i>";
-    }
+/* Navbar más compacto en móvil */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 10px;
+    gap: 10px;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .nav-link {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dropdown-content {
+    position: fixed;        /* se pega a la pantalla */
+    top: 60px;              /* espacio para el botón de arriba */
+    left: 0;
+    right: 0;
+    width: 100%;            /* ocupa todo el ancho */
+    max-width: none;
+    max-height: calc(100vh - 60px);
+    border-radius: 0;       /* sin bordes redondeados para tipo panel */
+    padding: 10px 0;
+  }
+
+  .dropdown-item {
+    font-size: 16px;        /* texto más legible */
+    padding: 12px;          /* más espacio para dedo */
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .submenu-item {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .submenu-item .img {
+    height: 32px; /* más chico para no ocupar tanto */
+  }
+}
+
+@media (max-height: 1220px) {
+  .dropdown-content {
+    position: fixed;        /* se pega a la pantalla */
+    top: 60px;              /* espacio para el botón de arriba */
+    left: 0;
+    right: 0;
+    width: 100%;            /* ocupa todo el ancho */
+    max-width: none;
+    max-height: calc(100vh - 60px);
+    border-radius: 0;       /* sin bordes redondeados para tipo panel */
+    padding: 10px 0;
+  }
+
+  .dropdown-item {
+    font-size: 16px;        /* texto más legible */
+    padding: 12px;          /* más espacio para dedo */
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .submenu-item {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .submenu-item .img {
+    height: 32px; /* más chico para no ocupar tanto */
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    padding: 10px;
+    gap: 10px;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .nav-link {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Hero section más compacta */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 15px;
+  }
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 40px 10px;
+  }
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Games grid: pasa a columna en móvil */
+@media (max-width: 768px) {
+  .games-grid {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .game-card {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+/* Footer fuente más pequeña */
+@media (max-width: 480px) {
+  .footer {
+    font-size: 0.8rem;
+    padding: 12px;
+  }
 }

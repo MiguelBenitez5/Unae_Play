@@ -1,26 +1,32 @@
 <header class="navbar">
         <section class="logo">
-            <a href="#" target="_self" class="link">Unae <i class="fas fa-gamepad"></i> Play</a>
+            <a href="../../../" target="_self" class="link">Unae <i class="fas fa-gamepad"></i> Play</a>
         </section>
         <nav class="nav-links">       
             <section class="select-container">
                 <select id="juegos" onchange="if(this.value) window.location.href=this.value;">
                     <option value="" selected> 🎮 JUEGOS</option>
-                    <option value="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/">
-                        Counter Strike
+                    <option value="/buscaminas">
+                        Buscaminas
                     </option>
-                    <option value="https://store.steampowered.com/app/570/Dota_2/">
-                        Dota 2
+                    <option value="/ahorcado">
+                        Ahorcado
                     </option>
-                    <option value="https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/">
-                        GTA V
+                    <option value="/memorygame">
+                        Juego de Memoria
                     </option>
-                    <option value="https://store.steampowered.com/app/1172470/Apex_Legends/">
-                        Apex Legends
+                    <option value="/piedrapapeltijera">
+                        Piedra, Papel o Tijeras
+                    </option>
+                    <option value="/tateti">
+                        Tateti
+                    </option>
+                    <option value="/wordle">
+                        Wordle
                     </option>
                 </select>
             </section>
-            <a href="#" class="link">FAQ</a>
+            <a href="/FAQ" class="link">FAQ</a>
             <a href="#" class="link">Boton Ejemplo</a>
         </nav>
   
@@ -28,8 +34,8 @@
             {% include 'header-log.html' %}
         {% else %}
         <section class="user-actions">
-            <a href="#" class="login-button link">Iniciar Sesion</a>
-            <a href="#" class="register-button link">Registrarse</a>
+            <a href="/accounts/login" class="login-button link">Iniciar Sesion</a>
+            <a href="/accounts/register" class="register-button link">Registrarse</a>
         </section>
         {% endif %}
     </header>
