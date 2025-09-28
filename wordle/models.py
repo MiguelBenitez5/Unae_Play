@@ -10,6 +10,8 @@ class WordleWord(models.Model):
 
     class Meta:
         db_table = 'wordle_words'
+        verbose_name = 'Palabra'
+        verbose_name_plural = 'Palabras'
     
     def __str__(self):
         return self.word
