@@ -49,7 +49,9 @@ class QuestionsGame:
             return {
                 'question' : question.question,
                 'answers'  : answers_random_order,
-                'blacklist': blacklist
+                'blacklist': blacklist,
+                'tries'    : self.__tries,
+                'level'    : self.__level,
             }
     
 
@@ -74,7 +76,7 @@ class QuestionsGame:
 
         response['percent'] = self.__persent
         response['level'] = self.__level
-        response['questio_info'] = self.__question_info
+        response['question_info'] = self.__question_info
         response['score'] = self.__score
 
         match self.__level:
