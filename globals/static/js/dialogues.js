@@ -33,10 +33,10 @@ random_dialog()
 
 // leer el localstorage para designar
 function get_char_img(){
-    const ussersettings = localStorage.getItem('usersettings')
+    const ussersettings = localStorage.getItem('theme')
     if (ussersettings){
         userpet = JSON.parse(ussersettings)
-        switch(userpet.pet){
+        switch(userpet){
             case "LASI":
                 return {
                     normal_pose : '/static/img/carpincho-1.png',
@@ -76,6 +76,11 @@ function get_char_img(){
                 return {
                     normal_pose : '/static/img/conejo.png',
                     talk_pose   : '/static/img/ISEDE_TALK.png'
+                }
+            default :
+                return {
+                    normal_pose : '/static/img/carpincho-1.png',
+                    talk_pose   : '/static/img/LASI_TALK.png'
                 }
         }
     }else{
