@@ -11,6 +11,8 @@ const tryAgain = document.querySelector('.try-again')
 
 const circle = '<i class="fa-regular fa-circle" style="color: #cb151e;"></i>'
 const xmark = '<i class="fa-solid fa-xmark" style="color: #0c7b0a;"></i>'
+const resetBtn = '<i class="fa-solid fa-rotate-right" style="color: #fff; font-size: 26px;"></i>'
+const resetBtnHover = '<i class="fa-solid fa-rotate-right fa-spin" style="color: #ffffff; font-size: 26px;"></i>'
 
 function cleanBoard(){
     cells.forEach(cell =>{
@@ -48,8 +50,11 @@ function paintBoard(board){
 }
 
 function removeEvents(){
-    cells.removeEventListener('click', clientPlay)
-    cells.classList.remove('empty')
+    cells.forEach(cell =>{
+        cell.removeEventListener('click', clientPlay)
+        cell.classList.remove('empty')
+    })
+    
 }
 
 async function restart_game(){
@@ -60,9 +65,10 @@ async function restart_game(){
         
         console.log(data)
         cleanBoard()
-        level.textContent = 'Nivel: Facil'
+        level.textContent = 'Facil'
         nextLevel.classList.add('hidden')
-        score.textContent = 'Puntaje: 0'
+        resetCountingTimer()
+
     }
     catch(err){
         console.log(err)
@@ -77,7 +83,7 @@ async function next_level() {
         
         console.log(data)
 
-        level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
+        level.textContent = data.level == 'easy'? 'Facil' : data.level == 'medium'? 'Normal' : 'Dificil'
         cleanBoard()
         if(data.hard_machine_move.board){
             paintBoard(data.hard_machine_move.board)
@@ -91,10 +97,10 @@ async function next_level() {
 
 async function give_up() {
     try{
-        const response = await fetch('/tateti/giveup/')
+        const response = await fetch('/tateti/action/giveup/')
         if (!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
         const data = await response.json()
-        
+        // 
         console.log(data)
     }catch(err){
         console.log(err)
@@ -109,7 +115,7 @@ nextLevel.addEventListener('click', function(){
 
                 console.log(data)
 
-                level.textContent = data.level == 'easy'? 'Nivel: Facil' : data.level == 'medium'? 'Nivel: Normal' : 'Nivel: Dificil'
+                level.textContent = data.level == 'easy'? 'Facil' : data.level == 'medium'? 'Normal' : 'Dificil'
                 cleanBoard()
                 if(data.hard_machine_move.board){
                     // deberia haber dialogo
@@ -122,13 +128,7 @@ nextLevel.addEventListener('click', function(){
 reset.addEventListener('click', restart_game)
 
 //evento para el boton de rendirse
-giveup.addEventListener('click', function(){
-    fetch('/tateti/giveup/')
-        .then(response => response.json())
-            .then(data =>{
-                // dialogo de rendicion y mostrar puntaje
-            }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
-})
+giveup.addEventListener('click', give_up)
 
 async function clientPlay(){
     const starTime = Math.floor(Date.now()/1000)
@@ -149,11 +149,15 @@ async function clientPlay(){
         }
         //se pinta el tablero en cada jugada
         paintBoard(data.board)
-        level.textContent = (data.level == 'easy')? 'Nivel: Facil' : (data.level == 'medium')? 'Nivel: Normal' : 'Nivel: Dificil'
+        level.textContent = (data.level == 'easy')? 'Facil' : (data.level == 'medium')? 'Normal' : 'Dificil'
         // posible dialogo
         if(data.game_status == 'win'){
             // dialogo de victoria 
             nextLevel.classList.remove('hidden')
+            if (data.level == 'hard'){
+                // aqui se muestra
+                stopCountingTimer() 
+            }
         }else{
             nextLevel.classList.add('hidden')
         }
@@ -179,6 +183,16 @@ async function clientPlay(){
 }
 
 //eventos para cada celda del tablero
+
 cells.forEach(cell =>{
     cell.addEventListener("click", clientPlay )
+})
+
+// eventos para animacion del boton de reinicio
+reset.addEventListener('mouseenter', ()=>{
+    reset.innerHTML = resetBtnHover
+})
+
+reset.addEventListener('mouseleave', ()=>{
+    reset.innerHTML = resetBtn
 })
