@@ -14,7 +14,7 @@ def renderPage(request):
     if not is_session_active(request):
         return redirect('login')
     #aqui se pasa la logica que se quiera renderizar en la pagina 
-    return render(request, 'tateti/tateti.html')
+    return render(request, 'tateti/tateti.html', {'logged':True})
 
 def next_level(request):
     level = request.session.get('tateti',{}).get('level', 'easy')
@@ -51,12 +51,16 @@ def next_level(request):
     return JsonResponse(response)
 
 def giveup(request):
-    request.session.setdefault('tateti',{ 'score': 0})
-    score = request.session['tateti']['score']
-    save_score(request, 'tateti', score)
-    #en el futuro tambien se retornara el resultado de los rankings
-    restartGame(request)
-    return JsonResponse({'score': score})
+    tateti = request.session.get('tateti')
+    if tateti:
+        score = tateti.get('score')
+        if not score:
+            score = 0
+        save_score(request, 'tateti', score)
+        #en el futuro tambien se retornara el resultado de los rankings
+        restartGame(request)
+        return JsonResponse({'score': score})
+    return JsonResponse({'status': 'error', 'message': 'Error inesperado de sesion de usuario'})
 
 """
 Realiza la jugada, recibiendo la peticion del cliente y envia los resultados a traves de on JSON\n
