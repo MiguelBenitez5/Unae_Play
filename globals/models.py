@@ -66,5 +66,16 @@ class Dialogue(models.Model):
         return f'{self.game.game_name}->{self.category.category_name}: {self.dialogue}'
 
 
+class GlobalRank(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'global_rank'
+        ordering = ['-score']
+    
+    def __str__(self):
+        return f'{self.user.username}->{self.score}'
 
 
