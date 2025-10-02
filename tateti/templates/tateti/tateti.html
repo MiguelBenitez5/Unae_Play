@@ -13,9 +13,9 @@
     <div class="game-box">
         <!--Muestra la dificultad actual// es temporal, borrar en desarrollo-->
         <div class="header-game">
-            <p class="level">Nivel: Facil</p>
-            <button class="reset">Reiniciar</button>
-            <p class="score">Puntaje: 0</p>
+            <p class="level">Facil</p>
+            <button class="reset"><i class="fa-solid fa-rotate-right" style="color: #fff; font-size: 26px;"></i></button>
+            {% include 'timer.html' %}
         </div>
         <!--lugar para el tablero-->
         {% include 'tateti/tablero.html' %}

@@ -59,6 +59,7 @@ y de esta forma el footer quedara debajo siempre  */
     padding: 15px 20px;
     border-radius: 12px;
     font-family: 'general-font', monospace;
+    animation: myDialogueAnim 0.7s ease-in 0s 1 normal forwards;
 }
 .char-img{
     width: 100%;
@@ -72,5 +73,25 @@ y de esta forma el footer quedara debajo siempre  */
     text-align: end;
     align-items: center;
     flex: 4 1 60%;
+}
+
+@keyframes myDialogueAnim {
+	0% {
+		transform: scale(0.5);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes myDialogueExitAnim {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
 }
 

@@ -5,13 +5,27 @@
       <div class="select-container">
         <label for="rankingFilter">Filtrar ranking:</label>
         <select id="rankingFilter">
-          <option value="global">Top Global</option>
-          <option value="tic-tac-toe">Tic Tac Toe</option>
-          <option value="wordle">Wordle</option>
-          <option value="ppt">Piedra Papel Tijeras</option>
+          <option value="score"></option>
+          <option value="game">Top Global</option>
+          <option value="global"></option>
         </select>
       </div>
 
+      <!--Puntaje del jugador y palabra en los juegos wordle y ahorcado-->
+      <section class="score-screen">
+        <!--Aqui se muestra un icono dependiendo del resultado-->
+        <div class="score-icon"><i class="fa-solid fa-crown fa-bounce" style="color: #edca1d;"></i></div>
+        <!--Aqui va mensaje dependiendo del resultado-->
+        <h2 class="score-title">Felicidades Miguel, ganaste esta partida</h2>
+        <!--Aqui va la palabra (solo en wordle y ahorcado)-->
+        <p class="word">Termita</p>
+        <!--Puntaje del jugador en la partida terminada-->
+        <p class="player-score">Tu puntaje: </p>
+
+      </section>
+
+      <!--Se utiliza la misma tabla para mostrar el ranking-->
+      <h2 class="table-title">Ranking global</h2>
       <table id="rankingTable">
         <thead>
           <tr>
@@ -23,19 +37,54 @@
         <tbody>
           <!-- Datos estáticos de ejemplo -->
           <tr>
-            <td>1</td>
-            <td>Player1</td>
-            <td>1500</td>
+            <td><i class="fa-solid fa-1 fa-beat" style="color: #d4ab16;"></i></td>
+            <td id="player-1">Miguel</td>
+            <td id="score-1">1500</td>
           </tr>
           <tr>
-            <td>2</td>
-            <td>Player2</td>
-            <td>1400</td>
+            <td><i class="fa-solid fa-2" style="color: #a6a6a6;"></i></td>
+            <td id="player-2">MiguelCuentaSecundaria</td>
+            <td id="score-2">1400</td>
           </tr>
           <tr>
-            <td>3</td>
-            <td>Player3</td>
-            <td>1300</td>
+            <td><i class="fa-solid fa-3" style="color: #533d0e;"></i></td>
+            <td id="player-3">Miguel@360</td>
+            <td id="score-3">1300</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td id="player-4">W12</td>
+            <td id="score-4">1250</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td id="player-5">Nathaly</td>
+            <td id="score-5">1000</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td id="player-6">Nahuel</td>
+            <td id="score-6">912</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td id="player-7">Mario</td>
+            <td id="score-7">895</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td id="player-8">Cami</td>
+            <td id="score-8">620</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td id="player-9">Sol</td>
+            <td id="score-9">213</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td id="player-10">Alexis</td>
+            <td id="score-10">100</td>
           </tr>
         </tbody>
       </table>
