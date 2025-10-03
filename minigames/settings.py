@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'minigames_project',                          
         'USER': 'postgres',                        
-        'PASSWORD': '1234567',                   
+        'PASSWORD': 'Miguel1234',                   
         'HOST': 'localhost',                          
         'PORT': '5432',   
     }
