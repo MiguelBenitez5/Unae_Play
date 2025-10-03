@@ -29,11 +29,10 @@ def save_score(request, game_name:str, score:int) -> None:
     max_score = Score.objects.filter(game=game, user=user).aggregate(Max('score'))
     # Si el jugador obtiene un nuevo mejor puntaje, se recalcula su posicion en el ranking, si es su primer puntaje
     # se registra en el rankig global
-    if max_score and max_score > score:
+    if max_score and (max_score['score__max'] or 0) > score:
         total = Score.objects.filter(user=user).values('game').annotate(best_scores=Max('score')).aggregate(total_score=Sum('best_scores'))
         # aqui utilizo un _ para indicar que no utilizare la variable que en este caso se trata de created que retorna True o False en caso de ser primer, registro o actualizacion
-        global_rank, _ = GlobalRank.objects.update_or_create(user=user,defaults={'score': total})
-        global_rank.save() 
+        global_rank, _ = GlobalRank.objects.update_or_create(user=user,defaults={'score': total['total_score'] or 0})
     score = Score(game = game, user = user, score = score)
     score.save()
     
@@ -52,16 +51,17 @@ Se calcula el pruntaje conforme al estandar de los minijuegos de la pagina\n
 ---------------------------------------------------------------------------
 Params:
     score (int): La puntuacion del jugador al finalizar el juego\n
-    start_time (int o float): El tiempo de inicio de la partida en segundos\n
+    start_time (int o float): El tiempo de inicio de la partida en milisegundos\n
     max_score (int): Puntaje maximo del juego\n
-    min_time (int): Tiempo record en que tomaria ganar la partida al jugador en segundos\n
-    max_time (int): Tiempo maximo tolerable para finalizar la partida y recibir bonificacion de puntaje\n
+    min_time (int): Tiempo record en que tomaria ganar la partida al jugador en milisegundos\n
+    max_time (int): Tiempo maximo tolerable para finalizar la partida y recibir bonificacion de puntaje en milisegundos\n
     time_weight[opcional] (float): Porcentaje de del valor del puntaje basado en el tiempo empleado\n  
 """
 def calculate_score(score:int, start_time:int|float, max_score:int, min_time:int, max_time:int, time_weight:float=0.3)->int:
     score_norm = score/max_score
     current_time = time.time()
-    elapsed_time = current_time - start_time 
+    elapsed_time = current_time - start_time
+    print(elapsed_time) 
     time_norm =  min(1, max(0, (max_time - elapsed_time)/(max_time-min_time)))
     score_percent = score_norm * ((1 + time_weight * time_norm) / (1 + time_weight))
     return int(score_percent * 1000)
