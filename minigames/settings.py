@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'buscaminas',
     'memorygame',
     'questions',
+    'adivinarnumero',
     'piedrapapeltijera'
 ]
 

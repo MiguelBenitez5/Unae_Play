@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .tateti import Tateti
 import time
-from globals.utils import is_session_active, save_score
+from globals.utils import is_session_active, save_score, calculate_score
 
 # Create your views here.
 def restartGame(request):
@@ -14,7 +14,7 @@ def renderPage(request):
     if not is_session_active(request):
         return redirect('login')
     #aqui se pasa la logica que se quiera renderizar en la pagina 
-    return render(request, 'tateti/tateti.html')
+    return render(request, 'tateti/tateti.html', {'logged':True})
 
 def next_level(request):
     level = request.session.get('tateti',{}).get('level', 'easy')
@@ -51,12 +51,24 @@ def next_level(request):
     return JsonResponse(response)
 
 def giveup(request):
-    request.session.setdefault('tateti',{ 'score': 0})
-    score = request.session['tateti']['score']
-    save_score(request, 'tateti', score)
-    #en el futuro tambien se retornara el resultado de los rankings
-    restartGame(request)
-    return JsonResponse({'score': score})
+    tateti = request.session.get('tateti')
+    if tateti:
+        score = tateti.get('score')
+        start_time = tateti.get('start_time')
+        max_score = 1100
+        min_time = 10
+        max_time = 60
+
+        if not score:
+            score = 0
+
+        final_score = calculate_score(score,start_time,max_score,min_time,max_time)
+        
+        save_score(request, 'tateti', final_score)
+        #en el futuro tambien se retornara el resultado de los rankings
+        restartGame(request)
+        return JsonResponse({'score': score})
+    return JsonResponse({'status': 'error', 'message': 'Error inesperado de sesion de usuario'})
 
 """
 Realiza la jugada, recibiendo la peticion del cliente y envia los resultados a traves de on JSON\n
@@ -122,20 +134,44 @@ def playTateti(request,position):
             }
         )
 
+    score = game_data['score']
+    start_time = request.session['tateti'].get('start_time')
+    max_score = 1100
+    min_time = 10
+    max_time = 60
+
     #guardar resultados en la base de datos al finalizar partida
     match game_data['game_status']:
         case 'win':
             if game_data['level'] == 'hard':
-                save_score(request,'tateti', game_data['score'])
-        case 'defeat': 
-            save_score(request, 'tateti', game_data['score'])
+                final_score = calculate_score(score,start_time,max_score,min_time,max_time)
+                save_score(request,'tateti', final_score)
+        case 'defeat':
+            final_score = calculate_score(score,start_time,max_score,min_time,max_time)
+            save_score(request,'tateti', final_score)
     
     #se guardan los datos en sesion
     request.session['tateti'] = game_data
     #se retorna la respuesta al cliente
-    time_now = time.time()
-    elapsed_time = time_now - start_time_play
-    game_data['tiempo_respuesta'] = elapsed_time
     return JsonResponse(game_data)
    
 
+def try_again(request):
+    if 'tateti' not in request.session:
+        return JsonResponse({'status':'error', 'message':'No se enconctro una sesion del juego'})
+    request.session['tateti']['board'] = [[" " for _ in range(3)] for _ in range(3)]
+    request.session['tateti']['player_moves'] = 0
+    request.session['tateti']['machine_moves'] = 0
+
+    response = {'board': request.session['tateti']['board']}
+
+    
+    if (request.session['tateti']['level'] == 'hard'):
+        tateti = Tateti(request.session['tateti'])
+        hard_machine_play = tateti.play_hard()
+        response = {'board': hard_machine_play}
+        request.session['tateti']['board'] = hard_machine_play
+        request.session['tateti']['machine_moves'] = 1
+        
+    request.session.modified = True
+    return JsonResponse(response)

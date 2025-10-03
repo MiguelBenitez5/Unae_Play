@@ -8,4 +8,5 @@ urlpatterns = [
     path('action/restart/', views.restartGame),
     path('action/nextlevel/', views.next_level),
     path('action/giveup/', views.giveup),
+    path('action/tryagain', views.try_again),
 ]

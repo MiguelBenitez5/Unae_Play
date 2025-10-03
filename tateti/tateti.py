@@ -1,39 +1,4 @@
 import random, time
-#Constantes de la aplicacion:
-#para calcular los puntajes se utilizara la formula de CIELO/tiempo donde tiempo se representa en minutos
-#considerar funcion para calcular puntaje y calcular puntaje segun nivel de dificultad
-MAX_WIN_HARD = 10000
-MAX_DRAW_HARD = 5000
-MAX_DEFEAT_HARD = 2000
-
-MIN_WIN_HARD = 1000
-MIN_DRAW_HARD = 500
-MIN_DEFEAT_HARD = 200
-
-MAX_WIN_MEDIUM = 5000
-MAX_DRAW_MEDIUM = 2500
-MAX_DEFEAT_MEDIUM = 1000
-
-MIN_WIN_MEDIUM = 500
-MIN_DRAW_MEDIUM = 250
-MIN_DEFEAT_MEDIUM = 100
-
-MAX_WIN_EASY = 2500
-MAX_DRAW_EASY = 1250
-MAX_DEFEAT_EASY = 500
-
-MIN_WIN_EASY = 250
-MIN_DRAW_EASY = 125
-MIN_DEFEAT_EASY = 50
-#dialogos unicamente de prueba
-dialogos_prueba = ['Este es el dialogo 1',
-                   'Este es el dialogo 2',
-                   'Este es el dialogo 3',
-                   'Este es el dialogo 4',
-                   'Este es el dialogo 5',
-                   'Este es el dialogo 6',
-                   'Este es el dialogo 7',
-                   'Este es el dialogo 8',]
 
 class Tateti:
 
@@ -59,54 +24,18 @@ class Tateti:
     #         case 'medium':
     #             return 'hard'
             
-    def __get_score(self, result):
-        elapsed_time = max((time.time() - self.__start_time)/60, 0.1)
+    def __get_score(self):
         match self.__level:
+            #  100 puntos por ganar en facil
             case 'easy':
-                if result == 'win':
-                    score = MAX_WIN_EASY/elapsed_time
-                    if score < MIN_WIN_EASY:
-                        score = MIN_WIN_EASY
-                elif result == 'draw':
-                    score = MAX_DRAW_EASY/elapsed_time
-                    if score < MIN_DRAW_EASY:
-                        score = MIN_DRAW_EASY
-                else:
-                    score = MAX_DEFEAT_EASY/elapsed_time
-                    if score < MIN_DEFEAT_EASY:
-                        score = MIN_DEFEAT_EASY
+                return 100
+            #  400 puntos por ganar en medio
             case 'medium':
-                if result == 'win':
-                    score = MAX_WIN_MEDIUM/elapsed_time
-                    if score < MIN_WIN_MEDIUM:
-                        score = MIN_WIN_MEDIUM
-                elif result == 'draw':
-                    score = MAX_DRAW_MEDIUM/elapsed_time
-                    if score < MIN_DRAW_MEDIUM:
-                        score = MIN_DRAW_MEDIUM
-                else:
-                    score = MAX_DEFEAT_MEDIUM/elapsed_time
-                    if score < MIN_DEFEAT_MEDIUM:
-                        score = MIN_DEFEAT_MEDIUM
+                return 400
+            #  600 puntos por ganar en dificil
             case 'hard':
-                if result == 'win':
-                    score = MAX_WIN_HARD/elapsed_time
-                    if score < MIN_WIN_HARD:
-                        score = MIN_WIN_HARD
-                elif result == 'draw':
-                    score = MAX_DRAW_HARD/elapsed_time
-                    if score < MIN_DRAW_HARD:
-                        score = MIN_DRAW_HARD
-                else:
-                    score = MAX_DEFEAT_HARD/elapsed_time
-                    if score < MIN_DEFEAT_HARD:
-                        score = MIN_DEFEAT_HARD
-            case _:
-                score = 0
-        
-        return int(score)
+                return 600
                     
-            
 
     def play_game(self, row, column):
         machine_move = None
@@ -122,7 +51,7 @@ class Tateti:
         #se comprueba si gano el usuario
         if self.__checkBoard() == 1:
             #calcular puntaje del jugador
-            score = self.__get_score('win')
+            score = self.__get_score()
             self.__score += score
             game_status = 'win'
             #si el player gano en 'medio', la maquina empieza en dificil
@@ -143,8 +72,6 @@ class Tateti:
             if self.__draws >=3:
                 game_status = 'defeat'
             else:
-                score = self.__get_score('draw')
-                self.__score += score
                 game_status = 'draw'
                 # self.__restart_game()
         
@@ -154,8 +81,6 @@ class Tateti:
             self.__machineMoves += 1
             #se comprueba si gana la maquina
             if self.__checkBoard() == -1:
-                score = self.__get_score('defeat')
-                self.__score += score
                 game_status = 'defeat'
             
             #se comprueba empate 
@@ -164,13 +89,8 @@ class Tateti:
                 if self.__draws >= 3:
                     game_status = 'defeat'
                 else:
-                    score = self.__get_score('draw')
-                    self.__score += score
                     game_status = 'draw'
                     # self.__restart_game()
-        
-        random.shuffle(dialogos_prueba)
-        dialog = dialogos_prueba[0]
 
         response = {
             'status': 'success',
@@ -182,7 +102,6 @@ class Tateti:
             'machine_moves': self.__machineMoves,
             'game_status': game_status,
             'player_draws': self.__draws,
-            'dialog': dialog,
         }
         if machine_move:
             response['machine_move'] = machine_move
@@ -193,13 +112,22 @@ class Tateti:
         
         #retorno de diccionario con el fin de utilizarlo en la sesion y la respues al usuario
         return response
+    
+    def play_hard(self):
+        """
+        Jugada de la maquina en modo dificil cuendo el jugador elige la opcion reintentar\n
+        Aqui comienza la jugada la maquina
+        Retorna: un diccionario con los datos de la partida
+        """
+        self.__playMachine()
+        return self.__board
 
     def __playPlayer(self, row, column):
         """
         Jugada del jugador\n
         Param (row): la fila seleccionada\n
         Param (column): la columna seleccionada\n
-        Returna: True en caso de que la jugada fue realizada correctamente y False en caso contrario
+        Retorna: True en caso de que la jugada fue realizada correctamente y False en caso contrario
         """
         #tener en cuenta la comprobacion de los valores fuera de rango de la lista
         #unicamente se realiza la jugada si la posicion seleccionada aun no fue jugada
@@ -264,19 +192,7 @@ class Tateti:
                 return -1
             
         ##Si no gana ninguno el juego continua##
-        return 0
-        
-    # def __restartBoard(self):
-    #     """
-    #     Reiniciar el tablero a los valores iniciales 
-    #     """
-    #     for i in range(3):
-    #         self.__board[i][0] = ' '
-    #         self.__board[i][1] = ' '
-    #         self.__board[i][2] = ' '
-        
-    #     return self.__board
-    
+        return 0  
 
     def __machineEasy(self):
         """
@@ -324,100 +240,6 @@ class Tateti:
         
         return False
 
-
-
-        # ##Comprobar si la maquina esta a punto de ganar##
-        # for i in range(3):        
-        #     #comprobando filas
-        #     if (self.__board[i][0] == '0' and self.__board[i][1] == '0') or (self.__board[i][2] == '0' and self.__board[i][1] == '0') or (self.__board[i][0] == '0' and self.__board[i][2] == '0'):
-        #         if ' ' in self.__board[i]:
-        #             index = self.__board[i].index(' ')
-        #             self.__board[i][index] = '0'
-        #             return f"{i}-{index}"
-                
-        # for i in range(3):
-        #     #comprobando columnas
-        #     if (self.__board[0][i] == '0' and self.__board[1][i] == '0') or (self.__board[2][i] == '0' and self.__board[1][i] == '0') or (self.__board[0][i] == '0' and self.__board[2][i] == '0'):
-        #         for f in range(3):    
-        #             if self.__board[f][i] == ' ':
-        #                 self.__board[f][i] = '0'
-        #                 return f'{f}-{i}'
-                    
-        # #comprobando diagonal principal
-        # if self.__board[0][0] == '0' and self.__board[1][1] == '0':
-        #     if self.__board[2][2] == ' ':
-        #         self.__board[2][2] = '0'
-        #         return '2-2'
-        # elif self.__board[2][2] == '0' and self.__board[1][1] == '0':
-        #     if self.__board[0][0] == ' ':
-        #         self.__board[0][0] = '0'
-        #         return '0-0'
-        # elif self.__board[0][0] =='0' and self.__board[2][2] == '0':
-        #     if self.__board[1][1] == ' ':
-        #         self.__board[1][1] = '0'
-        #         return '1-1'  
-
-        # #comprobando diagonal secundaria
-        # if self.__board[0][2] == '0' and self.__board[2][0] == '0':
-        #     if self.__board[1][1] == ' ':
-        #         self.__board[1][1] = '0'
-        #         return '1-1'
-        # elif self.__board[0][2] == '0' and self.__board[1][1] == '0':
-        #     if self.__board[2][0] == ' ':
-        #         self.__board[2][0] = '0'
-        #         return '2-0'
-        # elif self.__board[2][0] =='0' and self.__board[1][1] == '0':
-        #     if self.__board[0][2] == ' ':
-        #         self.__board[0][2] = '0'
-        #         return '0-2'    
-            
-        # ##Comprobar si el jugador esta a punto de ganar##
-        # for i in range(3):
-        #     #comprobando filas
-        #     if (self.__board[i][0] == 'X' and self.__board[i][1] == 'X') or (self.__board[i][2] == 'X' and self.__board[i][1] == 'X') or (self.__board[i][0] == 'X' and self.__board[i][2] == 'X'):
-        #         if ' ' in self.__board[i]:
-        #             index = self.__board[i].index(' ')
-        #             self.__board[i][index] = '0'
-        #             return f'{i}-{index}'
-        
-        # for i in range(3):
-        #     #comprobando columnas
-        #     if (self.__board[0][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[2][i] == 'X' and self.__board[1][i] == 'X') or (self.__board[0][i] == 'X' and self.__board[2][i] == 'X'):
-        #         for f in range(3):    
-        #             if self.__board[f][i] == ' ':
-        #                 self.__board[f][i] = '0'
-        #                 return f'{f}-{i}'
-                    
-        # #comprobando diagonal principal
-        # if self.__board[0][0] == 'X' and self.__board[1][1] == 'X':
-        #     if self.__board[2][2] == ' ':
-        #         self.__board[2][2] = '0'
-        #         return '2-2'
-        # elif self.__board[2][2] == 'X' and self.__board[1][1] == 'X':
-        #     if self.__board[0][0] == ' ':
-        #         self.__board[0][0] = '0'
-        #         return '0-0'
-        # elif self.__board[0][0] =='X' and self.__board[2][2] == 'X':
-        #     if self.__board[1][1] == ' ':
-        #         self.__board[1][1] = '0'
-        #         return '1-1'   
-
-        # #comprobando diagonal secundaria
-        # if self.__board[0][2] == 'X' and self.__board[2][0] == 'X':
-        #     if self.__board[1][1] == ' ':
-        #         self.__board[1][1] = '0'
-        #         return '1-1'
-        # elif self.__board[0][2] == 'X' and self.__board[1][1] == 'X':
-        #     if self.__board[2][0] == ' ':
-        #         self.__board[2][0] = '0'
-        #         return '2-0'
-        # elif self.__board[2][0] =='X' and self.__board[1][1] == 'X':
-        #     if self.__board[0][2] == ' ':
-        #         self.__board[0][2] = '0'
-        #         return '0-2'
-            
-        # #si al finalizar no se cumple ninguna retorna False
-        # return False
 
     def __machineHard(self):
         """

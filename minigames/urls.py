@@ -29,7 +29,8 @@ urlpatterns = [
     path('ahorcado/', include('ahorcado.urls')), 
     path('buscaminas/', include('buscaminas.urls')),
     path('memorygame/', include('memorygame.urls')),
-    path('questions/', include('questions.urls'))
+    path('questions/', include('questions.urls')),
+    path('adivinarnumero/', include('adivinarnumero.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

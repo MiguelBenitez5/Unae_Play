@@ -1,42 +1,91 @@
 const dialogueTextGlobal = document.getElementById('dialogue-text')
+const charImg = document.querySelector('.char-img')
+let reset_time_out = null
 
 /**
  * Muestra un dialogo aleatorio de la categoria y juego seleccionados
- * @param {string} category La categoria del juego (Inicio, Final, Victoria, Derrota)
+ * @param {string} category La categoria del juego (inicio, final, victoria, derrota, empate)
  * @param {string} game El juego especifico
  */
-async function show_dialog(category, game){
+async function show_dialogue(category, game){
+    try{
+        if (random_dialogue_interval){
+            stop_random_dialogues()
+        }
+        if (category === 'final') return
+        const response = await fetch(`/getdialogue/${category}/${game}`)
+        if (!response.ok) throw new Error('No se pudo obtener dialogo del servidor'+response.status)
+        const data = await response.json()
+        dialogueTextGlobal.style.animation = 'myDialogueAnim 0.7s ease-in 0s 1 normal forwards'
+        dialogueTextGlobal.textContent = data.dialogue
+        charImg.src = get_char_img().talk_pose
+        // el dialogo permanece en pantalla si termina la partida
+        if (category === 'victoria'){
+            setTimeout(()=>show_dialogue('final',game),10000)
+            return
+        } 
+
+        random_dialogue()
+        if (reset_time_out) stop_reset_time_out()
+        reset_time_out = setTimeout(()=>{
+                reset_dialogue()
+            }, 10000)
+
+    }catch(err){
+        console.log(err)
+    }finally{
+
+    }
     return
 }
 
 
 function reset_dialogue(){
-    return
+    dialogueTextGlobal.style.animation = 'none'
+    void dialogueTextGlobal.offsetWidth
+    dialogueTextGlobal.style.animation = 'myDialogueExitAnim 0.7s ease-in 0s 1 normal forwards'
+    
+    dialogueTextGlobal.addEventListener('animationend', function handler(e){
+        if (e.animationName === 'myDialogueExitAnim'){ 
+            dialogueTextGlobal.textContent = '...'
+            charImg.src = get_char_img().normal_pose
+            dialogueTextGlobal.style.animation = 'myDialogueEnterAnim 0.3s ease-out forwards';
+            dialogueTextGlobal.removeEventListener('animationend', handler)
+        }
+        
+    })
+    
 }
 
+// funcion para detener los dialogos aleatorios
+
+function stop_random_dialogues(){
+    clearInterval(random_dialogue_interval)
+    random_dialogue_interval = null
+}
 // intervalo de dialogos aleatorios
-random_dialog_interval = null
+random_dialogue_interval = null
 
-function random_dialog(){
-    random_dialog_interval = setInterval(()=>{
-        fetch('/getdialogue/general/general')
-        .then(response => response.json())
-        .then(data =>{
-            console.log(data)
-            dialogueTextGlobal.textContent = data.dialogue
-        })
-        .catch(error=>console.error("Error: ", error))
-    }, 10000)
+function stop_reset_time_out(){
+    clearTimeout(reset_time_out)
+    reset_time_out = null
 }
 
-random_dialog()
+function random_dialogue(){
+    if (random_dialogue_interval){
+        stop_random_dialogues()
+    }
+    random_dialogue_interval = setInterval(()=>{
+        show_dialogue('general','general')
+        .catch(error=>console.error("Error: ", error))
+    }, 30000)
+}
 
 // leer el localstorage para designar
 function get_char_img(){
-    const ussersettings = localStorage.getItem('usersettings')
-    if (ussersettings){
-        userpet = JSON.parse(ussersettings)
-        switch(userpet.pet){
+    const userpet = localStorage.getItem('theme')
+    if (userpet){
+        switch(userpet){
             case "LASI":
                 return {
                     normal_pose : '/static/img/carpincho-1.png',
@@ -76,6 +125,11 @@ function get_char_img(){
                 return {
                     normal_pose : '/static/img/conejo.png',
                     talk_pose   : '/static/img/ISEDE_TALK.png'
+                }
+            default :
+                return {
+                    normal_pose : '/static/img/carpincho-1.png',
+                    talk_pose   : '/static/img/LASI_TALK.png'
                 }
         }
     }else{

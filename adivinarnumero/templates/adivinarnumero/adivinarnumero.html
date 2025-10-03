@@ -1,0 +1,42 @@
+{% extends 'base_game.html' %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'adivinarnumero/css/game.css' %}">
+{% endblock %}
+
+{% block title %} Adivina el Número {% endblock %}
+
+{% block game %}
+<div class="game-box">
+    <div class="header-game">
+        <h2>Adivina el Número</h2>
+        <button class="reset">Reiniciar</button>
+        <p class="score">Puntaje: <span id="current-score">0</span></p>
+    </div>
+
+    <div class="game-area">
+        <h3 id="status-message">Ingresa un número del 1 al 100</h3>
+        <input type="number" id="guess-input" min="1" max="100">
+        <button id="guess-btn">Adivinar</button>
+        <p>Intentos: <span id="attempts">0</span>/<span id="max-attempts">0</span></p>
+        <p>Tiempo: <span id="timer">0</span> seg</p>
+        <!-- AÑADIR ESTA NUEVA SECCIÓN -->
+        <div class="history-log">
+            <h4>Intentos Anteriores:</h4>
+            <ul id="guess-history">
+                <!-- Los números se añadirán aquí con JavaScript -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-game">
+        <button class="giveup">Me rindo</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'adivinarnumero/js/play_game.js' %}"></script>
+{% endblock %}
