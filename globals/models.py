@@ -27,7 +27,7 @@ class Score(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     score = models.IntegerField()
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    date_played = models.DateField(auto_now_add=True)
+    date_played = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'scores'
