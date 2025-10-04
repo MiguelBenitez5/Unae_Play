@@ -10,10 +10,16 @@
 {% block tittle %} Wordle {% endblock %}
 
 {% block game %}
+    
     <div class="box">
+        <h1 class="game-title">Wordle</h1>
         <input type="text" class="my-input" autocomplete="off">
-        <p class="score">Puntaje: 0</p>
-        <p class="time">Tiempo transcurrido: </p>
+        <div class="game-header">
+            <p class="level"></p>
+            
+            {% include 'timer.html'%}    
+            
+        </div>
         <div class="container">
             {% include 'wordle/word_board.html' %}
             {% include 'wordle/keyboard.html' %}
@@ -26,6 +32,11 @@
  {{block.super}}
 {% endblock %}
 
+{% block audio %}
+    <audio src="{% static 'wordle/music/5 audio.wav' %}"></audio>
+{% endblock %}
+
 {% block script %}
+    {{block.super}}
     <script src="{% static 'wordle/js/play_game.js' %}"></script>
 {% endblock %}
