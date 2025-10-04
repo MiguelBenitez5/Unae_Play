@@ -7,11 +7,18 @@ let reset_time_out = null
  * @param {string} category La categoria del juego (inicio, final, victoria, derrota, empate)
  * @param {string} game El juego especifico
  */
-async function show_dialogue(category, game){
+async function show_dialogue(category, game, game_data = null){
+    if (random_dialogue_interval || reset_time_out){
+        stop_random_dialogues()
+        stop_reset_time_out()
+    }
+    if (category === 'final' && (game === 'wordle' || game === 'ahorcado')){
+        dialogueTextGlobal.style.animation = 'myDialogueAnim 0.7s ease-in 0s 1 normal forwards'
+        dialogueTextGlobal.textContent = game_data.data_info
+        charImg.src = get_char_img().talk_pose
+        return
+    }
     try{
-        if (random_dialogue_interval){
-            stop_random_dialogues()
-        }
         if (category === 'final') return
         const response = await fetch(`/getdialogue/${category}/${game}`)
         if (!response.ok) throw new Error('No se pudo obtener dialogo del servidor'+response.status)
@@ -20,8 +27,8 @@ async function show_dialogue(category, game){
         dialogueTextGlobal.textContent = data.dialogue
         charImg.src = get_char_img().talk_pose
         // el dialogo permanece en pantalla si termina la partida
-        if (category === 'victoria'){
-            setTimeout(()=>show_dialogue('final',game),10000)
+        if (category === 'victoria' || (category === 'derrota' && (game === 'wordle' || game === 'ahorcado'))){
+            setTimeout(()=>show_dialogue('final',game, game_data),10000)
             return
         } 
 
@@ -33,8 +40,6 @@ async function show_dialogue(category, game){
 
     }catch(err){
         console.log(err)
-    }finally{
-
     }
     return
 }
