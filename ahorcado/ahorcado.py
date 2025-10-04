@@ -12,6 +12,7 @@ class GuessTheWord:
         self.__chars_played = session_data['chars_played']
         self.__amount_words = session_data['amount_words']
         self.__result = session_data['result']
+        self.__description = session_data['description']
 
     def __get_all_data(self):
         return {
@@ -20,13 +21,22 @@ class GuessTheWord:
             'word_len'    : self.__len,
             'chars_played': self.__chars_played,
             'amount_words': self.__amount_words,
-            'result'      : self.__result
+            'result'      : self.__result,
+            'description' : self.__description
         }
+    
+    def __calculate_score(self):
+        if self.__len <= 4:
+            return (self.__amount_words / self.__len) * 500
+        elif self.__len <=9:
+            return (self.__amount_words / self.__len) * 700
+        else:
+            return (self.__amount_words / self.__len) * 1000
+    
     
     def play_game(self, userchar:chr):
         result = self.__compare_char(userchar)
         
-
         if not result:
             return {'status': 'error','message': 'Solo se puede jugar 1 letra por turno'}
         if result.get('error'):
@@ -51,10 +61,7 @@ class GuessTheWord:
         #calculando puntaje
         match check_result:
             case 'win' | 'defeat':
-                score = ((CORRECT_LETTER * self.__amount_words) / elapsed_time)*self.__tries
-                if (check_result == 'win'):
-                    #si gana se multiplica su score x3
-                    score *= 3
+                score = self.__calculate_score()
                 response['game_status'] = check_result
                 response['score'] = score
         
