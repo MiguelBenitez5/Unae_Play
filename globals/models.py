@@ -52,7 +52,9 @@ class DialogueCategory(models.Model):
 
 class Dialogue(models.Model):
     id = models.AutoField(primary_key=True)
+
     dialogue = models.TextField(verbose_name='Dialogo', unique=True)
+
     category = models.ForeignKey(DialogueCategory, on_delete=models.CASCADE, verbose_name='categoria')
     game = models.ForeignKey(Game,on_delete=models.CASCADE, verbose_name='juego')
 
