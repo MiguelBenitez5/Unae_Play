@@ -27,7 +27,7 @@ class Score(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     score = models.IntegerField()
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    date_played = models.DateField(auto_now_add=True)
+    date_played = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'scores'
@@ -52,7 +52,9 @@ class DialogueCategory(models.Model):
 
 class Dialogue(models.Model):
     id = models.AutoField(primary_key=True)
+
     dialogue = models.TextField(verbose_name='Dialogo', unique=True)
+
     category = models.ForeignKey(DialogueCategory, on_delete=models.CASCADE, verbose_name='categoria')
     game = models.ForeignKey(Game,on_delete=models.CASCADE, verbose_name='juego')
 

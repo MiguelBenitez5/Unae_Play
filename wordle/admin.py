@@ -3,4 +3,7 @@ from .models import WordleWord
 
 # Register your models here.
 
-admin.site.register(WordleWord)
+@admin.register(WordleWord)
+class WordleWordsAdmin(admin.ModelAdmin):
+    list_display = ('word','description')
+    search_fields = ('word',)

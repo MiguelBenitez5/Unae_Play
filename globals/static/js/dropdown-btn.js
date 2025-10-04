@@ -47,7 +47,7 @@ toggle.addEventListener("click", () => {
 });
 
 volumeSlider.addEventListener("input", () => {
-    if (volumeSlider <= 100) {
+    if (volumeSlider <= 50) {
         audio.volume = volumeSlider.value / 200;
     } else {
         audio.volume = volumeSlider.value / 100;
