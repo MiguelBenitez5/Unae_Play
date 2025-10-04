@@ -24,7 +24,7 @@ def request_question(request):
         'hits'          : 0,
         'level'         : 'easy',
         'score'         : 0,
-        'question_info' : None,
+        'data_info' : None,
         'tries'         : 0,
         'percent'       : 0,
         'blacklist'      : []
