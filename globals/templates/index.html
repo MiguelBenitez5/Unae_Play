@@ -1,4 +1,11 @@
 {% extends "base.html" %}
+{% load static%}
+
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'css/pets.css' %}">
+{% endblock %}
+
 
 {% block title %}Inicio | Un@e Play{% endblock %}
 
@@ -10,5 +17,9 @@
         </section>
 
         {% include 'landing/prizes.html' %}
+        <!-- añadimos el apartado de juegis -->
+        {% include 'landing/games_play.html' %}
+        <!-- añadios el apartdado de descripcion de las mascotas de las facultades -->
+        {% include 'landing/pets.html' %}
     </main>
 {% endblock %}

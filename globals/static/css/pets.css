@@ -1,0 +1,64 @@
+/* Sección Mascotas */
+.mascotas-section {
+    padding: 60px 20px;
+    text-align: center;
+    background: transparent; /* respeta el fondo */
+}
+
+.mascotas-title {
+    font-size: 2.2rem;
+    color: #e100ff; /* mismo tono violeta/rosa que usaste */
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.mascotas-title::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #e100ff, #ff007f);
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+.mascotas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.mascota-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.mascota-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(225, 0, 255, 0.6);
+}
+
+.mascota-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 6px #ff00ff);
+}
+
+.mascota-card h3 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.mascota-card p {
+    font-size: 0.95rem;
+    color: #ccc;
+}
