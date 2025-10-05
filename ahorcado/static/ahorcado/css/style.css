@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 10px;
   }
   .row-keyboard {
     display: flex;
@@ -35,7 +36,7 @@
     width: 100%;
 }
 
-.word-container {
+.game-word-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 8px;
@@ -92,4 +93,23 @@
 .hearts i {
     font-size: 2.2rem;
     transition: transform 0.2s;
+}
+
+/* cambiar tipografia */
+.new-word-btn{
+    font-size: 17px;
+    padding: 9px;
+    border-radius: 8px;
+    border: 2px solid #ba0808;
+    font-weight: bold;
+    color: #ba0808;
+    background-color: #f3f3f3 ;
+    transition: 0.1s 0.2s all ease normal;
+}
+
+.new-word-btn:hover{
+    background-color: #ba0808;
+    color: #f3f3f3;
+    border-color: #f3f3f3;
+    cursor: pointer;
 }

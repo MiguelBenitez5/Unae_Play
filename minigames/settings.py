@@ -91,10 +91,10 @@ WSGI_APPLICATION = 'minigames.wsgi.app'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'neondb',                          
-#         'USER': 'neondb_owner',                        
-#         'PASSWORD': 'npg_4D5ztgJnuWAf',                   
-#         'HOST': 'ep-frosty-moon-acgunntj-pooler.sa-east-1.aws.neon.tech',                          
+#         'NAME': 'minigames_project',                          
+#         'USER': 'postgres',                        
+#         'PASSWORD': 'Miguel1234',                   
+#         'HOST': 'localhost',                          
 #         'PORT': '5432',   
 #     }
 # }

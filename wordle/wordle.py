@@ -1,20 +1,14 @@
-import time
-
-GREEN_CHAR = 10000
-YELLOW_CHAR = 3000
-WIN_POINTS = 5
-DEFEAT_POINTS = 1
-
 
 class Wordle:
 
     def __init__(self, session_data):
         self.__start_time = session_data['start_time']
         self.__word = session_data['word'].lower()
+        self.__word_info = session_data['word_info']
         self.__tries = session_data['tries']
         self.__score = 0
         self.__len = session_data['word_len']
-    
+
     """
     Se realiza y analiza la jugada\n
     Retorna: un diccionario con todos los datos necesarios para el sistema\n
@@ -42,11 +36,15 @@ class Wordle:
         user_win = False
         if userword == self.__word:
             response['game_status'] = 'win'
-            response['game_data']['score'] = self.__calculate_final_score()* WIN_POINTS
+            response['game_data']['score'] = self.__calculate_final_score()
+            response['game_data']['word'] = self.__word
+            response['game_data']['data_info'] = self.__word_info
             user_win = True    
         if self.__tries >= 6 and not user_win:
             response['game_status'] = 'defeat'
-            response['game_data']['score'] = self.__calculate_final_score()* DEFEAT_POINTS
+            response['game_data']['score'] = self.__calculate_final_score()
+            response['game_data']['word'] = self.__word
+            response['game_data']['data_info'] = self.__word_info
         return response
 
     """
@@ -74,15 +72,19 @@ class Wordle:
     def __calculate_score(self, color):
         match color:
             case 'green':
-                self.__score += GREEN_CHAR
+                self.__score += 2
             case 'yellow':
-                self.__score += YELLOW_CHAR
+                self.__score += 1
     
     def __calculate_final_score(self):
-        #formula: (Puntaje/tiempo)/intentos
-        current_time = time.time()
-        elapsed_time = current_time - self.__start_time
-        return int((self.__score/elapsed_time)/self.__tries)
+        #puntaje facil
+        word_len = len(self.__word)
+        if word_len <= 4:
+            return ((self.__score / (word_len*2)) * 500 ) / self.__tries
+        elif word_len <= 9:
+            return ((self.__score / (word_len*2)) * 700 ) / self.__tries
+        else:
+            return ((self.__score / (word_len*2)) * 1000 ) / self.__tries
 
     """
     Se compara la palabra generada con la ingresada por el usuario\n

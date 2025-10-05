@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from globals.utils import is_session_active, save_score
+from globals.utils import is_session_active, save_score, calculate_score
 import time
 from wordle.models import WordleWord
 from django.db.models.functions import Random
@@ -12,7 +12,7 @@ def render_page(request):
     if not is_session_active(request):
         return redirect('login')
     init_game(request)
-    return render(request, 'ahorcado/ahorcado.html')
+    return render(request, 'ahorcado/ahorcado.html', {'logged': True})
 
 def play_game(request, userchar:chr):
     if not is_session_active(request):
@@ -31,7 +31,17 @@ def play_game(request, userchar:chr):
         match play_game.get('game_status'):
             case 'win' | 'defeat':
                 play_game['word'] = request.session['ahorcado']['game_data']['word']
-                save_score(request, 'ahorcado', play_game['score'])
+                play_game['data_info'] = request.session['ahorcado']['game_data']['description']
+
+                score = play_game['score']
+                start_time = request.session['ahorcado']['game_data']['start_time']
+                max_score = 1000
+                min_time = 15
+                max_time = 60
+
+                final_score = calculate_score(score,start_time,max_score,min_time,max_time)
+
+                save_score(request, 'ahorcado', final_score)
         
         request.session['ahorcado']['game_data'].update(play_game['game_data'])
         request.session.modified = True
@@ -52,7 +62,8 @@ def init_game(request):
         'score'       : 0,
         'chars_played': [],
         'amount_words': 0,
-        'result'      : {}
+        'result'      : {},
+        'description' : ''
     })
     guess_word.setdefault('game_status', 0)
 
@@ -71,6 +82,7 @@ def init_game(request):
 
         request.session['ahorcado']['game_data']['word'] = word.word
         request.session['ahorcado']['game_data']['word_len'] = len(word.word)
+        request.session['ahorcado']['game_data']['description'] = word.description
         request.session.modified = True
         
         if 'game_status' in request.session['ahorcado']:

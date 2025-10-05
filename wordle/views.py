@@ -2,7 +2,7 @@ from django.db.models.functions import Random
 import time
 from django.shortcuts import render, redirect
 from .wordle import Wordle
-from globals.utils import save_score, is_session_active, correct_word
+from globals.utils import save_score, is_session_active, calculate_score
 from django.http import JsonResponse
 from .models import WordleWord
 import requests
@@ -14,7 +14,7 @@ def render_page(request):
         return redirect('login')
     #se inicializan los valores por defecto    
     init_game(request)
-    return render(request, 'wordle/wordle.html')
+    return render(request, 'wordle/wordle.html', {'logged': True})
 
 def play_wordle(request, userword):
     if not is_session_active(request):
@@ -46,7 +46,14 @@ def play_wordle(request, userword):
         
         match response['game_status']:
             case 'win' | 'defeat':
-                save_score(request,'wordle',response['game_data']['score'])
+                score = response['game_data']['score']
+                start_time = request.session['wordle']['game_data']['start_time']
+                max_score = 1000
+                min_time = 5
+                max_time = 60
+                
+                final_score = calculate_score(score, start_time, max_score,min_time,max_time)
+                save_score(request,'wordle',final_score)
         
         #guardar datos en sesion
         request.session['wordle']['game_data'].update(response['game_data'])
@@ -55,8 +62,6 @@ def play_wordle(request, userword):
         request.session.setdefault('wordle', {}).setdefault('history',{})
         request.session['wordle']['history'][f'{response['game_data']['tries']}'] = response
 
-        #para probar, borrar luego
-        print(request.session['wordle']['history'])
         request.session.modified = True
         
         return JsonResponse(response)
@@ -97,6 +102,7 @@ def init_game(request):
                 'start_time': time.time(),
                 'tries': 0,
                 'word' : word.word,
+                'word_info': word.description,
                 'word_len'  : len(word.word),
             })
         wordle.setdefault('game_status', 0)

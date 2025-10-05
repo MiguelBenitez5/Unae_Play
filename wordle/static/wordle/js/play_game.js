@@ -3,6 +3,8 @@ const board = document.querySelector('.board')
 //variable global para controlar la fila
 let row_board = 1
 let maxChars = 0;
+// nivel de dificultad
+const wordLevel = document.querySelector('.level')
 const restartButton = document.querySelector('.new-word') 
 
 function paintBoard(){
@@ -15,6 +17,10 @@ function paintBoard(){
                     console.log('Error, no hay palabra nueva')
                     return
                 }
+
+                if (data.basic_data.word_len <= 4) wordLevel.textContent = 'Facil'
+                else if (data.basic_data.word_len <= 9) wordLevel.textContent = 'Normal'
+                else wordLevel.textContent = 'Dificil'
 
                 console.log(data)
 
@@ -42,26 +48,52 @@ function paintBoard(){
 
                 }
             }
-            board.style.gridTemplateColumns = `repeat(${data.basic_data.word_len}, 1fr)`
+            board.style.gridTemplateColumns = `repeat(${data.basic_data.word_len}, minmax(20px,45px))`
 
             }).catch(error => console.log('Ocurrio un error ', error)) 
 }
 
-window.onload = paintBoard()
+window.onload = ()=>{
+    show_dialogue('inicio', 'wordle')
+    addEventsForKeys()
+    paintBoard()
+    resetCountingTimer()
+}
+
+// animacion de error para las casillas de esa fila
+function errorAnimation(){
+    for (let i = 0; i < maxChars; i++){
+        const cell = document.getElementById(`${row_board}-${i}`)
+        cell.style.animation = 'none'
+        void cell.offsetWidth
+        cell.style.animation = 'myErrorAnim 0.5s ease 0s 1 reverse forwards'                                                                                                                               
+        cell.addEventListener('animationend', function handler(e){
+        if(e.animationName === 'myErrorAnim'){
+            cell.style.animation = 'none';
+            cell.removeEventListener('animationend', handler)
+        }
+    }) 
+    }
+}
+
+// funcion personalizada de dialogo solo para wordle 
 
 function send_word(){
-    const startTime = Date.now()
     fetch(`/wordle/${input.value.toLowerCase()}`)
         .then(response => response.json())
             .then(data =>{
-                const resposeTime = Date.now()
-                const elapsedTime = (resposeTime - startTime)/1000
-                console.log('Tiempo transcurrido: ',elapsedTime)
+                console.log(data)
 
                 switch(data.status){
-                    case 'error': console.log('Detalle del error: ',data.message); return
+                    case 'error': 
+                        console.log('Detalle del error: ',data.message)
+                        errorAnimation()
+                        return
                     // hacer alguna animacion para informar al usuario de palabra incorrecta
-                    case 'not_found': console.log("Palabra incorrecta"); return
+                    case 'not_found': 
+                        console.log("Palabra incorrecta")
+                        errorAnimation()
+                        return
 
                 }
                 // pintar letras
@@ -70,12 +102,19 @@ function send_word(){
                 switch(data.game_status){
                     //mostrar la pantalla modal con los puntajes
                     case 'win': 
-                        console.log('Felicidades, ganaste')
-                        // resetGame()
+                        show_dialogue('final', 'wordle', data)
+                        fetch('/wordle/action/restart/')
+                        removeEventsFromKeys()
+                        showModalScreen('wordle', data)
+                        stopCountingTimer()
                         return
                     case 'defeat': 
                         console.log('Perdiste')
-                        // resetGame()
+                        show_dialogue('final', 'wordle', data.game_data)
+                        fetch('/wordle/action/restart/')
+                        removeEventsFromKeys()
+                        showModalScreen('wordle', data)
+                        stopCountingTimer()
                         return
                 }
 
@@ -89,8 +128,8 @@ function send_word(){
 function paintRow(data){
     for (let i = 0; i< maxChars; i++){
         const cell = document.getElementById(`${row_board}-${i}`)
+        // las letras se pintan con un pequeño delay por tecla
         setTimeout(()=>setColor(data,cell,i),135*i)
-        // setColor(data, cell, i)
     }
 }
 
@@ -134,7 +173,21 @@ input.addEventListener("input", () => {
 });
 
 //evento para la tecla de borrar
-input.addEventListener('keydown', (e)=>{
+
+
+//agregar eventos a todas la teclas del teclado en pantalla
+function handler_screen_keyboard(){
+    input.value += this.textContent
+    if (input.value.length > maxChars) {
+        input.value = input.value.slice(0, maxChars); // recorta el exceso
+    }
+    for (let i = 0; i < input.value.length; i++) {
+        const cell = document.getElementById(`${row_board}-${i}`)
+        cell.textContent = input.value.charAt(i)
+    }
+}
+
+function handler_keyboard(e){
     if (e.key === 'Backspace'){
         const cell = document.getElementById(`${row_board}-${input.value.length-1}`)
         console.log('Borrar')
@@ -144,35 +197,47 @@ input.addEventListener('keydown', (e)=>{
         send_word()
         input.focus()
     }
-})
+}
 
-//agregar eventos a todas la teclas del teclado en pantalla
-keys.forEach(key =>{
-    if (key.textContent == 'Enter'){
-        key.addEventListener('click', send_word)
-    }
-    else if (key.textContent == '⌫'){
-        key.addEventListener('click', ()=>{
-            input.value = input.value.slice(0,-1)
-            input.focus() 
-            console.log(input.value)
-            const cell = document.getElementById(`${row_board}-${input.value.length}`)
-            cell.textContent = ''
-        })
-    }
-    else{
-        key.addEventListener('click', ()=>{
-            input.value += key.textContent
-            if (input.value.length > maxChars) {
-                input.value = input.value.slice(0, maxChars); // recorta el exceso
-            }
-            for (let i = 0; i < input.value.length; i++) {
-                const cell = document.getElementById(`${row_board}-${i}`)
-                cell.textContent = input.value.charAt(i)
-            }
-        })
-    }
-})
+function delete_handler(){
+    input.value = input.value.slice(0,-1)
+    input.focus() 
+    console.log(input.value)
+    const cell = document.getElementById(`${row_board}-${input.value.length}`)
+    cell.textContent = ''
+}
+
+function addEventsForKeys(){
+    // eventos para el teclado en pantalla
+    keys.forEach(key =>{
+        if (key.textContent == 'Enter'){
+            key.addEventListener('click', send_word)
+        }
+        else if (key.textContent == '⌫'){
+            key.addEventListener('click', delete_handler)
+        }
+        else{
+            key.addEventListener('click', handler_screen_keyboard)
+        }
+    })
+    // eventos para el teclado fisico
+    input.addEventListener('keydown', handler_keyboard)
+    input.value = ''
+    input.disabled = false
+    input.focus()
+}
+
+// remover los eventos de las teclas
+function removeEventsFromKeys(){
+    keys.forEach(key =>{
+        key.removeEventListener('click', send_word)
+        key.removeEventListener('click', handler_screen_keyboard)
+        input.removeEventListener('keydonw', handler_keyboard)
+        key.removeEventListener('click', delete_handler)
+        input.value = ''
+        input.disabled = true
+    })
+}
 
 //recuperar el foco en el input
 input.addEventListener("blur", () => {
@@ -180,4 +245,9 @@ input.addEventListener("blur", () => {
 });
 
 
-restartButton.addEventListener('click', resetGame)
+restartButton.addEventListener('click', ()=>{
+    resetGame()
+    addEventsForKeys()
+    show_dialogue('inicio', 'wordle')
+    resetCountingTimer()
+})

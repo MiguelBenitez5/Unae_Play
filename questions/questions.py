@@ -13,7 +13,7 @@ class QuestionsGame:
         self.__hits = sessiondata['hits']
         self.__level = sessiondata['level']
         self.__score = sessiondata['score']
-        self.__question_info = sessiondata['question_info']
+        self.__question_info = sessiondata['data_info']
         self.__tries = sessiondata['tries']
         self.__persent = sessiondata['percent']
 
@@ -25,7 +25,7 @@ class QuestionsGame:
             'hits' : self.__hits,
             'level': self.__level,
             'score': self.__score,
-            'question_info': self.__question_info,
+            'data_info': self.__question_info,
             'tries': self.__tries 
         }
 
