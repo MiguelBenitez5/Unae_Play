@@ -1,9 +1,21 @@
-const modalWindow = document.querySelector('.modal')
 const cards = document.querySelectorAll('.card')
+const giveUpBtn = document.querySelector('.giveup')
+const restart = document.querySelector('.reset-btn')
+const pairs = document.querySelector('.score')
+// seguir trabajando para mostrar en la ventana modal al rendirse
+const scoreIconMemoryGame = document.querySelector('.score-icon')
+const scoreTitleMemoryGame = document.querySelector('.score-title')
 
-const questionMark = '<i class="fa-solid fa-question" style="color: #FFD43B;"></i>'
+
+const questionMark = '<i class="fa-solid fa-question fa-small question" style="color: #FFD43B;"></i>'
+
+window.onload = ()=>{
+    addEventsForCells()
+    show_dialogue('inicio', 'memorygame')
+}
 
 async function play_game(id){
+    startCountingTimer()
     try{
         const response = await fetch(`/memorygame/${id}`)
         if (!response.ok) throw new Error(`Error del servidor: ${response.status}`)
@@ -12,6 +24,8 @@ async function play_game(id){
         const card = document.getElementById(id)
         card.style.cursor = 'auto'
         card.onclick = null
+        pairs.textContent = `Pares: ${data.pairs}`
+
 
         if (data.user_choose_1 && !data.user_choose_2){
             insert_img(data.user_choose_1, card)
@@ -29,8 +43,10 @@ async function play_game(id){
 
         if (data.game_status !== undefined){
             if (data.game_status === 'win'){
-                // mostrar ventana modal al finalizar
-                setTimeout(()=>modalWindow.style.display = 'flex', 1500)
+                showModalScreen('memorygame',data)
+                show_dialogue('victoria', 'memorygame')
+                stopCountingTimer()
+                giveUpBtn.style.display = 'none'
             }
         }
         
@@ -43,9 +59,11 @@ async function play_game(id){
     
 }
 
-cards.forEach(card =>{
-    card.onclick = () => play_game(card.id)
-})
+function addEventsForCells(){
+    cards.forEach(card =>{
+        card.onclick = () => play_game(card.id)
+    })
+}
 
 
 
@@ -85,4 +103,66 @@ function not_pair(id_card_1, id_card_2){
         card_1.style.cursor = 'pointer'
         card_2.style.cursor = 'pointer'
     },1500)
+}
+
+// evento para en boton de rendicion
+
+giveUpBtn.addEventListener('click', giveUp)
+
+async function giveUp(){
+    try{
+        const response = await fetch('/memorygame/action/giveup')
+        if (!response.ok) throw new Error("Ha ocurrido un error con la conexion al servidor"+response.status)
+        const data = await response.json()
+        console.log(data)
+
+        scoreIconMemoryGame.innerHTML = '<i class="fa-solid fa-flag" style="color: #eaecf0;"></i>'
+        scoreTitleMemoryGame.textContent = 'Una rendicion a tiempo es mejor que una derrota'
+        showModalScreen('memorygame', data)
+        giveUpBtn.style.display = 'none'
+        stopCountingTimer()
+        removeEventsFromCards()
+    }catch(err){
+        console.log(err)
+    }
+}
+
+// boton de reinicio
+restart.addEventListener('click', ()=>{
+    addEventsForCells()
+    fetch('/memorygame/action/restart')
+    show_dialogue('inicio', 'memorygame')
+    resetCountingTimer()
+    pairs.textContent = 'Pares: 0'
+    cards.forEach((card, i)=>{
+        const {scaleX, scaleY} = getScale(card)
+        console.log(`Indice: ${i}\nEscala x: ${scaleX}\nEscala en y: ${scaleY}`)
+        if(scaleX !== '1' && scaleY !== '1'){
+            setTimeout(delete_img(card), 200*i)
+        }
+    })
+    giveUpBtn.style.display = 'block'
+})
+
+// remover eventos
+function removeEventsFromCards(){
+    cards.forEach(card =>{
+        card.onclick = null
+    })
+}
+
+// funcion auxiliar para obtener escala de elemento
+function getScale(element) {
+    const style = window.getComputedStyle(element);
+    const transform = style.transform; 
+
+    if (transform === "none") {
+        return { scaleX: 1, scaleY: 1 };
+    }
+
+    const values = transform.match(/matrix\(([^)]+)\)/)[1].split(', ').map(parseFloat);
+    const scaleX = values[0]; 
+    const scaleY = values[3]; 
+
+    return { scaleX, scaleY };
 }

@@ -9,18 +9,20 @@
 {% block title %}Prueba tu memoria{% endblock %}
 
 {% block game %}
-    <div class="game-header">
-        <h1 class="game-title">Prueba tu memoria con este increible minijuego</h1>
-        <section class="action-container">
-            <div class="score">Puntaje: </div>
-            <button class="reset-btn">Reiniciar</button>
-            {% include 'timer.html' %}
-        </section>
-    </div>
-    {% include 'memorygame/board.html' %}
-    <div class="game-footer">
-        <button class="giveup">Me rindo :C</button>
-    </div>
+    <section class="game-box board">
+        <div class="game-header">
+            <h1 class="game-title">Prueba tu memoria</h1>
+            <section class="action-container">
+                <div class="score">Pares: 0</div>
+                <button class="reset-btn reset"><i class="fa-solid fa-rotate-right" style="color: #fff; font-size: 26px;"></i></button>
+                {% include 'timer.html' %}
+            </section>
+        </div>
+        {% include 'memorygame/board.html' %}
+        <div class="game-footer">
+            <button class="giveup">Me rindo</button>
+        </div>
+    </section>
 {% endblock %}
 
 {% block script %}
