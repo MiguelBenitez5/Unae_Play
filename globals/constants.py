@@ -8,6 +8,6 @@ RPS_LOSS = 0
 
 # Adivinar Número
 NUM_ATTEMPTS = 7
-NUM_WIN = 100
+NUM_WIN = 1000
 NUM_LOSS = 0
-TIME_BONUS = 50   # puntos extra si adivinas rápido
+TIME_BONUS = 500   # puntos extra si adivinas rápido

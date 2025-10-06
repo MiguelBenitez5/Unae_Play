@@ -1,67 +1,73 @@
 /* static/piedrapapeltijera/css/game.css */
 
-/* Mejoras visuales para Piedra, Papel o Tijera */
+/* Piedra, Papel o Tijera - Modo oscuro, azul oscuro, animaciones suaves, sin glow */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 body {
-    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: 'Poppins', 'Fredoka', sans-serif;
+    color: #f1f1f1;
+    min-height: 100vh;
+    margin: 0;
 }
 
 .game-box {
     max-width: 700px;
     margin: 3rem auto;
-    padding: 2.5rem 2rem;
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 2rem;
+    background: #1c1f26;
+    border-radius: 12px;
     text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border: 2px solid #007bff22;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .header-game {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .header-game h2 {
-    color: #007bff;
+    color: #3a7ca5;
     font-size: 1.7rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin: 0;
 }
 
-.header-game button.reset {
-    background: #ff5252;
+.reset, .giveup {
+    background: #007bff;
     border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
     color: white;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 1rem;
-    box-shadow: 0 2px 8px #ff525233;
+    margin: 0.5rem;
     transition: background 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 1rem;
 }
 
-.header-game button.reset:hover {
-    background: #ff1744;
+.reset:hover, .giveup:hover {
+    background: #0056b3;
 }
 
 .score {
     font-weight: bold;
     font-size: 1.1rem;
-    color: #333;
+    color: #a0aec0;
     margin-left: 1rem;
 }
 
 .game-area {
     margin-top: 1rem;
+    width: 100%;
 }
 
 .choices {
@@ -69,6 +75,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 1.2rem;
+    flex-wrap: wrap;
 }
 
 .choice-btn {
@@ -76,8 +83,8 @@ body {
     font-size: 1.1rem;
     border: 2px solid #007bff;
     border-radius: 10px;
-    background: white;
-    color: #007bff;
+    background: #203a43;
+    color: #f1f1f1;
     cursor: pointer;
     font-weight: 600;
     box-shadow: 0 2px 8px #007bff22;
@@ -85,68 +92,96 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .choice-btn:hover, .choice-btn:focus {
     background: #007bff;
-    color: white;
+    color: #fff;
     transform: scale(1.07);
 }
 
-.status-area {
-    margin-bottom: 1.2rem;
+/* Animación de pulsado en los botones de elección */
+.choice-btn:active {
+    animation: press 0.15s;
+}
+@keyframes press {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.93); }
+    100% { transform: scale(1); }
 }
 
-.status-area p, .status-area h3 {
-    font-size: 1.1rem;
-    color: #444;
-    margin: 0.4rem 0;
+/* Animación de shake para mostrar la elección */
+.shake {
+    animation: shake 0.5s;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-16px); }
+    40% { transform: translateX(16px); }
+    60% { transform: translateX(-12px); }
+    80% { transform: translateX(12px); }
+    100% { transform: translateX(0); }
 }
 
-.stats {
-    margin-top: 1.2rem;
-    display: flex;
-    justify-content: space-around;
-    gap: 1rem;
-}
-
-.stats p {
-    margin: 0.3rem 0;
-    font-size: 1rem;
-    color: #444;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.footer-game {
-    margin-top: 2rem;
-}
-
-button.giveup {
-    background: #ff9800;
-    border: none;
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: 600;
-    box-shadow: 0 2px 8px #ff980033;
-    transition: background 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-button.giveup:hover {
-    background: #fb8c00;
-}
-
+/* Animación de aparición para el mensaje de resultado */
 #result-message {
     font-size: 1.3rem;
-    font-weight: bold;
     margin-top: 1rem;
-    color: #007bff;
+    min-height: 1.3rem;
+    color: #ffc107;
     text-shadow: 0 2px 8px #007bff22;
+    opacity: 1;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+.result-animate {
+    opacity: 0;
+    animation: fadeInResult 0.7s forwards;
+}
+@keyframes fadeInResult {
+    to { opacity: 1; }
+}
+
+/* Diálogo */
+#dialogue-container {
+    margin: 1.5rem auto 0 auto;
+    background: #15171a;
+    color: #f1f1f1;
+    border-radius: 10px;
+    padding: 0.7rem 1.2rem;
+    max-width: 420px;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 12px #0a234244;
+    letter-spacing: 0.01em;
+    font-family: 'Poppins', 'Fredoka', sans-serif;
+}
+#dialogue-text {
+    display: block;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .game-box {
+        max-width: 99vw;
+        padding: 1rem 0.2rem;
+        border-radius: 10px;
+    }
+    .header-game {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+    .choices {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+    }
+    .choice-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
