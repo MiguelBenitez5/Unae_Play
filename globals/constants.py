@@ -2,7 +2,7 @@
 
 # Piedra, Papel o Tijera (rps)
 RPS_ROUNDS = 7
-RPS_WIN = 100
+RPS_WIN = 150
 RPS_DRAW = 20
 RPS_LOSS = 0
 
