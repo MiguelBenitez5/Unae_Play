@@ -57,15 +57,13 @@ class QuestionsGame:
 
 
     def play_game(self, answer):
-        current_time = time.time()
-        elapsed_time = int(current_time - self.__start_time)
         response = {}
         if not self.__correct_answer:
             return {'status':'error','message':'Ha ocurrido un error, no hay pregunta'}
         if answer == self.__correct_answer:
             response['status'] = 'correct'
             self.__hits += 1
-            self.__score = (self.__score + CORRECT_ANSWER) - elapsed_time 
+            self.__score += 10
         else:
             response['status'] = 'incorrect'
             response['correct_option'] = self.__correct_answer
@@ -78,6 +76,8 @@ class QuestionsGame:
         response['level'] = self.__level
         response['question_info'] = self.__question_info
         response['score'] = self.__score
+        response['start_time'] = self.__start_time
+
 
         match self.__level:
             case 'easy':
@@ -109,10 +109,7 @@ class QuestionsGame:
         self.__persent = 0
 
     def __calculate_score(self):
-        current_time = time.time()
-        elapsed_time = int(current_time - self.__start_time)
-        if self.__tries >= 15:
-            if self.__persent >= 60:
-                self.__score = (self.__score  - elapsed_time) * 5
+        if self.__tries >= 15 and self.__persent >= 60:
+            self.__score *= 2 
         
 

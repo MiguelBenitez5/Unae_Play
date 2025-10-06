@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .questions import QuestionsGame
-from globals.utils import is_session_active, save_score
+from globals.utils import is_session_active, save_score, calculate_score
 from django.http import JsonResponse
 import time
 
@@ -74,7 +74,13 @@ def answer_question(request):
 
     if 'game_status' in response:
         if response['game_status'] == 'end':
-            save_score(request, 'questions', response['score'])
+            score = response['score']
+            start_time = response['start_time']
+            max_score = 300
+            min_time = 30
+            max_time = 500
+            final_score = calculate_score(score,start_time,max_score,min_time,max_score)
+            save_score(request, 'questions', final_score)
             if response['percent'] >= 60:
                 response['game_status'] = 'win'
             else:
@@ -96,5 +102,11 @@ def give_up(request):
         })
     response = {}
     response['score'] = questions_data.get('score',0)
-    save_score(request, 'questions', response['score'])
+    score = response['score']
+    start_time = request.session['questions']['start_time']
+    max_score = 300
+    min_time = 30
+    max_time = 500
+    final_score = calculate_score(score,start_time,max_score,min_time,max_time)
+    save_score(request, 'questions', final_score)
     return JsonResponse({'score': response})
