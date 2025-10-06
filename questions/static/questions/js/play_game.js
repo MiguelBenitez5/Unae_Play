@@ -192,12 +192,6 @@ function show_restart_button(){
     reload_btn.classList.remove('hidden')
 }
 
-function show_modal(){
-    setTimeout(()=>{
-        modal_window.style.display = 'flex'
-    }, 1500)
-}
-
 function get_level(level){
     switch(level){
         case "easy":
@@ -255,3 +249,11 @@ function first_events_for_answers(){
 next_btn.addEventListener('click', new_question)
 
 reload_btn.addEventListener('click', ()=> location.reload())
+
+giveup_btn.addEventListener('click', ()=>{
+    fetch('/questions/action/giveup/')
+    show_dialogue('rendicion', 'questions')
+    show_restart_button()
+    showModalScreen('questions', null)
+    stopCounting()
+})

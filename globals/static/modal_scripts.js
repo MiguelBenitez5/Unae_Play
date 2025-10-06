@@ -93,6 +93,8 @@ async function showModalScreen(game, game_data){
         const capitalizedGameName = capitalizeText(game)
         gameOption.textContent = `Top ${capitalizedGameName}`
 
+        playerScore.textContent = `Tu puntaje: ${data.player_score}` 
+
         if (game_data.game_status && game_data.game_status == 'win'){
             scoreIcon.innerHTML = `<i class="fa-solid fa-crown fa-bounce" style="color: #edca1d;"></i>`
             scoreTitle.textContent = `Felicidades ${data.username}, ganaste esta partida`
@@ -121,7 +123,7 @@ async function showModalScreen(game, game_data){
             }, 2000);
         }
         
-        playerScore.textContent = `Tu puntaje: ${data.player_score}` 
+        
         
     }catch(err){
         console.log(err)

@@ -5,17 +5,21 @@
         <link rel="stylesheet" href="{% static 'modal.css' %}">
         <link rel="stylesheet" href="{% static 'css/timer.css' %}">
         <link rel="stylesheet" href="{% static 'css/global-components.css' %}">
+        <link rel="stylesheet" href="{% static 'css/loading-screen.css' %}">
     {% endblock %}
     {% block content%}
-    {% include 'modal_ranking.html' %}
-    <div class="game">
-        {% block game%}
-        {% endblock %}
-    </div>
-    
-    <div class="char">
-        {% include 'dialogue.html' %}
-    </div>
+        {% include 'loading_screen.html' %}
+        {% include 'modal_ranking.html' %}
+        <div class="game-all-content" style="display: none;">
+            <div class="game">
+                {% block game%}
+                {% endblock %}
+            </div>
+            
+            <div class="char">
+                {% include 'dialogue.html' %}
+            </div>
+        </div>
     {% endblock%}
 
     {% block script %}
