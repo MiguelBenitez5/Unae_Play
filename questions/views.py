@@ -79,7 +79,7 @@ def answer_question(request):
             max_score = 300
             min_time = 30
             max_time = 500
-            final_score = calculate_score(score,start_time,max_score,min_time,max_score)
+            final_score = calculate_score(score,start_time,max_score,min_time,max_time)
             save_score(request, 'questions', final_score)
             if response['percent'] >= 60:
                 response['game_status'] = 'win'
@@ -104,6 +104,7 @@ def give_up(request):
     response['score'] = questions_data.get('score',0)
     score = response['score']
     start_time = request.session['questions']['start_time']
+    print(start_time)
     max_score = 300
     min_time = 30
     max_time = 500
