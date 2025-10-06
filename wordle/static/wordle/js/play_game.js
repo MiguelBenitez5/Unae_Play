@@ -89,7 +89,7 @@ function send_word(){
                         console.log('Detalle del error: ',data.message)
                         errorAnimation()
                         return
-                    // hacer alguna animacion para informar al usuario de palabra incorrecta
+    
                     case 'not_found': 
                         console.log("Palabra incorrecta")
                         errorAnimation()

@@ -10,6 +10,9 @@ let timer_interval = null
  * Funcion para utilizarla en los juegos que necesiten un contador
  */
 function startCountingTimer(){
+    if(timer_interval){
+        return
+    }
     timer_interval = setInterval(()=>{
         s++
         if(s === 10){
@@ -38,16 +41,18 @@ function startCountingTimer(){
  */
 function stopCountingTimer(){
     clearInterval(timer_interval)
+    timer_interval = null
 }
 
 /**
  * Reinicia en 0 el contador
  */
 function resetCountingTimer(){
-    stopCountingTimer()
+    clearInterval(timer_interval)
+    timer_interval = null
     h = 0, m=0, d=0, s = 0
-    startCountingTimer()
+    sec.textContent = s
+    dec.textContent = d
+    min.textContent = m
+    hour.textContent = h
 }
-
-// El contador se ejecuta por defecto
-startCountingTimer()

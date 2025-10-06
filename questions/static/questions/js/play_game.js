@@ -35,11 +35,14 @@ function getCookie(name) {
 
 const csrftoken = getCookie("csrftoken");
 
-window.onload =  first_events_for_answers
+window.onload =  ()=>{
+    first_events_for_answers()
+    show_dialogue('inicio', 'questions')
+}
 
 // se obtiene una nueva pregunta y se muestra en pantalla
 async function new_question(){ 
-    dialogText.textContent = '...'
+    show_dialogue('siguiente', 'questions')
     repaint_answers()
     add_events_for_answers()
     show_give_up_button()
@@ -99,18 +102,18 @@ async function answer_question(answer) {
         if (data.game_status){
             if (data.game_status == 'win'){
                 // lugar para dialogo final de victoria
-                show_modal()
+                showModalScreen('questions',data)
                 show_restart_button()
                 return data
             }else{
                 // dialogos de derrota
-                show_modal()
+                showModalScreen('questions', data)
                 show_restart_button()
                 return data
             }
         }
         // mostrar dialogo de la descripcion de la pregunta
-        dialogText.textContent = data.question_info
+        show_dialogue_for_questions(data)
         show_next_button()
         return data
 

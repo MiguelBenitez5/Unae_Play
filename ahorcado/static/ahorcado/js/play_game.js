@@ -14,11 +14,7 @@ const emptyHeart = "fa-regular fa-heart"
 const fullHeart = "fa-solid fa-heart fa-beat"
 const fadedHeart = "fa-solid fa-heart fa-fade"
 
-window.onload = ()=>{
-    get_data()
-    addEventsForKeys()
-    show_dialogue('inicio', 'ahorcado')
-}
+window.onload = restartGame
 
 function play_game(char){
     fetch(`/ahorcado/${char.toLowerCase()}`)
@@ -155,7 +151,7 @@ document.addEventListener('keydown', (e)=>{
     }
 })
 
-newWordBtn.addEventListener('click', async ()=>{
+async function restartGame() {
     try{
         const response = await fetch('/ahorcado/action/restart')
         if (!response.ok) throw new Error("Ocurrio un error en la consulta en el servidor "+response.status)
@@ -168,4 +164,6 @@ newWordBtn.addEventListener('click', async ()=>{
     }catch(err){
         console.log(err)
     }
-})
+}
+
+newWordBtn.addEventListener('click', restartGame)

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from globals.utils import is_session_active
+from globals.utils import is_session_active, save_score, calculate_score
 import time
 from django.http import JsonResponse
 from .memorygame import MemoryGame
@@ -10,7 +10,6 @@ def render_page(request):
     if not is_session_active(request):
         return redirect('login')
     restart_game(request)
-    init_game(request)
     return render(request, 'memorygame/memorygame.html',{'logged': True})
 
 def play_game(request, position):
@@ -65,6 +64,18 @@ def play_game(request, position):
     request.session['memorygame'].update(response)
     request.session.modified = True
 
+    # guardar puntaje
+    if 'game_status' in response:
+        match response['game_status']:
+            case 'win':
+                score = response['score']
+                start_time = request.session['memorygame']['start_time']
+                max_score = 1600
+                min_time = 15
+                max_time = 120
+                final_score = calculate_score(score,start_time,max_score,min_time,max_time)
+                save_score(request,'memorygame',final_score)
+
     response['position_1'] = request.session['memorygame']['position_1']
     response['board'] = None
 
@@ -84,6 +95,29 @@ def init_game(request):
         'tries': 0
     })
 
+def give_up(request):
+    session_data = request.session.get('memorygame')
+
+    if not session_data:
+        return JsonResponse({'status': 'error', 'message': 'No se encontraron datos en la sesion'})
+    
+    score = session_data.get('score', 0)
+    start_time = session_data.get('start_time')
+    max_score = 1600
+    min_time = 15
+    max_time = 120
+        
+    final_score = calculate_score(score, start_time, max_score, min_time, max_time)
+
+    save_score(request, 'memorygame', final_score)
+    restart_game(request)
+    return JsonResponse({"score": score})
+    
 def restart_game(request):
     request.session.pop('memorygame', None)
     request.session.modified = True
+    init_game(request)
+    return JsonResponse({
+        'status': 'success',
+        'message': 'Partida reestablecida correctamente'
+    })
