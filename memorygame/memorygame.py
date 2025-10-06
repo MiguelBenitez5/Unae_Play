@@ -26,7 +26,6 @@ class MemoryGame:
         }
 
     def __init_board(self):
-        start_time = time.time()
         self.__board = [[' ' for _ in range(4)] for _ in range(4)]
         values = 'aabbccddeeffgghh'
         positions = []
@@ -38,9 +37,7 @@ class MemoryGame:
             row = int(random_position[0])
             col = int(random_position[2])
             self.__board[row][col] = char
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        print(f"Tiempo de generacion de matriz en segundos: {elapsed_time}")
+        
     
     def play_game(self, row, col):
         if not self.__board:
@@ -53,17 +50,21 @@ class MemoryGame:
         result = 'not_pair'
         self.__position_1, self.__position_2 = None, None
         user_choice_1, user_choice_2 = None, None
+
+        # a partir de 17 intentos, el jugador pierde 50 puntos por intento
+        if self.__tries > 16:
+            self.__score -= 50
         
         if not self.__user_choose_1:
             self.__user_choose_1 = self.__board[row][col]
             self.__position_1 = f'{row}-{col}'
         else:
             self.__user_choose_2 = self.__board[row][col]
-            position_2 = f'{row}-{col}'
+            self.__position_2 = f'{row}-{col}'
             if self.__user_choose_1 == self.__user_choose_2:
                 result = 'pair'
                 self.__pairs += 1
-                self.__score += PAIR_POINTS
+                self.__score += 200
             #guardar las referencias
             user_choice_1 = self.__user_choose_1
             user_choice_2 = self.__user_choose_2
@@ -79,11 +80,8 @@ class MemoryGame:
         response['user_choose_2'] = self.__user_choose_2
         response['user_choice_1'] = user_choice_1
         response['user_choice_2'] = user_choice_2
-        #Formula para calular puntaje = (Suma de puntajes por cada par * pares acertados) - tiempo*intentos
+
         if self.__pairs >= 8:
-            end_time = time.time()
-            elapsed_time = end_time - self.__start_time
-            self.__score = (self.__score * self.__pairs) - (int(elapsed_time)*self.__tries)
             response['game_status'] = 'win'
         
         return response

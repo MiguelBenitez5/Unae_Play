@@ -62,6 +62,19 @@ function reset_dialogue(){
     
 }
 
+// funcion exclusiva para questions
+function show_dialogue_for_questions(data){
+    if (random_dialogue_interval || reset_time_out){
+        clearInterval(random_dialogue_interval)
+        clearTimeout(reset_time_out)
+    }
+    dialogueTextGlobal.style.animation = 'none'
+    void dialogueTextGlobal.offsetWidth
+    dialogueTextGlobal.style.animation = 'myDialogueAnim 0.7s ease-in 0s 1 normal forwards'
+    dialogueTextGlobal.textContent = data.question_info
+    charImg.src = get_char_img().talk_pose
+}
+
 // funcion para detener los dialogos aleatorios
 
 function stop_random_dialogues(){

@@ -16,6 +16,10 @@
     </div>
 {% endblock %}
 
+{% block audio%}
+    <audio loop autoplay src="{% static 'questions/music/estilo tropical suave y suspenso.wav '%}"></audio>
+{% endblock %}
+
 {% block script %}
     {{block.super }}
     <script src="{% static 'questions/js/play_game.js' %}"></script> 
