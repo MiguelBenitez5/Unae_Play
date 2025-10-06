@@ -17,8 +17,6 @@ const dialogueText = document.getElementById("dialogue-text")
 
 const circle = '<i class="fa-regular fa-circle" style="color: #cb151e;"></i>'
 const xmark = '<i class="fa-solid fa-xmark" style="color: #0c7b0a;"></i>'
-const resetBtn = '<i class="fa-solid fa-rotate-right" style="color: #fff; font-size: 26px;"></i>'
-const resetBtnHover = '<i class="fa-solid fa-rotate-right fa-spin" style="color: #ffffff; font-size: 26px;"></i>'
 
 function cleanBoard(){
     cells.forEach(cell =>{
@@ -82,6 +80,7 @@ async function next_level() {
 
         level.textContent = data.level == 'easy'? 'Facil' : data.level == 'medium'? 'Normal' : 'Dificil'
         cleanBoard()
+        nextLevel.classList.add('hidden')
         if(data.hard_machine_move.board){
             paintBoard(data.hard_machine_move.board)
             console.log('hey')
@@ -118,6 +117,7 @@ nextLevel.addEventListener('click', function(){
             .then(data =>{
 
                 console.log(data)
+                nextLevel.classList.add('hidden')
 
                 level.textContent = data.level == 'easy'? 'Facil' : data.level == 'medium'? 'Normal' : 'Dificil'
                 cleanBoard()
@@ -150,6 +150,7 @@ giveup.addEventListener('click', give_up)
 tryAgain.addEventListener('click', try_again)
 
 async function clientPlay(){
+    startCountingTimer()
     try{
         const response = await fetch(`/tateti/${this.id}`)
         if (!response.ok) throw new Error('Error en la consulta con el servidor: '+ response.status)
@@ -225,15 +226,6 @@ async function clientPlay(){
 //eventos para cada celda del tablero
 cells.forEach(cell =>{
     cell.addEventListener("click", clientPlay )
-})
-
-// eventos para animacion del boton de reinicio
-reset.addEventListener('mouseenter', ()=>{
-    reset.innerHTML = resetBtnHover
-})
-
-reset.addEventListener('mouseleave', ()=>{
-    reset.innerHTML = resetBtn
 })
 
 // remover eventos de celdas
