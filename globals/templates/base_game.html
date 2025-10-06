@@ -4,6 +4,7 @@
         {{block.super}}
         <link rel="stylesheet" href="{% static 'modal.css' %}">
         <link rel="stylesheet" href="{% static 'css/timer.css' %}">
+        <link rel="stylesheet" href="{% static 'css/global-components.css' %}">
     {% endblock %}
     {% block content%}
     {% include 'modal_ranking.html' %}
@@ -22,4 +23,6 @@
         <script src="{% static 'js/dialogues.js' %}"></script>
         <script src="{% static 'modal_scripts.js' %}"></script>
         <script src="{% static 'js/timer-script.js' %}"></script>
+        <script src="{% static 'js/restart_btn_hover_script.js' %}"></script>
+        
     {% endblock %}

@@ -58,7 +58,7 @@ Params:
     time_weight[opcional] (float): Porcentaje de del valor del puntaje basado en el tiempo empleado\n  
 """
 def calculate_score(score:int, start_time:int|float, max_score:int, min_time:int, max_time:int, time_weight:float=0.3)->int:
-    score_norm = score/max_score
+    score_norm = max(0,score/max_score)
     current_time = time.time()
     elapsed_time = current_time - start_time
     print(elapsed_time) 
