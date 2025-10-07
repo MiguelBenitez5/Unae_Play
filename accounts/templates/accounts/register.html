@@ -1,19 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     Registro
 {% endblock %}
 
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'login/css/tos-modal.css' %}">
+{% endblock %}
 
 
 {% block content%}
-    {% if messages %}
-        <ul>
-        {% for message in messages %}   
-            <li>{{message}}</li> 
-        {% endfor%}
-        </ul>
-    {% endif%}
-    
-    {% include 'accounts/registerform.html'%}
+    <section class="form-container">
+        {% if messages %}
+            <ul class="error-list">
+            {% for message in messages %}   
+                <li class="error-item">{{message}}</li>
+            {% endfor%}
+            </ul>
+        {% endif%}
+        
+        {% include 'accounts/registerform.html'%}
+    </section>
 {% endblock%}
+
+{% block script%}
+    <script src="{% static 'login/js/script.js' %}"></script>
+{% endblock %}

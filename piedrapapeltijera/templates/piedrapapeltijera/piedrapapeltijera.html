@@ -12,7 +12,9 @@
     <div class="game-box">
         <div class="header-game">
             <h2>✊ Piedra, Papel o Tijera</h2>
-            <button class="reset">Reiniciar</button>
+            <button class="resetbtn" title="Reiniciar">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
             <p class="score">Puntaje: <span id="current-score">0</span></p>
         </div>
         
@@ -41,5 +43,6 @@
 {% endblock %}
 
 {% block script %}
+    {{block.super}}
     <script src="{% static 'piedrapapeltijera/js/play_game.js' %}"></script>
 {% endblock %}

@@ -22,11 +22,9 @@
         <button id="guess-btn">Adivinar</button>
         <p>Intentos: <span id="attempts">0</span>/<span id="max-attempts">0</span></p>
         <p>Tiempo: <span id="timer">0</span> seg</p>
-        <!-- AÑADIR ESTA NUEVA SECCIÓN -->
         <div class="history-log">
             <h4>Intentos Anteriores:</h4>
             <ul id="guess-history">
-                <!-- Los números se añadirán aquí con JavaScript -->
             </ul>
         </div>
     </div>
@@ -38,5 +36,6 @@
 {% endblock %}
 
 {% block script %}
+    {{block.super}}
     <script src="{% static 'adivinarnumero/js/play_game.js' %}"></script>
 {% endblock %}

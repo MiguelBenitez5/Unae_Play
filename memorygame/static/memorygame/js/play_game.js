@@ -9,10 +9,11 @@ const scoreTitleMemoryGame = document.querySelector('.score-title')
 
 const questionMark = '<i class="fa-solid fa-question fa-small question" style="color: #FFD43B;"></i>'
 
-window.onload = ()=>{
+//evento para el boton de inicio de partida luego de cargar la pagina
+loadingBtn.addEventListener('click', ()=>{
     addEventsForCells()
     show_dialogue('inicio', 'memorygame')
-}
+}) 
 
 async function play_game(id){
     startCountingTimer()

@@ -6,13 +6,7 @@ let interval;
 let targetNumber = null; // Para almacenar el número secreto si se recibe tras perder
 let gameFinished = false;
 
-window.onload = () => {
-    // Inicialización al cargar la página
-    document.getElementById("max-attempts").textContent = MAX_ATTEMPTS_CLIENT;
-    
-    // Inicia el juego y el temporizador
-    restartGame(); 
-};
+loadingBtn.addEventListener('click', restartGame);
 
 /**
  * Inicia o reinicia el temporizador.
@@ -35,46 +29,39 @@ function startTimer() {
 /**
  * Reinicia la partida en el backend y actualiza el frontend.
  */
-function restartGame() {
-    fetch("/adivinarnumero/action/restart/")
-        .then(res => {
-            // Verifica si la respuesta HTTP fue exitosa (código 200-299)
-            if (!res.ok) {
-                // Si hay un error 4xx o 5xx, arrojar un error para el catch
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-            return res.json();
-        })
-        .then(() => {
-            // Reiniciar estados del juego
-            targetNumber = null;
-            gameFinished = false;
+async function restartGame() {
+    try {
+        const response = await fetch('/adivinarnumero/action/restart');
+        if (!response.ok) throw new Error("Ocurrió un error en la consulta en el servidor " + response.status);
+        const data = await response.json();
 
-            // Limpiar la interfaz
-            document.getElementById("current-score").textContent = "0";
-            document.getElementById("attempts").textContent = "0";
-            document.getElementById("max-attempts").textContent = MAX_ATTEMPTS_CLIENT;
-            document.getElementById("status-message").textContent = "Ingresa un número del 1 al 100";
-            document.getElementById("guess-input").value = "";
-            document.getElementById("guess-input").disabled = false;
-            document.getElementById("guess-btn").disabled = false;
-            
-            // Limpiar y resetear historial, COMPROBANDO SI EL ELEMENTO EXISTE
-            const historyList = document.getElementById("guess-history");
-            if (historyList) {
-                historyList.innerHTML = '';
-            }
-            
-            // Eliminar la clase clickeable
-            document.getElementById("status-message").classList.remove('revealable');
+        // Reiniciar estados del juego
+        targetNumber = null;
+        gameFinished = false;
 
-            startTimer();
-        })
-        .catch(error => {
-            console.error("Error al reiniciar el juego:", error);
-            // Mensaje más específico 
-            document.getElementById("status-message").textContent = "Error de comunicación con el servidor al reiniciar. Revisa la consola para el error específico (404/500/JSON).";
-        });
+        // Limpiar la interfaz
+        document.getElementById("current-score").textContent = "0";
+        document.getElementById("attempts").textContent = "0";
+        document.getElementById("max-attempts").textContent = MAX_ATTEMPTS_CLIENT;
+        document.getElementById("status-message").textContent = "Ingresa un número del 1 al 100";
+        document.getElementById("guess-input").value = "";
+        document.getElementById("guess-input").disabled = false;
+        document.getElementById("guess-btn").disabled = false;
+        
+        // Limpiar y resetear historial, COMPROBANDO SI EL ELEMENTO EXISTE
+        const historyList = document.getElementById("guess-history");
+        if (historyList) {
+            historyList.innerHTML = '';
+        }
+        
+        // Eliminar la clase clickeable
+        document.getElementById("status-message").classList.remove('revealable');
+
+        startTimer();
+        show_dialogue('inicio', 'adivinarnumero');
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 /**
@@ -144,6 +131,7 @@ function guessNumber() {
                 clearInterval(interval);
                 document.getElementById("guess-input").disabled = true;
                 document.getElementById("guess-btn").disabled = true;
+                showModalScreen('adivinarnumero', data); // <-- Muestra el modal al terminar
             }
         })
         .catch(error => {
@@ -200,6 +188,7 @@ function giveUp() {
             clearInterval(interval);
             document.getElementById("guess-input").disabled = true;
             document.getElementById("guess-btn").disabled = true;
+            showModalScreen('adivinarnumero', data); // <-- Muestra el modal al rendirse
         })
         .catch(error => {
             console.error("Error al rendirse:", error);
@@ -220,6 +209,45 @@ function revealSecretNumber() {
     }
 }
 
+/**
+ * Actualiza la interfaz de usuario con los datos más recientes del servidor.
+ * @param {Object} data - Los datos recibidos del servidor.
+ */
+function updateUI(data) {
+    const playerScoreSpan = document.getElementById("current-score");
+    
+    if (data.final_score !== undefined) {
+        playerScoreSpan.textContent = data.final_score;
+    } else if (data.score !== undefined) {
+        playerScoreSpan.textContent = data.score;
+    }
+
+    // Otras actualizaciones de UI según los datos recibidos
+    document.getElementById("attempts").textContent = data.attempts || 0;
+    document.getElementById("max-attempts").textContent = data.max_attempts || MAX_ATTEMPTS_CLIENT;
+    document.getElementById("timer").textContent = data.elapsed || 0;
+}
+
+/**
+ * Muestra un diálogo basado en la categoría y el juego.
+ * @param {string} category - La categoría del diálogo.
+ * @param {string} game - El juego relacionado con el diálogo.
+ * @param {Object} [data=null] - Datos adicionales, si es necesario.
+ */
+async function show_dialogue(category, game, data=null) {
+    try {
+        let url = `/globals/get_dialogue/${category}/${game}/`;
+        const response = await fetch(url);
+        const result = await response.json();
+        if (result.status === 'ok' && result.dialogue && result.dialogue.text) {
+            document.getElementById('dialogue-text').textContent = result.dialogue.text;
+        } else {
+            document.getElementById('dialogue-text').textContent = "¡Suerte!";
+        }
+    } catch (err) {
+        document.getElementById('dialogue-text').textContent = "¡Suerte!";
+    }
+}
 
 // Asignación de Event Listeners
 document.getElementById("guess-btn").addEventListener("click", guessNumber);

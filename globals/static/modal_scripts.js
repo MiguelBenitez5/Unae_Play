@@ -52,13 +52,12 @@ rankingFilter.addEventListener('click', (e) => {
  * @param {object} game_data Los datos de la partida    
  */
 async function showModalScreen(game, game_data){
-    auxInput.value = game
+    auxInput.value = game;
     try{
-        // mostrar la ventana modal con un pequeño delay
-        openAnimModal()
-        setTimeout(()=> modal.style.display = 'flex', 1500)
+        openAnimModal();
+        modal.style.display = 'flex'; // Mostrar el modal inmediatamente
 
-        const response = await fetch(`/getscores/${game}`)
+        const response = await fetch(`/getscores/${game}`);
         if(!response.ok) throw new Error("No se pudo realizar la conexion con el servidor "+response.status)
         const data = await response.json()
         console.log(data)
@@ -93,6 +92,8 @@ async function showModalScreen(game, game_data){
         const capitalizedGameName = capitalizeText(game)
         gameOption.textContent = `Top ${capitalizedGameName}`
 
+        playerScore.textContent = `Tu puntaje: ${data.player_score}` 
+
         if (game_data.game_status && game_data.game_status == 'win'){
             scoreIcon.innerHTML = `<i class="fa-solid fa-crown fa-bounce" style="color: #edca1d;"></i>`
             scoreTitle.textContent = `Felicidades ${data.username}, ganaste esta partida`
@@ -121,7 +122,7 @@ async function showModalScreen(game, game_data){
             }, 2000);
         }
         
-        playerScore.textContent = `Tu puntaje: ${data.player_score}` 
+        
         
     }catch(err){
         console.log(err)

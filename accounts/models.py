@@ -3,13 +3,15 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     # 'id', 'username', 'email', 'password' ya vienen por defecto
-    email = models.EmailField(unique=True)  # asegura emails únicos
+    email = models.EmailField(unique=True, verbose_name='Correo Electronico')  # asegura emails únicos
+    age= models.IntegerField(verbose_name='edad', default=0, null=True)
+    clicked_campaign = models.BooleanField(default=False, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
     class Meta:
-        db_table = 'users'
+        db_table = 'users'  
 
     def __str__(self):
         return self.username

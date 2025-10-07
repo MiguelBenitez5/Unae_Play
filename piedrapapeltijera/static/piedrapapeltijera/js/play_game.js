@@ -1,11 +1,12 @@
-// app/piedrapapeltijera/static/piedrapapeltijera/js/play_game.js
+// Piedra, Papel o Tijera 
 
-window.onload = function() {
+loadingBtn.addEventListener('click', ()=>{
     restartGame();
-};
+    show_dialogue('inicio', 'piedrapapeltijera');
+})
 
 const choiceBtns = document.querySelectorAll('.choice-btn');
-const resetBtn = document.querySelector('.reset');
+const resetButton = document.querySelector('.resetbtn');
 const giveupBtn = document.querySelector('.giveup');
 
 const playerScoreSpan = document.getElementById('current-score');
@@ -36,7 +37,7 @@ function restartGame() {
             gameFinished = false;
             enableChoiceButtons(true);
             updateUI({
-                score: 0,
+                player_score: 0,
                 player_wins: 0,
                 machine_wins: 0,
                 draws: 0,
@@ -65,27 +66,23 @@ function clientPlay(event) {
                 return;
             }
 
-            if (data.status === 'finished') {
+            // Mostrar el modal solo si terminó la partida
+            if (data.status === 'finished' || data.rounds_played >= data.rounds_limit) {
                 gameFinished = true;
                 enableChoiceButtons(false);
-                resultMessageH3.textContent = data.message;
+                resultMessageH3.textContent = data.message || "¡Juego terminado! Reinicia o ríndete.";
+                console.log(data);
+                showModalScreen('piedrapapeltijera', data); // <-- ESTA LÍNEA ES CLAVE
                 return;
             }
 
             updateUI(data);
-
-            // Si ya alcanzó el límite de rondas
-            if (data.rounds_played >= data.rounds_limit) {
-                gameFinished = true;
-                enableChoiceButtons(false);
-                resultMessageH3.textContent = "¡Juego terminado! Reinicia o ríndete.";
-            }
         })
         .catch(error => console.error('Error al realizar la jugada:', error));
 }
 
 function updateUI(data) {
-    playerScoreSpan.textContent = data.score;
+    playerScoreSpan.textContent = data.player_score;
     playerWinsSpan.textContent = data.player_wins;
     machineWinsSpan.textContent = data.machine_wins;
     drawsSpan.textContent = data.draws;
@@ -104,27 +101,44 @@ function updateUI(data) {
         machineChoiceP.textContent = "Máquina: ❓";
     }
     
+    // Animaciones de resultado
+    resultMessageH3.classList.remove('result-animate', 'shake');
+    void resultMessageH3.offsetWidth; // fuerza reflow
+
     switch (data.result) {
         case 'win':
-            resultMessageH3.textContent = '¡Ganaste esta ronda! 🎉';
+            resultMessageH3.textContent = 'Ganaste esta ronda! 🎉';
+            resultMessageH3.classList.add('shake');
             break;
         case 'defeat':
-            resultMessageH3.textContent = '¡Perdiste esta ronda 😢';
+            resultMessageH3.textContent = 'Perdiste esta ronda 💔';
             break;
         case 'draw':
-            resultMessageH3.textContent = '¡Empate 🤝';
+            resultMessageH3.textContent = 'Empate 🤝';
             break;
         case 'start':
-            resultMessageH3.textContent = '¡Elige tu movimiento!';
+            resultMessageH3.textContent = 'Elige tu movimiento!';
             break;
+    }
+    resultMessageH3.classList.add('result-animate');
+
+    if (data.result === 'win') {
+        show_dialogue('victoria', 'piedrapapeltijera');
+    }
+    if (data.result === 'defeat') {
+        show_dialogue('derrota', 'piedrapapeltijera');
+    }
+    if (data.result === 'draw') {
+        show_dialogue('empate', 'piedrapapeltijera');
     }
 }
 
 function giveUp() {
     fetch('/piedrapapeltijera/action/giveup/')
         .then(response => response.json())
-        .then(data => {
-            alert(`Tu puntaje final es: ${data.score}`);
+        .then((data) => {
+            showModalScreen('piedrapapeltijera', data); // <-- AQUÍ
+            alert(`Tu puntaje final es: ${data.player_score}`);
             restartGame();
         })
         .catch(error => console.error('Error al rendirse:', error));
@@ -136,9 +150,26 @@ function enableChoiceButtons(enable) {
     });
 }
 
+// async function show_dialogue(category, game) {
+//     try {
+//         const response = await fetch(`/globals/get_dialogue/${category}/${game}/`);
+//         const result = await response.json();
+//         if (result.status === 'ok' && result.dialogue && result.dialogue.text) {
+//             document.getElementById('dialogue-text').textContent = result.dialogue.text;
+//         } else {
+//             document.getElementById('dialogue-text').textContent = "¡Suerte!";
+//         }
+//     } catch (err) {
+//         document.getElementById('dialogue-text').textContent = "¡Suerte!";
+//     }
+// }
+
 // Asignar eventos a los botones
 choiceBtns.forEach(btn => {
     btn.addEventListener('click', clientPlay);
 });
-resetBtn.addEventListener('click', restartGame);
-giveupBtn.addEventListener('click', giveUp);
+resetButton.addEventListener('click', restartGame);
+giveupBtn.addEventListener('click', function() {
+    giveUp();
+    show_dialogue('rendicion', 'piedrapapeltijera');
+});
