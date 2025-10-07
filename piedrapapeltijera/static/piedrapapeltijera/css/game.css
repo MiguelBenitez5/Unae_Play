@@ -1,10 +1,3 @@
-/* static/piedrapapeltijera/css/game.css */
-
-/* Piedra, Papel o Tijera - Modo oscuro, azul oscuro, animaciones suaves, sin glow */
-
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
 body {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     font-family: 'Poppins', 'Fredoka', sans-serif;
@@ -14,75 +7,78 @@ body {
 }
 
 .game-box {
-    max-width: 700px;
-    margin: 3rem auto;
-    padding: 2rem;
+    max-width: 500px;
+    margin: 1.2rem auto;
+    padding: 0.7rem 0.5rem;
     background: #1c1f26;
-    border-radius: 12px;
+    border-radius: 10px;
     text-align: center;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.32);
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.7rem;
 }
 
 .header-game {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.3rem;
+    gap: 0.3rem;
 }
 
 .header-game h2 {
     color: #3a7ca5;
-    font-size: 1.7rem;
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 0.1rem 0;
+}
+
+.resetbtn {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    margin: 0;
+    transition: color 0.3s;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin: 0;
+    justify-content: center;
 }
 
-.resetbtn, .giveup {
-    background: #007bff;
-    border: none;
-    padding: 0.7rem 1.5rem;
-    border-radius: 6px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 0.5rem;
-    transition: background 0.3s;
-}
-
-.resetbtn:hover, .giveup:hover {
-    background: #0056b3;
+.resetbtn:hover {
+    color: #0056b3;
+    background: #222;
 }
 
 .score {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: #a0aec0;
-    margin-left: 1rem;
+    margin-left: 0.2rem;
 }
 
 .game-area {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     width: 100%;
 }
 
 .choices {
-    margin: 1.5rem 0;
+    margin: 0.5rem 0;
     display: flex;
     justify-content: center;
-    gap: 1.2rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
 }
 
 .choice-btn {
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.95rem;
     border: 2px solid #007bff;
-    border-radius: 10px;
+    border-radius: 8px;
     background: #203a43;
     color: #f1f1f1;
     cursor: pointer;
@@ -91,17 +87,16 @@ body {
     transition: all 0.2s;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    gap: 0.3rem;
+    margin-bottom: 0.2rem;
 }
 
 .choice-btn:hover, .choice-btn:focus {
     background: #007bff;
     color: #fff;
-    transform: scale(1.07);
+    transform: scale(1.04);
 }
 
-/* Animación de pulsado en los botones de elección */
 .choice-btn:active {
     animation: press 0.15s;
 }
@@ -111,24 +106,22 @@ body {
     100% { transform: scale(1); }
 }
 
-/* Animación de shake para mostrar la elección */
 .shake {
     animation: shake 0.5s;
 }
 @keyframes shake {
     0% { transform: translateX(0); }
-    20% { transform: translateX(-16px); }
-    40% { transform: translateX(16px); }
-    60% { transform: translateX(-12px); }
-    80% { transform: translateX(12px); }
+    20% { transform: translateX(-12px); }
+    40% { transform: translateX(12px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
     100% { transform: translateX(0); }
 }
 
-/* Animación de aparición para el mensaje de resultado */
 #result-message {
-    font-size: 1.3rem;
-    margin-top: 1rem;
-    min-height: 1.3rem;
+    font-size: 1.1rem;
+    margin-top: 0.7rem;
+    min-height: 1.1rem;
     color: #ffc107;
     text-shadow: 0 2px 8px #007bff22;
     opacity: 1;
@@ -143,15 +136,50 @@ body {
     to { opacity: 1; }
 }
 
-/* Diálogo */
+.status-area {
+    margin-bottom: 0.3rem;
+}
+
+.status-area p, .status-area h3 {
+    font-size: 0.95rem;
+    color: #f1f1f1;
+    margin: 0.1rem 0;
+}
+
+.stats {
+    margin-top: 0.3rem;
+    display: flex;
+    justify-content: space-around;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+}
+
+.stats p {
+    margin: 0.1rem 0;
+    font-size: 0.9rem;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+}
+
+.footer-game {
+    margin-top: 0.5rem;
+}
+
+.giveup {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+}
+
 #dialogue-container {
-    margin: 1.5rem auto 0 auto;
+    margin: 1rem auto 0 auto;
     background: #15171a;
     color: #f1f1f1;
     border-radius: 10px;
-    padding: 0.7rem 1.2rem;
+    padding: 0.5rem 1rem;
     max-width: 420px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     box-shadow: 0 2px 12px #0a234244;
     letter-spacing: 0.01em;
     font-family: 'Poppins', 'Fredoka', sans-serif;
@@ -159,7 +187,7 @@ body {
 #dialogue-text {
     display: block;
     text-align: center;
-    font-size: 1.1em;
+    font-size: 1em;
     font-weight: 500;
 }
 
@@ -167,21 +195,35 @@ body {
 @media (max-width: 600px) {
     .game-box {
         max-width: 99vw;
-        padding: 1rem 0.2rem;
-        border-radius: 10px;
+        padding: 0.4rem 0.05rem;
+        border-radius: 8px;
+        gap: 0.4rem;
     }
     .header-game {
         flex-direction: column;
         align-items: stretch;
-        gap: 0.5rem;
+        gap: 0.1rem;
+        margin-bottom: 0.1rem;
     }
     .choices {
         flex-direction: column;
         align-items: stretch;
-        gap: 0.7rem;
+        gap: 0.3rem;
+        margin: 0.3rem 0;
     }
     .choice-btn {
         width: 100%;
         justify-content: center;
+        font-size: 0.9rem;
+        padding: 0.5rem 0.3rem;
+    }
+    .stats {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.1rem;
+        margin-top: 0.2rem;
+    }
+    .footer-game {
+        margin-top: 0.3rem;
     }
 }

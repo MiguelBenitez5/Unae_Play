@@ -6,7 +6,7 @@ from globals.constants import RPS_ROUNDS, RPS_WIN, RPS_DRAW, RPS_LOSS
 
 class PiedraPapelTijera:
     def __init__(self, session_data):
-        self.score = session_data.get('score', 0)
+        self.player_score = session_data.get('player_score', 0)
         self.player_wins = session_data.get('player_wins', 0)
         self.machine_wins = session_data.get('machine_wins', 0)
         self.draws = session_data.get('draws', 0)
@@ -26,7 +26,7 @@ class PiedraPapelTijera:
             return {
                 'status': 'finished',
                 'message': 'El juego ha terminado. Reinicia para jugar de nuevo.',
-                'score': self.score,
+                'player_score': self.player_score,
                 'player_wins': self.player_wins,
                 'machine_wins': self.machine_wins,
                 'draws': self.draws,
@@ -40,20 +40,20 @@ class PiedraPapelTijera:
         self.rounds_played += 1
         if result == 'win':
             self.player_wins += 1
-            self.score += RPS_WIN
+            self.player_score += RPS_WIN
         elif result == 'defeat':
             self.machine_wins += 1
-            self.score += RPS_LOSS
+            self.player_score += RPS_LOSS
         else:
             self.draws += 1
-            self.score += RPS_DRAW
+            self.player_score += RPS_DRAW
 
         return {
             'status': 'success',
             'player_choice': player_choice,
             'machine_choice': machine_choice,
             'result': result,
-            'score': self.score,
+            'player_score': self.player_score,
             'player_wins': self.player_wins,
             'machine_wins': self.machine_wins,
             'draws': self.draws,
@@ -64,7 +64,7 @@ class PiedraPapelTijera:
     def get_state(self):
         """Devuelve solo el estado relevante para guardar en sesión."""
         return {
-            'score': self.score,
+            'player_score': self.player_score,
             'player_wins': self.player_wins,
             'machine_wins': self.machine_wins,
             'draws': self.draws,
