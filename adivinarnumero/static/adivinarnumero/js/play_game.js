@@ -131,6 +131,7 @@ function guessNumber() {
                 clearInterval(interval);
                 document.getElementById("guess-input").disabled = true;
                 document.getElementById("guess-btn").disabled = true;
+                showModalScreen('adivinarnumero', data); // <-- Muestra el modal al terminar
             }
         })
         .catch(error => {
@@ -187,6 +188,7 @@ function giveUp() {
             clearInterval(interval);
             document.getElementById("guess-input").disabled = true;
             document.getElementById("guess-btn").disabled = true;
+            showModalScreen('adivinarnumero', data); // <-- Muestra el modal al rendirse
         })
         .catch(error => {
             console.error("Error al rendirse:", error);

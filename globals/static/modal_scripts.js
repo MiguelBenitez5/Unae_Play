@@ -52,13 +52,12 @@ rankingFilter.addEventListener('click', (e) => {
  * @param {object} game_data Los datos de la partida    
  */
 async function showModalScreen(game, game_data){
-    auxInput.value = game
+    auxInput.value = game;
     try{
-        // mostrar la ventana modal con un pequeño delay
-        openAnimModal()
-        setTimeout(()=> modal.style.display = 'flex', 1500)
+        openAnimModal();
+        modal.style.display = 'flex'; // Mostrar el modal inmediatamente
 
-        const response = await fetch(`/getscores/${game}`)
+        const response = await fetch(`/getscores/${game}`);
         if(!response.ok) throw new Error("No se pudo realizar la conexion con el servidor "+response.status)
         const data = await response.json()
         console.log(data)
