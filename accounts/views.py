@@ -19,7 +19,11 @@ def render_reg(request):
             username = request.POST.get('username')
             email = request.POST.get('email')
             password = request.POST.get('password')
-            user = CustomUser(username=username, email=email)
+            age = request.POST.get('age')
+            if age < 3 or age > 120:
+                messages.error(request, 'Debes tener mas de 3 años y menos de 120 para ingresar al sitio web')
+                return render(request, 'accounts/register.html') 
+            user = CustomUser(username=username, email=email, age=age)
             user.set_password(password)
             try:
                 user.full_clean()

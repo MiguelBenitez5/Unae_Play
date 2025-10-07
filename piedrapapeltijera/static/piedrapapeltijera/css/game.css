@@ -42,7 +42,7 @@ body {
     margin: 0;
 }
 
-.reset, .giveup {
+.resetbtn, .giveup {
     background: #007bff;
     border: none;
     padding: 0.7rem 1.5rem;
@@ -54,7 +54,7 @@ body {
     transition: background 0.3s;
 }
 
-.reset:hover, .giveup:hover {
+.resetbtn:hover, .giveup:hover {
     background: #0056b3;
 }
 

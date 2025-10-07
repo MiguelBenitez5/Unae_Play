@@ -14,7 +14,9 @@ const emptyHeart = "fa-regular fa-heart"
 const fullHeart = "fa-solid fa-heart fa-beat"
 const fadedHeart = "fa-solid fa-heart fa-fade"
 
-window.onload = restartGame
+
+// evento para el boton de inicio de partida posterior a la pantalla de carga
+loadingBtn.addEventListener('click', restartGame)
 
 function play_game(char){
     fetch(`/ahorcado/${char.toLowerCase()}`)

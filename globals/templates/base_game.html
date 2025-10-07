@@ -8,18 +8,35 @@
         <link rel="stylesheet" href="{% static 'css/loading-screen.css' %}">
     {% endblock %}
     {% block content%}
-        {% include 'loading_screen.html' %}
-        {% include 'modal_ranking.html' %}
-        <div class="game-all-content" style="display: none;">
-            <div class="game">
-                {% block game%}
-                {% endblock %}
+        <section class="content-page">
+            <picture class="sponsor-banner">
+                <!-- Para pantallas grandes -->
+                <source srcset="/static/img/imagenEjemplo1.jpg" media="(min-width: 1000px)">
+                
+                <!-- Imagen por defecto para móviles pequeños -->
+                <img src="/static/img/imagenEjemplo2.jpg" alt="Imagen responsive">
+            </picture>
+            <!-- <img class="sponsor-banner" src="{% static 'img/imagenEjemplo1.jpg'%}" alt="banner"> -->
+            {% include 'loading_screen.html' %}
+            {% include 'modal_ranking.html' %}
+            <div class="game-all-content" style="display: none;">
+                <div class="game">
+                    {% block game%}
+                    {% endblock %}
+                </div>
+                
+                <div class="char">
+                    {% include 'dialogue.html' %}
+                </div>
             </div>
-            
-            <div class="char">
-                {% include 'dialogue.html' %}
-            </div>
-        </div>
+            <picture class="sponsor-banner">
+                <!-- Para pantallas grandes -->
+                <source srcset="/static/img/imagenEjemplo1.jpg" media="(min-width: 1000px)">
+                
+                <!-- Imagen por defecto para móviles pequeños -->
+                <img src="/static/img/imagenEjemplo2.jpg" alt="Imagen responsive">
+            </picture>
+        </section>
     {% endblock%}
 
     {% block script %}
@@ -28,5 +45,6 @@
         <script src="{% static 'modal_scripts.js' %}"></script>
         <script src="{% static 'js/timer-script.js' %}"></script>
         <script src="{% static 'js/restart_btn_hover_script.js' %}"></script>
+        <script src="{% static 'js/loading_screen.js' %}"></script>
         
     {% endblock %}

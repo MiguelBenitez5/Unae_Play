@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     Registro
 {% endblock %}
 
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+{% endblock %}
 
 
 {% block content%}
-    {% if messages %}
-        <ul>
-        {% for message in messages %}   
-            <li>{{message}}</li> 
-        {% endfor%}
-        </ul>
-    {% endif%}
-    
-    {% include 'accounts/registerform.html'%}
+    <section class="form-container">
+        {% if messages %}
+            <ul>
+            {% for message in messages %}   
+                <li>{{message}}</li> 
+            {% endfor%}
+            </ul>
+        {% endif%}
+        
+        {% include 'accounts/registerform.html'%}
+    </section>
 {% endblock%}

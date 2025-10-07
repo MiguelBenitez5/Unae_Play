@@ -53,12 +53,14 @@ function paintBoard(){
             }).catch(error => console.log('Ocurrio un error ', error)) 
 }
 
-window.onload = ()=>{
+// evento para el boton de inicio de partida al finalizar la pantalla de carga
+loadingBtn.addEventListener('click', ()=>{
     show_dialogue('inicio', 'wordle')
     addEventsForKeys()
     paintBoard()
     resetCountingTimer()
-}
+    startCountingTimer()
+})
 
 // animacion de error para las casillas de esa fila
 function errorAnimation(){
@@ -240,8 +242,25 @@ function removeEventsFromKeys(){
 }
 
 //recuperar el foco en el input
-input.addEventListener("blur", () => {
-    setTimeout(() => input.focus(), 0);
+let focusInterval = null
+input.addEventListener('blur', () => {
+  // Comienza a comprobar cada cierto tiempo
+  focusInterval = setInterval(() => {
+    const active = document.activeElement;
+    // Si el usuario no está en el select, vuelve a enfocar
+    if (
+      active === document.body ||
+      active === null ||
+      !["SELECT", "INPUT", "TEXTAREA", "BUTTON"].includes(active.tagName)
+    ) {
+      input.focus();
+    }
+  }, 200);
+});
+
+input.addEventListener('focus', () => {
+  // Cuando el input recupera el foco, detenemos el intervalo
+  clearInterval(focusInterval);
 });
 
 
