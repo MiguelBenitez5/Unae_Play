@@ -1,0 +1,113 @@
+from django.shortcuts import render, redirect
+from .questions import QuestionsGame
+from globals.utils import is_session_active, save_score, calculate_score
+from django.http import JsonResponse
+import time
+
+# Create your views here.
+
+def render_page(request):
+    if not is_session_active(request):
+        return redirect('login')
+    restart_game(request)
+    return render(request, 'questions/questions.html', {"logged": True})
+
+def restart_game(request):
+    request.session.pop('questions', None)
+
+
+def request_question(request):
+    request.session.setdefault('questions',{
+        'start_time'    : time.time(),
+        'question'      : None,
+        'correct_answer': None,
+        'hits'          : 0,
+        'level'         : 'easy',
+        'score'         : 0,
+        'data_info' : None,
+        'tries'         : 0,
+        'percent'       : 0,
+        'blacklist'      : []
+    })
+    sessiondata = request.session.get('questions')
+    if sessiondata:
+        questions = QuestionsGame(sessiondata)
+        response = questions.new_question(request.session['questions']['blacklist'])
+        request.session['blacklist'] = response['blacklist']
+        questions_data = questions.get_data()
+        request.session['questions'].update(questions_data)
+        request.session.modified = True
+
+        return JsonResponse(response)
+    
+    return JsonResponse({
+            'status' : 'error',
+            'message': 'Ocurrio un error muy lamentable D:'
+    })
+
+
+def answer_question(request):
+    sessiondata = request.session.get('questions')
+    if not sessiondata:
+        return JsonResponse({
+            'status' : 'error',
+            'message': 'No existen datos de sesion del juego'
+        })
+    if not request.method == 'POST':
+        return JsonResponse({
+            'status' : 'error',
+            'message': 'El metodo no es post'
+        })
+    
+    answer = request.POST.get('answer')
+    if not answer:
+        return JsonResponse({
+            'status' : 'error',
+            'message': 'No se ha recibido una respuesta del usuario'
+        })
+
+    questions = QuestionsGame(sessiondata)
+    response = questions.play_game(answer)
+    questions_data = questions.get_data()
+    request.session['questions'].update(questions_data)
+    request.session.modified = True
+
+    if 'game_status' in response:
+        if response['game_status'] == 'end':
+            score = response['score']
+            start_time = response['start_time']
+            max_score = 300
+            min_time = 30
+            max_time = 500
+            final_score = calculate_score(score,start_time,max_score,min_time,max_time)
+            save_score(request, 'questions', final_score)
+            if response['percent'] >= 60:
+                response['game_status'] = 'win'
+            else:
+                response['game_status'] = 'defeat'
+    
+
+    return JsonResponse(response)
+
+"""
+Si el usuario decide rendirse, se guarda su puntaje y
+se envian sus puntajes para ser visualizados
+"""
+def give_up(request):
+    questions_data = request.session.get('questions')
+    if not questions_data:
+        return JsonResponse({
+            'status' : 'error',
+            'message': 'No hay datos en sesion'
+        })
+    response = {}
+    response['score'] = questions_data.get('score',0)
+    score = response['score']
+    start_time = request.session['questions']['start_time']
+    print(start_time)
+    max_score = 300
+    min_time = 30
+    max_time = 500
+    final_score = calculate_score(score,start_time,max_score,min_time,max_time)
+    save_score(request, 'questions', final_score)
+    return JsonResponse({'score': response})

@@ -1,0 +1,184 @@
+/* ===== Reset básico ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'general-font', monospace;
+}
+
+/* ===== Caja principal ===== */
+.box {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+}
+
+/* ===== Input ===== */
+.my-input {
+    opacity: 0;
+    position: absolute;
+}
+
+/* ===== Info (puntaje y tiempo) ===== */
+.score, .time {
+    font-size: 1rem;
+    margin: 0.3rem 0;
+}
+
+/* ===== Contenedor tablero + teclado ===== */
+.container {
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+/* ===== Tablero ===== */
+.board {
+  display: grid;
+  gap: 5px;
+  grid-template-rows: repeat(6, auto);
+  justify-content: center;
+  margin-bottom: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Titulo del juego */
+.game-title{
+    font-size: 1.5rem;
+}
+
+/* Encabezado del juego */
+.game-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  aspect-ratio: 1/1;
+  border: 2px solid #555;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  transition: background 0.8s, color 0.4s, border-color 0.4s, transform 0.8s ease-in;
+  will-change: background, color, border-color, transform;
+}
+
+/* ===== Teclado ===== */
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.row-keyboard {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
+
+.key {
+    padding: 0.8rem 0.6rem;
+    background: #444;
+    border: none;
+    border-radius: 0.6rem;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.key:hover {
+    background: #666;
+    transform: translateY(-2px);
+}
+
+.key.special {
+    padding: 0.8rem 1.4rem;
+    background: #89253e;
+}
+
+.key.special:hover {
+    background: #b33951;
+}
+
+.cell.correct { background: #6aaa64; color: white; border-color: #6aaa64; }  /* verde */
+.cell.present { background: #c9b458; color: white; border-color: #c9b458; }  /* amarillo */
+.cell.absent  { background: #787c7e; color: white; border-color: #787c7e; }
+
+/* ===== Responsive ===== */
+@media (max-width: 350px) {
+    .cell {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.7rem;
+    }
+    .key {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.9rem;
+    }
+    .key.special {
+        padding: 0.6rem 1rem;
+    }
+}
+
+/* Animaciones */
+
+@keyframes myErrorAnim {
+	0% {
+		transform: translate(0);
+	}
+
+	10% {
+		transform: translate(-4px, -4px);
+	}
+
+	20% {
+		transform: translate(4px, -4px);
+	}
+
+	30% {
+		transform: translate(-4px, 4px);
+	}
+
+	40% {
+		transform: translate(4px, 4px);
+	}
+
+	50% {
+		transform: translate(-4px, -4px);
+	}
+
+	60% {
+		transform: translate(4px, -4px);
+	}
+
+	70% {
+		transform: translate(-4px, 4px);
+	}
+
+	80% {
+		transform: translate(-4px, -4px);
+	}
+
+	90% {
+		transform: translate(4px, -4px);
+	}
+
+	100% {
+		transform: translate(0);
+	}
+}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head%}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static  'modal.css' %}">
+{% endblock %}
+
+{% block title %}
+    Ranking Global
+{% endblock %}
+
+{% block content %}
+    {% if not clicked %}
+        <section class="sponsor-campaign">
+            <h2 class="sponsor-title">Promocion especial para primeros seguidores</h2>
+            <p class="sponsor-text">Sigue a <a id="sponsor-link-1" href="https://www.instagram.com/paranabroker/" target="_blank">Paraná Broker de Seguros</a> en instagram y suma 100 puntos en el ranking global</p>
+            <a id="soponsor-link-2" href="https://www.instagram.com/paranabroker/" target="_blank"><img width="60px" height="60px" src="{% static 'img/Instagram-Flaticon.png' %}" alt="paranabrokerinstagram"></a>
+        </section>
+    {% endif %}
+    <section class="ranking-table">
+        <!--Se utiliza la misma tabla para mostrar el ranking-->
+        <h1 class="table-title">Ranking global</h1>
+        {% if not global_rank %}
+            <p class="empty-rank">Aun no se registraron puntajes de jugadores en el ranking global</p>
+        {% else %}
+            <table id="rankingTable">
+                <thead>
+                    <tr>
+                        <th>Posición</th>
+                        <th>Jugador</th>
+                        <th>Puntaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Datos dinamicos generados en consulta a la db -->
+                    {% for  player in global_rank %}
+                        {% if forloop.counter == 1 %}
+                            <tr>
+                                <td><i class="fa-solid fa-1 fa-beat" style="color: #d4ab16;"></i></td>
+                                <td id="player-1">{{player.user__username}}</td>
+                                <td id="score-1">{{player.score}}</td>
+                            </tr>
+                        {% elif forloop.counter == 2 %}
+                            <tr>
+                                <td><i class="fa-solid fa-2" style="color: #a6a6a6;"></i></td>
+                                <td id="player-2">{{player.user__username}}</td>
+                                <td id="score-2">{{player.score}}</td>
+                            </tr>
+                        {% elif forloop.counter == 3 %}
+                            <tr>
+                                <td><i class="fa-solid fa-3" style="color: #533d0e;"></i></td>
+                                <td id="player-3">{{player.user__username}}</td>
+                                <td id="score-3">{{player.score}}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td id="player-4">{{player.user__username}}</td>
+                                <td id="score-4">{{player.score}}</td>
+                            </tr>        
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+    </section>
+{% endblock %}
+
+{% block script %}
+    {{block.super}}
+    <script src="{% static 'js/global_rank.js' %}"></script>
+{% endblock %}

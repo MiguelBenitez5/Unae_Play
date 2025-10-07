@@ -1,0 +1,31 @@
+{% extends 'base_game.html' %}
+{% load static %}
+
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'memorygame/css/style.css' %}">
+{% endblock %}
+
+{% block title %}Prueba tu memoria{% endblock %}
+
+{% block game %}
+    <section class="game-box board">
+        <div class="game-header">
+            <h1 class="game-title">Prueba tu memoria</h1>
+            <section class="action-container">
+                <div class="score">Pares: 0</div>
+                <button class="reset-btn reset"><i class="fa-solid fa-rotate-right" style="color: #fff; font-size: 26px;"></i></button>
+                {% include 'timer.html' %}
+            </section>
+        </div>
+        {% include 'memorygame/board.html' %}
+        <div class="game-footer">
+            <button class="giveup">Me rindo</button>
+        </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+    {{block.super}}
+    <script src="{% static 'memorygame/js/play_game.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <link rel="stylesheet" href="{% static 'header.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    {% endblock %}
+    <title>{% block title %}Un@e Play{% endblock %}</title>
+</head>
+<body class='bg-body'>
+    <section class="section">
+        
+        {% block header %}
+            {% include "header.html" %}
+        {% endblock %}
+        
+        <main class="main">
+            {% block content %}
+                Contenido aquí
+            {% endblock %}
+        </main>
+        
+        {% block footer %}
+            {% include "footer.html" %}
+        {% endblock %}
+    </section> 
+  
+    {%block audio%}
+        <audio id="bg-music" autoplay muted loop hidden preload="metadata">
+            <source src="{% static 'music/landing_page.wav' %}" type="audio/wav">
+        </audio>
+    {% endblock %}
+
+    {% block script %}
+        <script src="{% static 'js/dropdown-btn.js' %}"></script>
+    {% endblock %}
+</body>
+</html>
+

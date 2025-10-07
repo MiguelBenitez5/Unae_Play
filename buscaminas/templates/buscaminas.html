@@ -1,0 +1,21 @@
+{% extends 'base_game.html' %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'buscaminas/css/minesweeper.css' %}">
+{% endblock %}
+
+{% block title %} Buscaminas {% endblock %}
+
+{% block game %}
+    <div class="body">
+        <h1 class="text">Buscaminas</h1>
+        <div class="grid" id="grid"></div>
+    </div>
+{% endblock %}
+{% block script %}
+{{block.super}}
+    <script src="{% static 'buscaminas/js/gameData.js' %}"></script>
+    
+{% endblock %}

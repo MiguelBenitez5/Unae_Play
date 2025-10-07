@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Iniciar Sesion
+{% endblock %}
+
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+{% endblock %}
+
+{% block content%}
+    <section class="form-container">
+        {% if messages %}
+            <ul class="error-list">
+                {% for message in messages %}
+                    <li class="error-item">{{message}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% include 'accounts/loginform.html' %}
+    </section>
+{% endblock %}

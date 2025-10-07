@@ -1,0 +1,170 @@
+@import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+
+/* Fuente personalizada */
+@font-face {
+  font-family: 'general-font';
+  src: url('/globals/static/fonts/Exo2-VariableFont_wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --primary: #6c5ce7;
+  --secondary: #a29bfe;
+  --accent: #fd79a8;
+  --dark: #2d3436;
+  --light: #dfe6e9;
+  --success: #00b894;
+  --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  --text-color: #dfe6e9;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fondo */
+.bg-body {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%236c5ce7" opacity="0.2" width="20" height="20"/></svg>') fixed,
+              linear-gradient(to right, #352d36, #1e272e);
+  color: var(--light);
+  line-height: 1.6;
+  font-family: 'general-font', monospace;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* -------------------- */
+/* NAVBAR */
+/* -------------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--primary);
+  border-bottom: 2px solid var(--secondary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  background-color: var(--accent);
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 2px solid var(--primary);
+  text-decoration: none;
+  color: var(--light);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: var(--primary);
+  border-color: var(--accent);
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* -------------------- */
+/* SIDEBAR + HAMBURGER */
+/* -------------------- */
+.hamburger {
+  display: none; 
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100%;
+  background: #2d3436;
+  transition: left 0.3s ease;
+  padding: 20px;
+  z-index: 1000;
+  flex-direction: column;
+  gap: 15px;
+  display: none;
+}
+
+.sidebar.active {
+  left: 0;
+  display: flex;
+}
+
+.close-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.sidebar-links a {
+  text-decoration: none;
+  color: #dfe6e9;
+  display: block;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.sidebar-links a:hover {
+  background: #fd79a8;
+  color: #fff;
+}
+
+.sidebar-links details summary {
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.sidebar-links details a {
+  padding-left: 20px;
+}
+
+/* -------------------- */
+/* MEDIA QUERIES */
+/* -------------------- */
+
+/* SOLO MÓVIL */
+@media (max-width: 768px) {
+  .navbar { justify-content: space-between; }
+  .nav-links, .user-actions { display: none; }
+  .hamburger { display: block; order: 3; }
+  .logo { order: 1; }
+  .sidebar:not(.active) { display: none; }
+}
+
+/* SOLO DESKTOP */
+@media (min-width: 769px) {
+  .sidebar, .hamburger { display: none !important; }
+}
