@@ -19,7 +19,11 @@ def render_reg(request):
             username = request.POST.get('username')
             email = request.POST.get('email')
             password = request.POST.get('password')
-            age = request.POST.get('age')
+            try:
+                age = int(request.POST.get('age'))
+            except TypeError:
+                messages.error(request, 'La edad debe ser un numero entero valido')
+                return render(request, 'accounts/register.html') 
             if age < 3 or age > 120:
                 messages.error(request, 'Debes tener mas de 3 años y menos de 120 para ingresar al sitio web')
                 return render(request, 'accounts/register.html') 
@@ -31,9 +35,9 @@ def render_reg(request):
                 messages.success(request, f'Bienvenido {username}, ahora ingresa y empieza a jugar')
                 return redirect("login")
             except Exception as e:
-                messages.error(request, e.message_dict)
-
-
+                for message in e.message_dict.values():
+                    for error in message:
+                        messages.error(request, error)
 
     return render(request, 'accounts/register.html')
 
