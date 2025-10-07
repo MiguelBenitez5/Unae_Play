@@ -20,9 +20,12 @@ class PiedraPapelTijera:
                 'status': 'error',
                 'message': f'Elección inválida: {player_choice}. Debe ser piedra, papel o tijera.'
             }
+        
+        self.rounds_played += 1
 
         # Verificar si ya se alcanzó el límite de rondas
         if self.rounds_played >= RPS_ROUNDS:
+            print('Deberia llegar aqui')
             return {
                 'status': 'finished',
                 'message': 'El juego ha terminado. Reinicia para jugar de nuevo.',
@@ -37,7 +40,6 @@ class PiedraPapelTijera:
         result = self.__determine_winner(player_choice, machine_choice)
 
         # Actualizar estado del juego
-        self.rounds_played += 1
         if result == 'win':
             self.player_wins += 1
             self.player_score += RPS_WIN

@@ -43,13 +43,14 @@ def play(request, player_choice):
 
     # Calcular y guardar puntaje si terminó
     if new_game_data.get('status') == 'finished':
-        base_score = ppt_game.score
+        base_score = ppt_game.player_score
         start_time = game_data.get('start_time', time.time())
         max_score = RPS_ROUNDS * RPS_WIN  # Puntaje máximo posible
         min_time = 7      # segundos para máxima bonificación (ajusta según dificultad)
         max_time = 90     # segundos para mínima bonificación
 
         final_score = calculate_score(base_score, start_time, max_score, min_time, max_time)
+        print(final_score)
         save_score(request, 'piedrapapeltijera', final_score)
         new_game_data['final_score'] = final_score
 
