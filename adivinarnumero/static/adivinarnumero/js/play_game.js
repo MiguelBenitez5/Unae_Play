@@ -6,7 +6,7 @@ let interval;
 let targetNumber = null; // Para almacenar el número secreto si se recibe tras perder
 let gameFinished = false;
 
-window.onload = restartGame;
+loadingBtn.addEventListener('click', restartGame);
 
 /**
  * Inicia o reinicia el temporizador.

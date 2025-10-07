@@ -1,0 +1,38 @@
+.form-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.form-title{
+    text-align: center;
+}
+
+.form{
+    max-width: 450px;
+    text-align: left;
+    padding: 20px;
+    background-color: black;
+    border-radius: 12px;
+    box-shadow: 0 0 10px 1px #121212;
+}
+
+.form-label{
+    text-align: left;
+    display: block;
+}
+
+.terms{
+    display: flex;
+
+}
+
+.form-input{
+    text-align: left;
+}
+
+.form-text{
+    display: inline-block;
+}

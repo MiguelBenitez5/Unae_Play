@@ -1,12 +1,12 @@
 // Piedra, Papel o Tijera 
 
-window.onload = function() {
+loadingBtn.addEventListener('click', ()=>{
     restartGame();
     show_dialogue('inicio', 'piedrapapeltijera');
-};
+})
 
 const choiceBtns = document.querySelectorAll('.choice-btn');
-const resetBtn = document.querySelector('.reset');
+const resetButton = document.querySelector('.resetbtn');
 const giveupBtn = document.querySelector('.giveup');
 
 const playerScoreSpan = document.getElementById('current-score');
@@ -153,25 +153,25 @@ function enableChoiceButtons(enable) {
     });
 }
 
-async function show_dialogue(category, game) {
-    try {
-        const response = await fetch(`/globals/get_dialogue/${category}/${game}/`);
-        const result = await response.json();
-        if (result.status === 'ok' && result.dialogue && result.dialogue.text) {
-            document.getElementById('dialogue-text').textContent = result.dialogue.text;
-        } else {
-            document.getElementById('dialogue-text').textContent = "¡Suerte!";
-        }
-    } catch (err) {
-        document.getElementById('dialogue-text').textContent = "¡Suerte!";
-    }
-}
+// async function show_dialogue(category, game) {
+//     try {
+//         const response = await fetch(`/globals/get_dialogue/${category}/${game}/`);
+//         const result = await response.json();
+//         if (result.status === 'ok' && result.dialogue && result.dialogue.text) {
+//             document.getElementById('dialogue-text').textContent = result.dialogue.text;
+//         } else {
+//             document.getElementById('dialogue-text').textContent = "¡Suerte!";
+//         }
+//     } catch (err) {
+//         document.getElementById('dialogue-text').textContent = "¡Suerte!";
+//     }
+// }
 
 // Asignar eventos a los botones
 choiceBtns.forEach(btn => {
     btn.addEventListener('click', clientPlay);
 });
-resetBtn.addEventListener('click', restartGame);
+resetButton.addEventListener('click', restartGame);
 giveupBtn.addEventListener('click', function() {
     giveUp();
     show_dialogue('rendicion', 'piedrapapeltijera');

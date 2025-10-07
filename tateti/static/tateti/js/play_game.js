@@ -1,8 +1,5 @@
-//el juego se reinicia cada vez que carga la pagina
-window.onload = ()=>{
-    restart_game()
-    random_dialogue()
-}
+//evento para el boton de iniciar partida luego de la pantalla de carga
+loadingBtn.addEventListener('click', restart_game)
 
 const cells = document.querySelectorAll(".cell")
 const level = document.querySelector('.level')

@@ -34,11 +34,11 @@ function getCookie(name) {
 }
 
 const csrftoken = getCookie("csrftoken");
-
-window.onload =  ()=>{
-    first_events_for_answers()
-    show_dialogue('inicio', 'questions')
-}
+// evento para el boton de inicio de partida al finalizar la pantalla de carga
+loadingBtn.addEventListener('click', ()=>{
+   first_events_for_answers()
+    show_dialogue('inicio', 'questions') 
+})
 
 // se obtiene una nueva pregunta y se muestra en pantalla
 async function new_question(){ 

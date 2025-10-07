@@ -1,19 +1,21 @@
-<form action="" method="POST">
+<form class="form" action="" method="POST">
     {% csrf_token %}
-    <h2>Registrate</h2>
-    <label for="username">Nombre de usuario (maximo 10 caracteres)</label>
-    <input name="username" id="username" type="text" maxlength="10" required placeholder="Ej: Marcos360">
-    <label for="email">Correo electronico</label>
+    <h2 class="form-title">Registrate</h2>
+    <label class="form-label" for="username">Nombre de usuario (maximo 10 caracteres)</label>
+    <input class="form-input" name="username" id="username" type="text" maxlength="10" required placeholder="Ej: Marcos360">
+    <label class="form-label" for="email">Correo electronico</label>
     <input name="email" id="email" type="email" required placeholder="ejemplo@gmail.com">
-    <label for="password">Contraseña</label>
+    <label class="form-label" for="password">Contraseña</label>
     <input name="password" id="password" type="password" required>
+    <label class="form-label" for="age"></label>
+    <input type="number" name="age" id="age">
     <div class="terms">
-        <input type="checkbox" id="checkbox" name="checkbox" value="1">
-        <p>Acepto los <a href="#" target="_blank">terminos y condiciones</a></p>
+        <input class="form-checkbox" type="checkbox" id="checkbox" name="checkbox" value="1">
+        <p class="form-text">Acepto los <a href="#" target="_blank">terminos y condiciones</a></p>
     </div>
-    <button type="submit">Registrarse</button>
+    <button class="form-submit" type="submit">Registrarse</button>
     <div class="reg-footer">
-        <p>Ya tienes una cuenta?</p>
-        <p><a href="../login">Inicia sesion</a></p>
+        <p class="form-text">Ya tienes una cuenta?</p>
+        <p><a href="/login" class="form-link">Inicia sesion</a></p>
     </div>
 </form>
