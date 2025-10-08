@@ -1,21 +1,49 @@
+{% load static %}
 <section class="mascotas-section">
     <h2 class="mascotas-title">
         <i class="fas fa-paw"></i> MASCOTAS <span>DE LAS FACULTADES</span>
     </h2>
     <div class="mascotas-container">
-        <!-- Mascota 1 -->
+        <!-- FACVA: Ciencias Veterinarias y Agrícolas -->
         <div class="mascota-card">
-            <img src="imagenes/mascota1.png" alt="Mascota Facultad 1">
-            <h3>Firu de Ingeniería</h3>
-            <p>El perro que ladra hasta en binario. 🐶💻</p>
+            <img src="{% static 'img/caballo.png' %}" alt="Mascota FACVA (Caballo)">
+            <h3>FACVA</h3>
+            <p>Facultad de Ciencias Veterinarias y Agrícolas</p>
         </div>
 
-        <!-- Mascota 2 -->
+        <!-- FACAT: Ciencias, Arte y Tecnología -->
         <div class="mascota-card">
-            <img src="imagenes/mascota2.png" alt="Mascota Facultad 2">
-            <h3>Michu de Medicina</h3>
-            <p>Este gato receta siestas obligatorias. 😺💉</p>
+            <img src="{% static 'img/camaleon.png' %}" alt="Mascota FACAT (Camaleón)">
+            <h3>FACAT</h3>
+            <p>Facultad de Ciencias, Arte y Tecnología</p>
         </div>
 
+        <!-- FACJHS: Jurídicas, Humanas y Sociales -->
+        <div class="mascota-card">
+            <img src="{% static 'img/buho.png' %}" alt="Mascota FACJHS (Búho)">
+            <h3>FACJHS</h3>
+            <p>Facultad de Ciencias Jurídicas, Humanas y Sociales</p>
+        </div>
+
+        <!-- FACEM: Ciencias Empresariales -->
+        <div class="mascota-card">
+            <img src="{% static 'img/tucan.png' %}" alt="Mascota FACEM (Tucán)">
+            <h3>FACEM</h3>
+            <p>Facultad de Ciencias Empresariales</p>
+        </div>
+
+        <!-- Sede Colonias Unidas -->
+        <div class="mascota-card">
+            <img src="{% static 'img/leopardo.png' %}" alt="Mascota Sede Colonias Unidas (Leopardo)">
+            <h3>Colonias Unidas</h3>
+            <p>Sede de Colonias Unidas</p>
+        </div>
+
+        <!-- FACQF: Cs. Químicas y Farmacéuticas -->
+        <div class="mascota-card">
+            <img src="{% static 'img/serpiente.png' %}" alt="Mascota FACQF (Serpiente)">
+            <h3>FACQF</h3>
+            <p>Facultad de Ciencias Químicas y Farmacéuticas</p>
+        </div>
     </div>
 </section>
