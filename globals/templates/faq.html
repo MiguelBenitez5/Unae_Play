@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Preguntas frecuentes
+{% endblock %}
+
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'css/faq.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section>
+      <div class="container p-5 game-text">
+        <h1 class="mb-5 text-center titulo-H text-light">Preguntas Frecuentes</h1>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item accordion-item--mod">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  ¿Que es Unae_play?
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body parrafo">
+                  Unae play es una plataforma de minijuegos que buscan fomentar el aprendizaje mientras te diviertes y pasas un buen rato. Es parte de un proyecto interdisciplinario en el cual estan involucrados a varios docentes, estudiantes, el patrocinador y la propia institucion.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  ¿Si gano un premio, como, cuando y donde lo retiro?
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body parrafo">
+                  Utilizaremos el correo electronico que nos proporcionaste al registrarte para ponernos en contacto contigo, se entregarán el 09/10 y te entregaremos tu premio en el lugar/hora de tu preferencia.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  ¿Quien patrocina este proyecto?
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body parrafo">
+                  Los premios que entregamos son de cortesia de Paraná Broker Seguros, puedes seguirlos en instagram para mas informacion.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                  ¿Cuales son las reglas del tateti?
+                </button>
+              </h2>
+              <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body parrafo">
+                  <ul class="list-group">
+                    <li class="list-group-item">Juegas contra la maquina en un duelo donde juegas con ❌ y la maquina con ⭕ </li>
+                    <li class="list-group-item">Gana quien logre alinear tres de sus símbolos en fila, columna o diagonal.</li>
+                    <li class="list-group-item">Debes vencer a la maquina en los tres niveles de dificultad disponibles para sumar la mayor cantidad de puntos</li>            
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
+                  ¿Cuales con las reglas del wordle?
+                </button>
+              </h2>
+              <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body parrafo">
+                  <ul class="list-group">
+                    <li class="list-group-item">Debes adivinar una palabra secreta en un número limitado de intentos</li>
+                    <li class="list-group-item">Gana quien logre alinear tres de sus símbolos en fila, columna o diagonal.</li>
+                    <li class="list-group-item">Debes vencer a la maquina en los tres niveles de dificultad disponibles para sumar la mayor cantidad de puntos</li>            
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+  <h2 class="accordion-header">
+    <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+      ¿Cuáles son las reglas del Buscaminas?
+    </button>
+  </h2>
+  <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+    <div class="accordion-body parrafo">
+      <ul class="list-group">
+        <li class="list-group-item">El tablero contiene minas ocultas y casillas seguras.</li>
+        <li class="list-group-item">Haz clic en las casillas para descubrirlas. Si hay una mina, pierdes.</li>
+        <li class="list-group-item">Los números en las casillas indican cuántas minas hay alrededor.</li>
+        <li class="list-group-item">Ganas cuando descubres todas las casillas sin minas.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="accordion-item">
+  <h2 class="accordion-header">
+    <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+      ¿Cuáles son las reglas de Adivinar el Número?
+    </button>
+  </h2>
+  <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+    <div class="accordion-body parrafo">
+      <ul class="list-group">
+        <li class="list-group-item">El sistema elige un número secreto y tienes 7 intentos para adivinarlo.</li>
+        <li class="list-group-item">Después de cada intento recibirás una pista: “Más alto” o “Más bajo”.</li>
+        <li class="list-group-item">Ganas si aciertas antes de agotar tus 7 intentos.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="accordion-item">
+  <h2 class="accordion-header">
+    <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+      ¿Cuáles son las reglas de Preguntas y Respuestas?
+    </button>
+  </h2>
+  <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+    <div class="accordion-body parrafo">
+      <ul class="list-group">
+        <li class="list-group-item">Debes responder correctamente preguntas de cultura general o temáticas específicas.</li>
+        <li class="list-group-item">Cada respuesta correcta suma puntos.</li>
+        <li class="list-group-item">Consigue un 60% de respuestas correctas para llevarte una bonificacion de puntos.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="accordion-item">
+  <h2 class="accordion-header">
+    <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+      ¿Cuáles son las reglas de Piedra, Papel o Tijera?
+    </button>
+  </h2>
+  <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+    <div class="accordion-body parrafo">
+      <ul class="list-group">
+        <li class="list-group-item">Piedra vence a tijera.</li>
+        <li class="list-group-item">Tijera vence a papel.</li>
+        <li class="list-group-item">Papel vence a piedra.</li>
+        <li class="list-group-item">Elige tu jugada y compite contra la máquina o un oponente.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="accordion-item">
+  <h2 class="accordion-header">
+    <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+      ¿Cuáles son las reglas de Adivinar la Palabra (letra por letra)?
+    </button>
+  </h2>
+  <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+    <div class="accordion-body parrafo">
+      <ul class="list-group">
+        <li class="list-group-item">Hay una palabra secreta que debes adivinar letra por letra.</li>
+        <li class="list-group-item">Si la letra está en la palabra, se revela; si no, pierdes un intento.</li>
+        <li class="list-group-item">Ganas si completas la palabra antes de quedarte sin intentos.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="accordion-item">
+  <h2 class="accordion-header">
+    <button class="accordion-button collapsed accordion-button--mod" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+      ¿Cuáles son las reglas de Adivinar los Pares?
+    </button>
+  </h2>
+  <div id="collapseEleven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+    <div class="accordion-body parrafo">
+      <ul class="list-group">
+        <li class="list-group-item">El objetivo es encontrar todas las parejas de cartas iguales.</li>
+        <li class="list-group-item">En cada turno, das vuelta dos cartas:</li>
+        <ul>
+          <li>Si coinciden, permanecen descubiertas.</li>
+          <li>Si no coinciden, se vuelven a tapar.</li>
+        </ul>
+        <li class="list-group-item">Ganas al descubrir todas las parejas.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+            
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+    {{block.super}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+{% endblock %}

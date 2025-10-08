@@ -1,0 +1,59 @@
+<!-- Header con Bootstrap 5 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <!-- Logo -->
+    <a class="navbar-brand" href="../../../">
+      Unae <i class="fas fa-gamepad"></i> Play
+    </a>
+
+    <!-- Botón hamburguesa para móvil -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Contenido del navbar -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <!-- Links principales -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Dropdown de juegos -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="juegosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            🎮 Juegos
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="juegosDropdown">
+            <li><a class="dropdown-item" href="/buscaminas">Buscaminas</a></li>
+            <li><a class="dropdown-item" href="/ahorcado">Ahorcado</a></li>
+            <li><a class="dropdown-item" href="/memorygame">Prueba tu memoria</a></li>
+            <li><a class="dropdown-item" href="/piedrapapeltijera">Piedra, Papel o Tijeras</a></li>
+            <li><a class="dropdown-item" href="/tateti">Tateti</a></li>
+            <li><a class="dropdown-item" href="/wordle">Wordle</a></li>
+            <li><a class="dropdown-item" href="/questions">Preguntas</a></li>
+            <li><a class="dropdown-item" href="/adivinarnumero">Adivinar el Número</a></li>
+          </ul>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/preguntasfrecuentes">Preguntas Frecuentes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/globalrank">Ranking Global</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/report">Reportar error</a>
+        </li>
+        
+      </ul>
+
+      <!-- User actions -->
+      <div class="d-flex">
+        {% if logged %}
+          {% include 'header-log.html' %}
+        {% else %}
+          <a href="/accounts/login" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+          <a href="/accounts/register" class="btn btn-light">Registrarse</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

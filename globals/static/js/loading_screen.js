@@ -90,18 +90,18 @@ async function loadingImagesPreload() {
 }
 
 // se muestra la pantalla de carga por 5 segundos
-function showLoadingScreen(){
+async function showLoadingScreen(){
     loadingScreen.style.display = 'block'
     gameScreen.style.display = 'none'
     loadingText.textContent = 'Cargando juego'
     loadingIcon.innerHTML = loadIcon
     loadingBtn.style.display = 'none'
-    preloadAll()
+    await preloadAll()
 }
 
-window.onload = ()=>{
-    loadingImagesPreload()
-    showLoadingScreen()
+window.onload = async()=>{
+    await loadingImagesPreload()
+    await showLoadingScreen()
 }
 
 // evento para el boton de juego cargado
