@@ -68,6 +68,27 @@ def start_game(request):
         logger.error(f"Error al iniciar juego: {e}")
         return JsonResponse({"error": str(e)}, status=500)
 
+def restart_game(request):
+    """Reinicia la partida actual y devuelve el nuevo tablero vacío"""
+    try:
+        ensure_user_session(request)
+        session_key = request.session.session_key
+
+        # Si no hay partida activa, simplemente crea una nueva
+        if session_key not in games:
+            games[session_key] = Minesweeper(rows=8, cols=8, mines=10)
+        else:
+            # Reinicia la partida existente
+            games[session_key].reset()
+
+        return JsonResponse({
+            "status": "restarted",
+            "board": [[None for _ in range(games[session_key].cols)] for _ in range(games[session_key].rows)]
+        })
+    except Exception as e:
+        logger.error(f"Error al reiniciar juego: {e}")
+        return JsonResponse({"error": str(e)}, status=500)
+
 def reveal_cell(request, row, col):
     """Revela una celda del tablero"""
     try:
