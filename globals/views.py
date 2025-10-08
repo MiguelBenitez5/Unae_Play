@@ -76,5 +76,14 @@ def click_campaign(request):
         return JsonResponse({'status': 'success'})
     
     return JsonResponse({'status':'error'})
+
+
+"""
+Muestra la pagina de preguntas frecuentes
+"""
+def render_faq(request):
+    if not is_session_active(request):
+        return render(request, 'faq.html', {'logged': False})
+    return render(request, 'faq.html', {'logged': True})
     
 

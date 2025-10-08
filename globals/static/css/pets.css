@@ -1,6 +1,6 @@
 /* Sección Mascotas */
 .mascotas-section {
-    padding: 60px 20px;
+    padding: 3.75rem 1.2rem;
     text-align: center;
     background: transparent; 
 }
@@ -9,7 +9,7 @@
     font-size: 2.2rem;
     color: #e100ff; 
     text-transform: uppercase;
-    margin-bottom: 20px;
+    margin-bottom: 1.2rem;
     position: relative;
     display: inline-block;
 }
@@ -27,13 +27,13 @@
 .mascotas-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
-    margin-top: 40px;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
 }
 
 .mascota-card {
     background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
+    padding: 1.2rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -41,21 +41,21 @@
 
 .mascota-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 25px rgba(225, 0, 255, 0.6);
+    box-shadow: 0 2px 8px rgba(225, 0, 255, 0.6);
 }
 
 .mascota-card img {
     width: 100px;
     height: 100px;
     object-fit: contain;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     filter: drop-shadow(0 0 6px #ff00ff);
 }
 
 .mascota-card h3 {
     font-size: 1.2rem;
     color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 0.8rem;
 }
 
 .mascota-card p {
@@ -66,7 +66,7 @@
 /* --- Responsiveness & Mobile Tweaks --- */
 /* Make images adapt a bit better across sizes */
 .mascota-card img {
-    width: clamp(72px, 20vw, 110px);
+    width: clamp(4.5rem, 20vw, 6.8rem);
     height: auto;
 }
 

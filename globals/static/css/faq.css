@@ -1,0 +1,80 @@
+
+.nav--mod, .footer--mod {
+    background-color: #FF8A41;
+}
+.dropdown--mod:hover {
+    background-color: #FF8A41;
+    color: #fff;
+}
+.titulo-A {
+    color: #913B10;
+    text-wrap: balance;
+}
+.titulo-H {
+    color: #913B10;;
+    font-weight: bold;
+    text-wrap: balance;
+}
+.parrafo {
+    color: #5F5B5B;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 18px;
+}
+.index--card {
+    text-decoration: none;
+}
+.card--box:hover{
+    text-decoration: underline 3px solid #913B10;
+}
+.LOGO:hover {
+    filter: drop-shadow(0 0 5px #fff);
+    transition: color, 250ms;
+}
+.redes {
+    filter: drop-shadow(0 0 3px #000);
+}
+.redes:hover {
+    filter: drop-shadow(0 0 5px #fff);
+    transition: color, 500ms;
+}
+
+.index--box {
+    box-shadow: 0 10px 15px  #0003;
+    position: relative;
+    transition: bottom, 300ms;
+    bottom: 0;
+    border-radius: 5px;
+}
+.index--box:hover {
+    bottom: 15px;
+}
+.accordion-button--mod:focus, .accordion-button--mod, .accordion-button--mod:enabled{
+    background-color: rgba(108, 92, 231, 0.85);
+    box-shadow: none;
+    color: #fff;
+}
+.accordion-button--mod:hover, .accordion-button--mod:focus{
+    background-color: rgba(99, 87, 184, 0.85);
+}
+.slider--title, .slider--content {
+    text-shadow:0 0 10px #000;
+}
+.footer--mod {
+    font-weight: 500;
+}
+.lora {
+    font-family: 'Lora';
+    color: #5F5B5B;
+    font-weight: 500;
+    font-size: 16px;
+}
+.quote {
+    font-family: 'Sedan';
+    color: #5F5B5Bdd;
+}
+.caption{
+    color: #5F5B5B;
+    font-style: italic;
+    text-align: center;
+}

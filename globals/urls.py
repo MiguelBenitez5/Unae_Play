@@ -7,4 +7,5 @@ urlpatterns = [
     path('getscores/<str:game>', views.get_all_scores),
     path('globalrank/', views.get_global_ranking),
     path('campaign/follow', views.click_campaign),
+    path('preguntasfrecuentes/', views.render_faq),
 ]
