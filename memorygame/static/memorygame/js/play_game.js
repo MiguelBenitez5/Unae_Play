@@ -129,7 +129,7 @@ async function giveUp(){
 }
 
 // boton de reinicio
-restart.addEventListener('click', ()=>{
+restart.addEventListener('click', function handler(){
     addEventsForCells()
     fetch('/memorygame/action/restart')
     show_dialogue('inicio', 'memorygame')
@@ -143,6 +143,8 @@ restart.addEventListener('click', ()=>{
         }
     })
     giveUpBtn.style.display = 'block'
+    restart.removeEventListener('click', handler)
+    setTimeout(()=> restart.addEventListener('click', handler), 500)
 })
 
 // remover eventos
