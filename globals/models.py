@@ -5,11 +5,11 @@ from accounts.models import CustomUser
 
 class Game(models.Model):
     id = models.AutoField(primary_key=True)
-    game_name = models.CharField(max_length=50, verbose_name='Nombre')
-    description = models.TextField(verbose_name='Descripcion')
-    rules = models.TextField(verbose_name="Reglas")
-    url = models.URLField()
-    category = models.CharField(max_length=50, verbose_name="Categoria")
+    game_name = models.CharField(max_length=50, verbose_name='Nombre', default='', null=True)
+    description = models.TextField(verbose_name='Descripcion',default='', null=True)
+    rules = models.TextField(verbose_name="Reglas",default='', null=True)
+    url = models.URLField(default='', null=True)
+    category = models.CharField(max_length=50, verbose_name="Categoria", default='', null=True)
     active = models.BooleanField(default=True, verbose_name="activo")
 
     class Meta:
@@ -25,7 +25,7 @@ class Game(models.Model):
 class Score(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    score = models.IntegerField()
+    score = models.IntegerField(default='0', null=True)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     date_played = models.DateTimeField(auto_now_add=True)
 
@@ -39,8 +39,8 @@ class Score(models.Model):
 
 class DialogueCategory(models.Model):
     id = models.AutoField(primary_key=True)
-    category_name = models.CharField(max_length=50,verbose_name='Categoria')
-    description = models.TextField(verbose_name='Descripcion')
+    category_name = models.CharField(max_length=50,verbose_name='Categoria',default='', null=True)
+    description = models.TextField(verbose_name='Descripcion',default='', null=True)
 
     class Meta:
         db_table = 'dialogue_categories'
@@ -53,7 +53,7 @@ class DialogueCategory(models.Model):
 class Dialogue(models.Model):
     id = models.AutoField(primary_key=True)
 
-    dialogue = models.TextField(verbose_name='Dialogo', unique=True)
+    dialogue = models.TextField(verbose_name='Dialogo',default='', null=True)
 
     category = models.ForeignKey(DialogueCategory, on_delete=models.CASCADE, verbose_name='categoria')
     game = models.ForeignKey(Game,on_delete=models.CASCADE, verbose_name='juego')
@@ -71,7 +71,7 @@ class Dialogue(models.Model):
 class GlobalRank(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    score = models.IntegerField(default=0)
+    score = models.IntegerField(default=0, null=True)
 
     class Meta:
         db_table = 'global_rank'
