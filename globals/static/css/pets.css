@@ -2,12 +2,12 @@
 .mascotas-section {
     padding: 60px 20px;
     text-align: center;
-    background: transparent; /* respeta el fondo */
+    background: transparent; 
 }
 
 .mascotas-title {
     font-size: 2.2rem;
-    color: #e100ff; /* mismo tono violeta/rosa que usaste */
+    color: #e100ff; 
     text-transform: uppercase;
     margin-bottom: 20px;
     position: relative;

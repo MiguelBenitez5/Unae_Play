@@ -4,10 +4,12 @@
 {% block head %}
     {{block.super}}
     <link rel="stylesheet" href="{% static 'css/pets.css' %}">
+    <link rel="stylesheet" href="{% static 'css/prizes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sponsors.css' %}">
 {% endblock %}
 
 
-{% block title %}Inicio | Un@e Play{% endblock %}
+{% block title %}Inicio | Unae Play{% endblock %}
 
 {% block content %}
     <main class="main-content">
@@ -17,9 +19,10 @@
         </section>
 
         {% include 'landing/prizes.html' %}
-        <!-- añadimos el apartado de juegis -->
+        {% include 'landing/sponsors.html' %}
+        <!-- añadimos el apartado de juegos -->
         {% include 'landing/games_play.html' %}
-        <!-- añadios el apartdado de descripcion de las mascotas de las facultades -->
+        <!-- añadimos el apartado de descripcion de las mascotas de las facultades -->
         {% include 'landing/pets.html' %}
     </main>
 {% endblock %}
