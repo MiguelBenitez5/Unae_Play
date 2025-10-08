@@ -44,27 +44,32 @@
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
+    font-size: 1.5rem;
 }
 
 .close-btn:hover {
     background: #ff6b9f;
 }
 
-/* Dropdown */
-.select-container {
-    width: 250px;
+/* Titulo del puntaje del juagdor */
+.score-screen{
+    text-align: center;
 }
 
-.select-container select {
-    width: 100%;
-    padding: 8px 12px;
+.select {
+    padding: 0.5rem 0.8rem;
     border-radius: 8px;
     border: 1px solid #fd79a8;
     background: rgba(255,255,255,0.1);
     color: #dfe6e9;
-    font-size: 14px;
+    font-size: 0.9rem;
     cursor: pointer;
     outline: none;
+    max-width: 200px;
+}
+
+.option{
+    background-color: transparent;
 }
 
 /* Tabla */

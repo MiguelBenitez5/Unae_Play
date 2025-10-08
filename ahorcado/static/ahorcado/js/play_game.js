@@ -154,6 +154,8 @@ document.addEventListener('keydown', (e)=>{
 })
 
 async function restartGame() {
+    newWordBtn.removeEventListener('click', restartGame)
+    setTimeout(()=> newWordBtn.addEventListener('click', restartGame),500)
     try{
         const response = await fetch('/ahorcado/action/restart')
         if (!response.ok) throw new Error("Ocurrio un error en la consulta en el servidor "+response.status)

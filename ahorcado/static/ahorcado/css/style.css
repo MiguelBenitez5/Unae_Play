@@ -12,12 +12,11 @@
   .key {
     background: #d3d6da;
     border: none;
-    padding: 15px 12px;
+    padding: 0.9rem 0.8rem;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    min-width: 40px;
     text-transform: uppercase;
   }
     
@@ -44,13 +43,13 @@
     margin: 24px 0;
     background: #f3f3f3;
     border-radius: 12px;
-    padding: 18px 12px;
+    padding: 1.1rem 0.8rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .cell {
-    width: 48px;
-    height: 56px;
+    width: 2.8rem;
+    height: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -69,6 +68,7 @@
     text-align: center;
     font-size: 1.3rem;
     margin: 16px 0 8px 0;
+    max-width: 400px;
     color: #444;
     font-weight: 500;
     letter-spacing: 1px;
@@ -97,11 +97,8 @@
 
 /* cambiar tipografia */
 .new-word-btn{
-    font-size: 17px;
-    padding: 9px;
     border-radius: 8px;
     border: 2px solid #ba0808;
-    font-weight: bold;
     color: #ba0808;
     background-color: #f3f3f3 ;
     transition: 0.1s 0.2s all ease normal;

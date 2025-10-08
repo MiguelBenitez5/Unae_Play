@@ -95,10 +95,10 @@ async function showModalScreen(game, game_data){
         playerScore.textContent = `Tu puntaje: ${data.player_score}` 
 
         if (game_data.game_status && game_data.game_status == 'win'){
-            scoreIcon.innerHTML = `<i class="fa-solid fa-crown fa-bounce" style="color: #edca1d;"></i>`
+            scoreIcon.innerHTML = `<i class="fa-solid fa-crown fa-bounce game-score-icon" style="color: #edca1d;"></i>`
             scoreTitle.textContent = `Felicidades ${data.username}, ganaste esta partida`
             setTimeout(() => {
-                scoreIcon.innerHTML = `<i class="fa-solid fa-crown fa-bounce" style="color: #edca1d;"></i>`
+                scoreIcon.innerHTML = `<i class="fa-solid fa-crown fa-bounce game-score-icon" style="color: #edca1d;"></i>`
             }, 2000);
         }
 
@@ -115,10 +115,10 @@ async function showModalScreen(game, game_data){
         }
 
         if (game_data.game_status && game_data.game_status == 'defeat'){
-            scoreIcon.innerHTML = `<i class="fa-solid fa-face-anxious-sweat fa-beat" style="color: #9c0202;"></i>`
-            scoreTitle.textContent = `${data.username}, a veces se gana y otras se aprende`
+            scoreIcon.innerHTML = `<i class="fa-solid fa-face-frown fa-beat-fade game-score-icon" style="color: #e28d8d;"></i>`
+            scoreTitle.textContent = `${data.username}, esta vez no pudo ser, sigue intentandolo`
             setTimeout(() => {
-                scoreIcon.innerHTML = `<i class="fa-solid fa-face-anxious-sweat" style="color: #9c0202;"></i>`
+                scoreIcon.innerHTML = `<i class="fa-solid fa-face-frown game-score-icon" style="color: #e28d8d;"></i>`   
             }, 2000);
         }
         

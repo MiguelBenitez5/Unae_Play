@@ -42,6 +42,12 @@
     </div>
 {% endblock %}
 
+{% block audio %}
+    <audio id="bg-music" muted loop hidden preload="metadata">
+        <source src="{% static 'music/piedrapapeltijera.mp3' %}" type="audio/mpeg">
+    </audio>
+{% endblock %}
+
 {% block script %}
     {{block.super}}
     <script src="{% static 'piedrapapeltijera/js/play_game.js' %}"></script>

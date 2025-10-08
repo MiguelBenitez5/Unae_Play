@@ -64,3 +64,11 @@
     cursor: pointer;
     transform: scale(1.1);
 }
+
+@media (max-width:1400px) {
+    .tos-container{
+        max-height: 500px;
+        margin: 0 12px;
+        overflow-y: auto;
+    } 
+}

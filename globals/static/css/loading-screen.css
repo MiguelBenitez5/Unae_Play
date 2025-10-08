@@ -48,3 +48,21 @@
     box-shadow: 0 8px 20px rgba(237, 79, 58, 0.6);
     background: #e5645d;
 }
+
+.loading-img{
+    border-radius: 10px;
+    max-width: 16rem;
+    animation: myEntrySponsorAnim 1.5s ease-in 0s 1 normal forwards;
+    box-shadow: 0 0 10px #1e272e;
+}
+
+
+@keyframes myEntrySponsorAnim {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
