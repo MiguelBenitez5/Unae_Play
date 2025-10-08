@@ -36,8 +36,6 @@
 }
 
 .tos-container{
-    /* se cambia la fuente para mayor claridad */
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
     max-width: 850px;
     font-size: 0.8rem;
     position: relative;

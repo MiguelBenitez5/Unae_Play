@@ -1,0 +1,129 @@
+
+.navbar {
+    background-color: rgba(99, 87, 184, 0.85);
+    color: #fff; /* Asegúrate de que el texto contraste bien */
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(8px); /* Opcional: da un efecto cristal */
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo-link {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #ffce57;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.nav-links select {
+    background-color: #252525;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.nav-links .link {
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 10px;
+    transition: background 0.3s, color 0.3s;
+    border-radius: 6px;
+}
+
+.nav-links .link:hover {
+    background-color: #ffce57;
+    color: #1e1e1e;
+}
+
+.user-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.login-button,
+.register-button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.login-button {
+    background-color: #ffce57;
+    color: #1e1e1e;
+}
+
+.login-button:hover {
+    background-color: #e6b845;
+}
+
+.register-button {
+    border: 1px solid #ffce57;
+    color: #ffce57;
+}
+
+.register-button:hover {
+    background-color: #ffce57;
+    color: #1e1e1e;
+}
+
+/* Hamburger para mobile */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .nav-links,
+    .user-actions {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 10px;
+        gap: 10px;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links.active,
+    .user-actions.active {
+        display: flex;
+    }
+}

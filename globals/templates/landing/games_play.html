@@ -118,16 +118,18 @@
 }
 .arcade-card {
     flex: 0 0 auto;
-    width: calc(100% / 4); 
+    width: 280px;
+    max-width: calc(100vw - 40px);
     box-sizing: border-box; 
     padding: 20px;
-    margin: 15px; 
+    margin: 0 10px; 
     background: #1e1e1e; 
     color: #f0f0f0; 
     border-radius: 12px; 
     border: 1px solid rgba(255, 255, 255, 0.1); 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    min-height: 200px;
 }
 .arcade-card:hover {
     transform: translateY(-2px) scale(1.01); 
@@ -163,78 +165,237 @@
     background: linear-gradient(to left, #e872f7, #fd78ba);
     transform: scale(1.05); 
 }
+/* Responsive improvements */
 @media (max-width: 768px) {
+    .arcade-section {
+        padding: 30px 15px;
+    }
+    
+    .arcade-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .carousel-wrapper {
+        padding: 0 20px;
+    }
+    
+    .carousel-button {
+        width: 36px;
+        height: 36px;
+        font-size: 1.5rem;
+    }
+    
     .arcade-card {
-        width: calc(100% / 2); 
+        width: 250px;
+        padding: 15px;
+        margin: 0 8px;
+        min-height: 200px;
+    }
+    
+    .arcade-name {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+    
+    .arcade-desc {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+    }
+    
+    .arcade-btn {
+        padding: 8px 16px;
+        font-size: 14px;
     }
 }
+
 @media (max-width: 480px) {
-    .arcade-card {
-        width: 100%; 
+    .arcade-section {
+        padding: 25px 10px;
     }
-}
-@media (max-width: 600px) {
+    
+    .arcade-title {
+        font-size: 1.6rem;
+    }
+    
+    .carousel-wrapper {
+        padding: 0 5px;
+    }
+    
     .carousel-button {
         display: none;
+    }
+    
+    .arcade-card {
+        width: 220px;
+        margin: 0 5px;
+        padding: 12px;
+        min-height: 180px;
+    }
+    
+    .arcade-name {
+        font-size: 1rem;
+    }
+    
+    .arcade-desc {
+        font-size: 0.8rem;
+    }
+    
+    .arcade-btn {
+        width: 100%;
+        max-width: 200px;
+        padding: 10px;
+        margin-top: 10px;
+    }
+}
+
+/* Touch optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .arcade-card {
+        transition: transform 0.2s ease;
+    }
+    
+    .arcade-card:active {
+        transform: scale(0.98);
+    }
+    
+    .arcade-btn {
+        min-height: 44px;
+    }
+    
+    .arcade-btn:active {
+        transform: scale(0.95);
+    }
+    
+    .carousel-button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .carousel-track {
+        transition: none !important;
+    }
+    
+    .arcade-card {
+        transition: none !important;
+    }
+    
+    .arcade-card:hover {
+        transform: none !important;
     }
 }
 </style>
 <script>
-    const track = document.querySelector('.carousel-track');
-    const cards = document.querySelectorAll('.arcade-card');
-    const prevButton = document.getElementById('prev-button');
-    const nextButton = document.getElementById('next-button');
-    let cardsPerView;
-    function calculateCardsPerView() {
-        const cardWidth = cards[0].offsetWidth + (parseFloat(window.getComputedStyle(cards[0]).marginRight) * 2);
-        const containerWidth = document.querySelector('.carousel-container').offsetWidth;
-        cardsPerView = Math.floor(containerWidth / cardWidth); 
-        return cardsPerView > 0 ? cardsPerView : 1;
-    }
-    let cardIndex = 0;
-    const totalCards = cards.length / 2;
-    function moveToCard(index) {
-        cardsPerView = calculateCardsPerView();
-        if (index >= totalCards) {
-            index = 0; 
-            track.style.transition = 'none';
-            track.style.transform = `translateX(0)`;
-            void track.offsetWidth; 
-            track.style.transition = 'transform 0.5s ease-in-out';
-        } 
-        if (index < 0) {
-            index = totalCards - cardsPerView;
+    document.addEventListener('DOMContentLoaded', function() {
+        const track = document.querySelector('.carousel-track');
+        const cards = document.querySelectorAll('.arcade-card');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        
+        if (!track || !cards.length) return;
+        
+        let cardIndex = 0;
+        const totalCards = cards.length;
+        let cardsPerView = 1;
+        
+        // Calculate how many cards fit in view
+        function calculateCardsPerView() {
+            const containerWidth = track.parentElement.clientWidth;
+            const cardWidth = 300; // Fixed card width + margin
+            cardsPerView = Math.floor(containerWidth / cardWidth);
+            if (cardsPerView < 1) cardsPerView = 1;
+            if (cardsPerView > totalCards) cardsPerView = totalCards;
+            return cardsPerView;
         }
-        cardIndex = index; 
-        const offset = cardIndex * (cards[0].offsetWidth + 30);
-        track.style.transform = `translateX(-${offset}px)`;
-    }
-    nextButton.addEventListener('click', () => {
-        pauseAutoScroll();
-        moveToCard(cardIndex + cardsPerView);
+        
+        // Move carousel
+        function moveToCard(index) {
+            calculateCardsPerView();
+            
+            // Normalize index
+            if (index >= totalCards - cardsPerView + 1) {
+                index = 0; // Loop back to start
+            }
+            if (index < 0) {
+                index = Math.max(0, totalCards - cardsPerView);
+            }
+            
+            cardIndex = index;
+            const cardWidth = 300;
+            const offset = cardIndex * cardWidth;
+            
+            track.style.transform = `translateX(-${offset}px)`;
+        }
+        
+        // Button event listeners
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                moveToCard(cardIndex + 1);
+                pauseAutoScroll();
+            });
+        }
+        
+        if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                moveToCard(cardIndex - 1);
+                pauseAutoScroll();
+            });
+        }
+        
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let isDragging = false;
+        
+        track.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            pauseAutoScroll();
+        });
+        
+        track.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    moveToCard(cardIndex + 1); // Swipe left - next
+                } else {
+                    moveToCard(cardIndex - 1); // Swipe right - prev
+                }
+            }
+        });
+        
+        // Auto-scroll functionality
+        let scrollInterval;
+        
+        function startAutoScroll() {
+            if (window.innerWidth <= 480) return; // No auto-scroll on mobile
+            
+            scrollInterval = setInterval(() => {
+                moveToCard(cardIndex + 1);
+            }, 4000);
+        }
+        
+        function pauseAutoScroll() {
+            clearInterval(scrollInterval);
+            scrollInterval = null;
+            setTimeout(startAutoScroll, 6000);
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            calculateCardsPerView();
+            moveToCard(cardIndex); // Maintain current position
+        });
+        
+        // Initialize
+        moveToCard(0);
+        setTimeout(startAutoScroll, 2000);
     });
-    prevButton.addEventListener('click', () => {
-        pauseAutoScroll();
-        moveToCard(cardIndex - cardsPerView);
-    });
-    let scrollInterval;
-    const scrollTime = 4000;
-    function startAutoScroll() {
-        if (scrollInterval) return;
-        scrollInterval = setInterval(() => {
-            moveToCard(cardIndex + cardsPerView);
-        }, scrollTime);
-    }
-    function pauseAutoScroll() {
-        clearInterval(scrollInterval);
-        scrollInterval = null;
-        setTimeout(startAutoScroll, 10000);
-    }
-    window.addEventListener('resize', () => {
-        moveToCard(cardIndex);
-    });
-    window.onload = () => {
-        calculateCardsPerView();
-        startAutoScroll();
-    };
 </script>

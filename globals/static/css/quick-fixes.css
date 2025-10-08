@@ -1,0 +1,138 @@
+/* FIXES TEMPORALES PARA MASCOTAS Y CARRUSEL */
+
+/* Arreglo específico para las imágenes de mascotas */
+.mascotas-section .mascota-card img {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto 15px auto !important;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border: 2px solid rgba(225, 0, 255, 0.3) !important;
+    /* Fallback si la imagen no carga */
+    position: relative;
+}
+
+/* Fallback para imágenes que no cargan */
+.mascotas-section .mascota-card img::before {
+    content: "🐾";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: #e100ff;
+}
+
+/* Asegurar que las imágenes tengan la ruta correcta */
+.mascotas-section .mascota-card img[src*="caballo.png"],
+.mascotas-section .mascota-card img[src*="camaleon.png"],
+.mascotas-section .mascota-card img[src*="buho.png"],
+.mascotas-section .mascota-card img[src*="tucan.png"],
+.mascotas-section .mascota-card img[src*="leopardo.png"],
+.mascotas-section .mascota-card img[src*="serpiente.png"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Arreglo para el container de mascotas */
+.mascotas-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    gap: 20px !important;
+    max-width: 1200px !important;
+    margin: 30px auto !important;
+    padding: 0 20px !important;
+}
+
+/* Arreglo para las tarjetas de mascotas */
+.mascota-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    padding: 20px !important;
+    border-radius: 15px !important;
+    text-align: center !important;
+    min-height: 220px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+/* Arreglo para el carrusel de juegos */
+.carousel-track {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    transition: transform 0.3s ease !important;
+    gap: 20px !important;
+}
+
+.arcade-card {
+    flex: 0 0 280px !important;
+    width: 280px !important;
+    margin: 0 !important;
+    background: #1e1e1e !important;
+    padding: 20px !important;
+    border-radius: 12px !important;
+    min-height: 200px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+/* Container del carrusel */
+.carousel-container {
+    overflow: hidden !important;
+    width: 100% !important;
+}
+
+.carousel-wrapper {
+    position: relative !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 60px !important;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .mascotas-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+        padding: 0 15px !important;
+    }
+    
+    .mascota-card img {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    .carousel-wrapper {
+        padding: 0 20px !important;
+    }
+    
+    .arcade-card {
+        flex: 0 0 250px !important;
+        width: 250px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .mascotas-container {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .carousel-wrapper {
+        padding: 0 10px !important;
+    }
+    
+    .arcade-card {
+        flex: 0 0 220px !important;
+        width: 220px !important;
+        padding: 15px !important;
+    }
+    
+    .carousel-button {
+        display: none !important;
+    }
+}

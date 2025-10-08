@@ -90,24 +90,26 @@ async function loadingImagesPreload() {
 }
 
 // se muestra la pantalla de carga por 5 segundos
-function showLoadingScreen(){
+async function showLoadingScreen(){
     loadingScreen.style.display = 'block'
     gameScreen.style.display = 'none'
     loadingText.textContent = 'Cargando juego'
     loadingIcon.innerHTML = loadIcon
     loadingBtn.style.display = 'none'
-    preloadAll()
+    await preloadAll()
 }
 
-window.onload = ()=>{
-    loadingImagesPreload()
-    showLoadingScreen()
+window.onload = async()=>{
+    await loadingImagesPreload()
+    await showLoadingScreen()
 }
 
 // evento para el boton de juego cargado
 loadingBtn.addEventListener('click', ()=>{
-    // aqui se debe verificar desde el localhost para comprobar si reproducir musica y que volumen
+    gameMusic.volume = 0.35
+    gameMusic.play()
     loadingScreen.style.display = 'none'
     gameScreen.style.display = 'block'
 })
+
 
