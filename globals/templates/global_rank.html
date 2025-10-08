@@ -5,6 +5,9 @@
 {% block head%}
     {{block.super}}
     <link rel="stylesheet" href="{% static  'modal.css' %}">
+    <link rel="stylesheet" href="{% static  'css/super-globalcomponents.css' %}">
+    <link rel="stylesheet" href="{% static  'login/css/style.css' %}">
+    <link rel="stylesheet" href="{% static  'css/globalrank.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -13,27 +16,27 @@
 
 {% block content %}
     {% if not clicked %}
-        <section class="sponsor-campaign">
-            <h2 class="sponsor-title">Promocion especial para primeros seguidores</h2>
-            <p class="sponsor-text">Sigue a <a id="sponsor-link-1" href="https://www.instagram.com/paranabroker/" target="_blank">Paraná Broker de Seguros</a> en instagram y suma 100 puntos en el ranking global</p>
-            <a id="soponsor-link-2" href="https://www.instagram.com/paranabroker/" target="_blank"><img width="60px" height="60px" src="{% static 'img/Instagram-Flaticon.png' %}" alt="paranabrokerinstagram"></a>
+        <section class="form sponsor-campaign">
+            <h2 class="sponsor-title game-title">Promocion especial para nuevos seguidores</h2>
+            <p class="sponsor-text game-text">Sigue a <a class="form-link" id="sponsor-link-1" href="https://www.instagram.com/paranabroker/" target="_blank">Paraná Broker de Seguros</a> en instagram y suma <span class="sponsor-title">100</span> puntos en el ranking global</p>
+            <a id="sponsor-link-2" href="https://www.instagram.com/paranabroker/" target="_blank"><img class="sponsor-img" width="60px" height="60px" src="{% static 'img/Instagram-Flaticon.png' %}" alt="paranabrokerinstagram"></a>
         </section>
     {% endif %}
     <section class="ranking-table">
         <!--Se utiliza la misma tabla para mostrar el ranking-->
-        <h1 class="table-title">Ranking global</h1>
+        <h1 class="table-title game-title">Ranking global</h1>
         {% if not global_rank %}
-            <p class="empty-rank">Aun no se registraron puntajes de jugadores en el ranking global</p>
+            <p class="empty-rank game-text">Aun no se registraron puntajes de jugadores en el ranking global</p>
         {% else %}
             <table id="rankingTable">
                 <thead>
                     <tr>
-                        <th>Posición</th>
-                        <th>Jugador</th>
-                        <th>Puntaje</th>
+                        <th class="game-text">Posición</th>
+                        <th class="game-text">Jugador</th>
+                        <th class="game-text">Puntaje</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="game-text">
                     <!-- Datos dinamicos generados en consulta a la db -->
                     {% for  player in global_rank %}
                         {% if forloop.counter == 1 %}

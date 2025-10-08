@@ -1,33 +1,33 @@
 <div id="rankingModal" class="modal">
     <div class="modal-content">
-      <button class="close-btn">&times; Salir</button>
+      <button class="close-btn">&times</button>
 
       <div class="select-container">
         <input type="hidden" id="aux-input">
-        <label for="rankingFilter">Filtrar ranking:</label>
-        <select id="rankingFilter">
-          <option value="score">Tu puntaje</option>
-          <option id="game" value="game"></option>
-          <option value="global">Top Global</option>
+        <label for="rankingFilter" class="label">Filtrar ranking:</label>
+        <select id="rankingFilter" class="select game-text">
+          <option value="score" class="option">Tu puntaje</option>
+          <option id="game" value="game" class="option"></option>
+          <option value="global" class="option">Top Global</option>
         </select>
       </div>
+      
 
       <!--Puntaje del jugador y palabra en los juegos wordle y ahorcado-->
       <section class="score-screen">
         <!--Aqui se muestra un icono dependiendo del resultado-->
-        <div class="score-icon"><i class="fa-solid fa-crown fa-bounce" style="color: #edca1d;"></i></div>
+        <div class="score-icon game-score-icon"><i class="fa-solid fa-crown fa-bounce" style="color: #edca1d;"></i></div>
         <!--Aqui va mensaje dependiendo del resultado-->
-        <h2 class="score-title">Felicidades Miguel, ganaste esta partida</h2>
+        <h2 class="score-title game-title">Felicidades Miguel, ganaste esta partida</h2>
         <!--Aqui va la palabra (solo en wordle y ahorcado)-->
         <h3 class="word-title" style="display: none;">Palabra correcta:</h3>
         <p class="word" style="display: none;">Termita</p>
         <!--Puntaje del jugador en la partida terminada-->
-        <p class="player-score">Tu puntaje: </p>
+        <p class="player-score game-text">Tu puntaje: </p>
 
       </section>
-      <section class="ranking-table" style="display: none;">
+      <section class="ranking-table game-text" style="display: none;">
         <!--Se utiliza la misma tabla para mostrar el ranking-->
-        <h2 class="table-title">Ranking global</h2>
         <table id="rankingTable">
           <thead>
             <tr>
@@ -39,17 +39,17 @@
           <tbody>
             <!-- Datos estáticos de ejemplo -->
             <tr>
-              <td><i class="fa-solid fa-1 fa-beat" style="color: #d4ab16;"></i></td>
+              <td><i class="fa-solid fa-1 fa-beat" style="color: #ffd43b;"></i></td>
               <td id="player-1">Miguel</td>
               <td id="score-1">1500</td>
             </tr>
             <tr>
-              <td><i class="fa-solid fa-2" style="color: #a6a6a6;"></i></td>
+              <td><i class="fa-solid fa-2" style="color: #d3d2cf;"></i></td>
               <td id="player-2">MiguelCuentaSecundaria</td>
               <td id="score-2">1400</td>
             </tr>
             <tr>
-              <td><i class="fa-solid fa-3" style="color: #533d0e;"></i></td>
+              <td><i class="fa-solid fa-3" style="color: #e8c3ab;"></i></td>
               <td id="player-3">Miguel@360</td>
               <td id="score-3">1300</td>
             </tr>
