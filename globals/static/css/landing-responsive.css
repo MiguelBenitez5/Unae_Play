@@ -1,0 +1,381 @@
+/* ================================
+   LANDING PAGE RESPONSIVE STYLES
+   ================================ */
+
+/* Base responsive typography using CSS custom properties */
+:root {
+    /* Fluid font sizes for better scaling */
+    --fs-hero-title: clamp(2rem, 6vw, 3.5rem);
+    --fs-hero-subtitle: clamp(1rem, 3vw, 1.5rem);
+    --fs-section-title: clamp(1.8rem, 4vw, 2.5rem);
+    --fs-card-title: clamp(1rem, 2.5vw, 1.3rem);
+    --fs-card-text: clamp(0.9rem, 2vw, 1rem);
+    
+    /* Responsive spacing */
+    --space-xs: clamp(0.5rem, 2vw, 0.75rem);
+    --space-sm: clamp(1rem, 3vw, 1.5rem);
+    --space-md: clamp(2rem, 5vw, 3rem);
+    --space-lg: clamp(3rem, 8vw, 5rem);
+    --space-xl: clamp(4rem, 10vw, 6rem);
+    
+    /* Container widths */
+    --container-sm: min(90%, 600px);
+    --container-md: min(95%, 900px);
+    --container-lg: min(98%, 1200px);
+}
+
+/* ================================
+   HERO SECTION RESPONSIVE
+   ================================ */
+.hero-section {
+    padding: var(--space-lg) var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.hero-title {
+    font-size: var(--fs-hero-title);
+    line-height: 1.2;
+    margin-bottom: var(--space-sm);
+}
+
+.hero-subtitle {
+    font-size: var(--fs-hero-subtitle);
+    line-height: 1.4;
+    margin-bottom: var(--space-md);
+}
+
+/* ================================
+   GAMES SECTION RESPONSIVE
+   ================================ */
+.arcade-section {
+    padding: var(--space-md) var(--space-sm);
+    margin: var(--space-md) 0;
+}
+
+.arcade-title {
+    font-size: var(--fs-section-title);
+    margin-bottom: var(--space-sm);
+}
+
+.carousel-wrapper {
+    position: relative;
+    padding: 0 var(--space-md);
+    max-width: var(--container-lg);
+    margin: 0 auto;
+}
+
+.arcade-card {
+    padding: var(--space-sm);
+    margin: var(--space-xs);
+    min-height: 250px;
+}
+
+.arcade-name {
+    font-size: var(--fs-card-title);
+    margin-bottom: var(--space-xs);
+}
+
+.arcade-desc {
+    font-size: var(--fs-card-text);
+    margin-bottom: var(--space-sm);
+}
+
+.arcade-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--fs-card-text);
+    min-height: 44px; /* Touch target */
+}
+
+/* ================================
+   PETS SECTION RESPONSIVE
+   ================================ */
+.mascotas-section {
+    padding: var(--space-lg) var(--space-sm);
+}
+
+.mascotas-title {
+    font-size: var(--fs-section-title);
+    margin-bottom: var(--space-sm);
+}
+
+.mascotas-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.mascota-card {
+    padding: var(--space-sm);
+}
+
+.mascota-card h3 {
+    font-size: var(--fs-card-title);
+    margin-bottom: var(--space-xs);
+}
+
+.mascota-card p {
+    font-size: var(--fs-card-text);
+}
+
+.mascota-card img {
+    width: clamp(80px, 15vw, 120px);
+    height: auto;
+    margin-bottom: var(--space-sm);
+}
+
+/* ================================
+   SPONSORS SECTION RESPONSIVE
+   ================================ */
+.sponsors-section {
+    padding: var(--space-lg) var(--space-sm);
+}
+
+.sponsors-title {
+    font-size: var(--fs-section-title);
+    margin-bottom: var(--space-sm);
+}
+
+.sponsors-grid {
+    max-width: var(--container-lg);
+    margin: var(--space-md) auto;
+    gap: var(--space-sm);
+}
+
+.sponsor-card {
+    padding: var(--space-md) var(--space-sm);
+}
+
+.sponsor-card p {
+    font-size: var(--fs-card-text);
+}
+
+.primary-sponsor .sponsor-level {
+    font-size: clamp(1.6rem, 4vw, 2.7rem);
+}
+
+/* ================================
+   RESPONSIVE BREAKPOINTS
+   ================================ */
+
+/* Large tablets and small desktops (992px and down) */
+@media (max-width: 992px) {
+    .carousel-wrapper {
+        padding: 0 var(--space-sm);
+    }
+    
+    .arcade-card {
+        width: calc(50% - var(--space-sm));
+        min-height: 220px;
+    }
+    
+    .mascotas-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .sponsors-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablets and large phones (768px and down) */
+@media (max-width: 768px) {
+    :root {
+        --space-sm: 1rem;
+        --space-md: 1.5rem;
+        --space-lg: 2.5rem;
+    }
+    
+    .hero-section {
+        padding: var(--space-md) var(--space-sm);
+    }
+    
+    .carousel-wrapper {
+        padding: 0 var(--space-xs);
+    }
+    
+    .carousel-button {
+        width: 36px;
+        height: 36px;
+        font-size: 1.5rem;
+    }
+    
+    .arcade-card {
+        width: calc(100% / 2 - var(--space-xs));
+        min-height: 200px;
+        margin: calc(var(--space-xs) / 2);
+    }
+    
+    .mascotas-title span {
+        display: block;
+        margin-top: var(--space-xs);
+    }
+    
+    .mascotas-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .sponsors-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .primary-sponsor {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Small phones (480px and down) */
+@media (max-width: 480px) {
+    :root {
+        --space-xs: 0.5rem;
+        --space-sm: 0.75rem;
+        --space-md: 1rem;
+        --space-lg: 1.5rem;
+    }
+    
+    .carousel-wrapper {
+        padding: 0;
+    }
+    
+    .carousel-button {
+        display: none; /* Hide on very small screens */
+    }
+    
+    .arcade-card {
+        width: calc(100% - var(--space-sm));
+        margin: calc(var(--space-xs) / 2) auto;
+        min-height: 180px;
+    }
+    
+    .arcade-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .mascotas-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sponsors-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .primary-sponsor {
+        grid-column: auto;
+    }
+    
+    .become-sponsor-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Extra small phones (360px and down) */
+@media (max-width: 360px) {
+    :root {
+        --space-xs: 0.25rem;
+        --space-sm: 0.5rem;
+        --space-md: 0.75rem;
+        --space-lg: 1rem;
+    }
+    
+    .arcade-card {
+        min-height: 160px;
+        padding: var(--space-sm);
+    }
+    
+    .mascota-card img {
+        width: clamp(60px, 20vw, 80px);
+    }
+}
+
+/* ================================
+   TOUCH AND ACCESSIBILITY
+   ================================ */
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .arcade-btn,
+    .mascota-card,
+    .sponsor-card,
+    .carousel-button {
+        min-height: 44px; /* Apple's minimum touch target */
+    }
+    
+    .arcade-card:active,
+    .mascota-card:active,
+    .sponsor-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    .arcade-btn:active {
+        transform: scale(0.95);
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .arcade-card,
+    .mascota-card,
+    .sponsor-card,
+    .carousel-track {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .arcade-card:hover,
+    .mascota-card:hover,
+    .sponsor-card:hover {
+        transform: none !important;
+    }
+}
+
+/* ================================
+   LANDSCAPE ORIENTATION
+   ================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        padding: var(--space-sm) var(--space-sm);
+    }
+    
+    .arcade-section,
+    .mascotas-section,
+    .sponsors-section {
+        padding: var(--space-sm) var(--space-sm);
+    }
+    
+    .arcade-card {
+        min-height: 140px;
+    }
+}
+
+/* ================================
+   HIGH DPI DISPLAYS
+   ================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .mascota-card img,
+    .sponsor-logo img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* ================================
+   PRINT STYLES (BONUS)
+   ================================ */
+@media print {
+    .carousel-button,
+    .arcade-btn,
+    .become-sponsor-btn {
+        display: none;
+    }
+    
+    .hero-section,
+    .arcade-section,
+    .mascotas-section,
+    .sponsors-section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}

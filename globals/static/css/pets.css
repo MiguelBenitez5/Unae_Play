@@ -45,11 +45,14 @@
 }
 
 .mascota-card img {
-    width: 100px;
-    height: 100px;
+    width: clamp(80px, 15vw, 120px);
+    height: clamp(80px, 15vw, 120px);
     object-fit: contain;
     margin-bottom: 1rem;
     filter: drop-shadow(0 0 6px #ff00ff);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .mascota-card h3 {
@@ -61,13 +64,6 @@
 .mascota-card p {
     font-size: 0.95rem;
     color: #ccc;
-}
-
-/* --- Responsiveness & Mobile Tweaks --- */
-/* Make images adapt a bit better across sizes */
-.mascota-card img {
-    width: clamp(4.5rem, 20vw, 6.8rem);
-    height: auto;
 }
 
 /* Tablets and small laptops */
@@ -95,7 +91,7 @@
         font-size: 1.8rem;
     }
     .mascotas-title span {
-        display: block; /* Pasa a segunda línea para mejor legibilidad */
+        display: block; 
         margin-top: 4px;
     }
     .mascotas-container {
