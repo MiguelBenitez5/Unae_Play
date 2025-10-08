@@ -149,6 +149,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Directorios donde Django busca archivos estáticos durante desarrollo
+STATICFILES_DIRS = [
+    BASE_DIR / 'globals' / 'static',
+]
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
