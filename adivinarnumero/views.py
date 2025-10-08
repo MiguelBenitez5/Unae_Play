@@ -31,8 +31,10 @@ def play(request, number):
         if result.get('finished'):
             attempts = result.get('attempts', NUM_ATTEMPTS)
             if result.get('result') == 'correct':
+                result['game_status'] = 'win'
                 base_score = NUM_WIN + (NUM_ATTEMPTS - attempts) * 100
             else:
+                result['game_status'] = 'defeat'
                 base_score = NUM_LOSS
 
             start_time = game_data.get('start_time', time.time())

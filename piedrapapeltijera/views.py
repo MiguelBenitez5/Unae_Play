@@ -53,6 +53,10 @@ def play(request, player_choice):
         print(final_score)
         save_score(request, 'piedrapapeltijera', final_score)
         new_game_data['final_score'] = final_score
+        if new_game_data['player_wins'] > new_game_data['machine_wins']:
+            new_game_data['game_status'] = 'win'
+        else:
+            new_game_data['game_status'] = 'defeat'
 
     return JsonResponse(new_game_data)
 

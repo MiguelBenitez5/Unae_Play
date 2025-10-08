@@ -106,8 +106,10 @@ window.onload = async()=>{
 
 // evento para el boton de juego cargado
 loadingBtn.addEventListener('click', ()=>{
-    // aqui se debe verificar desde el localhost para comprobar si reproducir musica y que volumen
+    gameMusic.volume = 0.35
+    gameMusic.play()
     loadingScreen.style.display = 'none'
     gameScreen.style.display = 'block'
 })
+
 
