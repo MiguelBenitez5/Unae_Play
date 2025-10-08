@@ -32,6 +32,7 @@ function paintBoard(){
                         const cell = document.createElement('div')
                         cell.classList.add('cell')
                         cell.id = `${i}-${j}`
+                        cell.classList.add('game-char')
                         board.appendChild(cell)
                         if(data.history){
                             console.log("Historial: ",data.history)
@@ -41,14 +42,11 @@ function paintBoard(){
                                 if (data.history[`${i}`]['result'][`${j}`].color === 'green') cell.classList.add('correct')
                                     else if (data.history[`${i}`]['result'][`${j}`].color === 'yellow') cell.classList.add('present')
                                 else cell.classList.add('absent')
+                            }
                         }
                     }
-
-                    board.appendChild(cell)
-
                 }
-            }
-            board.style.gridTemplateColumns = `repeat(${data.basic_data.word_len}, minmax(20px,45px))`
+                board.style.gridTemplateColumns = `repeat(${data.basic_data.word_len}, minmax(10px,45px))`
 
             }).catch(error => console.log('Ocurrio un error ', error)) 
 }
@@ -264,7 +262,9 @@ input.addEventListener('focus', () => {
 });
 
 
-restartButton.addEventListener('click', ()=>{
+restartButton.addEventListener('click', function handler(){
+    restartButton.removeEventListener('click', handler)
+    setTimeout(()=> restartButton.addEventListener('click', handler))
     resetGame()
     addEventsForKeys()
     show_dialogue('inicio', 'wordle')
