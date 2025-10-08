@@ -1,0 +1,124 @@
+*{
+    margin: 0;
+}
+
+/* todo el contenido de la pagina esta envuelto en el section, a considerar:
+display:flex , flex-direction: column y min-height: 100vh son indispensables 
+para que el footer pueda quedar debajo */
+.section{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Estilos temporales, se pueden cambiar todos sin problema sin afectar a la funcionalidad */
+.header{
+    height: 50px;
+    background-color: black;
+    text-align: center;
+    color: aliceblue;
+    padding: 15px;
+    font-size: 50px;
+}
+
+/*flex-grow: 1 perimte que el contenido del main ocupe toda la pantalla restante
+y de esta forma el footer quedara debajo siempre  */
+.main{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Estilos para base_game */
+.game {
+    flex-grow: 6;
+    display: flex;
+    justify-content: center;
+    padding: 10px 10px;
+}
+
+/* Sponsor */
+.content-page{
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sponsor-banner{
+    margin: auto;
+}
+
+
+/* Personaje */
+.char {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogue-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
+    margin: 0 10px;
+    gap: 10px;
+    box-sizing: border-box;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-family: 'general-font', monospace;
+    animation: myDialogueAnim 0.7s ease-in 0s 1 normal forwards;
+}
+.char-img{
+    width: 100%;
+}
+.dialogue-character{
+    max-width: 70px;
+}
+.dialogue-text{
+    display: flex;
+    justify-content: end;
+    text-align: end;
+    align-items: center;
+    flex: 4 1 60%;
+}
+
+i{
+    pointer-events: none;
+}
+
+@keyframes myDialogueAnim {
+	0% {
+		transform: scale(0.5);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes myDialogueExitAnim {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@media (max-width: 875px) {
+    .sponsor-banner{
+        display: none;
+    }
+    .content-page{
+        justify-content: center;
+    }
+}
+
