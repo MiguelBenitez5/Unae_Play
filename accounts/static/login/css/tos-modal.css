@@ -1,0 +1,66 @@
+.modal-tos{
+    display: flex;
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.tos-content{
+    background-color: transparent;
+}
+
+.tos-list{
+    padding-left: 20px;
+}
+
+.tos-title{
+    text-align: center;
+}
+
+.tos-subtitle{
+    text-align: center;
+}
+
+.tos-btn-container{
+    text-align: center;
+}
+
+.tos-btn{
+    margin: 10px 0;
+}
+
+.tos-container{
+    /* se cambia la fuente para mayor claridad */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    max-width: 850px;
+    font-size: 0.8rem;
+    position: relative;
+}
+
+.tos-close-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    margin: 15px;
+    font-size: 1.1rem;
+    background-color: brown;
+    transition: all 0.15s ease-in;
+}
+
+.tos-close-btn:hover{
+    background-color: rgb(168, 60, 60);
+    cursor: pointer;
+    transform: scale(1.1);
+}

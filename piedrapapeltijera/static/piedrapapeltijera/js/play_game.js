@@ -36,11 +36,12 @@ function restartGame() {
             console.log('Juego Reiniciado:', data.message);
             gameFinished = false;
             enableChoiceButtons(true);
+            // Update UI only after successful response
             updateUI({
-                player_score: 0,
-                player_wins: 0,
-                machine_wins: 0,
-                draws: 0,
+                player_score: data.player_score || 0,
+                player_wins: data.player_wins || 0,
+                machine_wins: data.machine_wins || 0,
+                draws: data.draws || 0,
                 player_choice: '❓',
                 machine_choice: '❓',
                 result: 'start'
@@ -54,11 +55,15 @@ function clientPlay(event) {
         resultMessageH3.textContent = "El juego ha terminado. Reinicia para jugar de nuevo.";
         return;
     }
-
     const playerChoice = event.currentTarget.dataset.choice;
+    if (!playerChoice) {
+        resultMessageH3.textContent = "Error: No se pudo obtener la elección del jugador.";
+        return;
+    }
     fetch(`/piedrapapeltijera/play/${playerChoice}/`)
         .then(response => response.json())
         .then(data => {
+            console.log('Datos recibidos:', data);
             console.log('Datos recibidos:', data);
 
             if (data.status === 'error') {
@@ -72,7 +77,7 @@ function clientPlay(event) {
                 enableChoiceButtons(false);
                 resultMessageH3.textContent = data.message || "¡Juego terminado! Reinicia o ríndete.";
                 console.log(data);
-                showModalScreen('piedrapapeltijera', data); // <-- ESTA LÍNEA ES CLAVE
+                showModalScreen('piedrapapeltijera', data); // Muestra el modal de fin de juego cuando la partida termina
                 return;
             }
 
@@ -137,9 +142,10 @@ function giveUp() {
     fetch('/piedrapapeltijera/action/giveup/')
         .then(response => response.json())
         .then((data) => {
-            showModalScreen('piedrapapeltijera', data); // <-- AQUÍ
+            showModalScreen('piedrapapeltijera', data); // Mostrar el modal de resultado final al rendirse
             alert(`Tu puntaje final es: ${data.player_score}`);
             restartGame();
+            show_dialogue('rendicion', 'piedrapapeltijera');
         })
         .catch(error => console.error('Error al rendirse:', error));
 }
@@ -171,5 +177,4 @@ choiceBtns.forEach(btn => {
 resetButton.addEventListener('click', restartGame);
 giveupBtn.addEventListener('click', function() {
     giveUp();
-    show_dialogue('rendicion', 'piedrapapeltijera');
 });

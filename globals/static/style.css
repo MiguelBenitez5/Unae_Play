@@ -89,6 +89,10 @@ y de esta forma el footer quedara debajo siempre  */
     flex: 4 1 60%;
 }
 
+i{
+    pointer-events: none;
+}
+
 @keyframes myDialogueAnim {
 	0% {
 		transform: scale(0.5);

@@ -269,4 +269,5 @@ restartButton.addEventListener('click', ()=>{
     addEventsForKeys()
     show_dialogue('inicio', 'wordle')
     resetCountingTimer()
+    startCountingTimer()
 })

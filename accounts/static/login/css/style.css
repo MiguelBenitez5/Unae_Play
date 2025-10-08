@@ -11,10 +11,10 @@
 }
 
 .form{
-    max-width: 450px;
+    max-width: 400px;
     text-align: left;
-    padding: 20px;
-    background-color: black;
+    padding: 40px;
+    background: linear-gradient(180deg, #0a0000, #000102);
     border-radius: 12px;
     box-shadow: 0 0 10px 1px #121212;
 }
@@ -30,9 +30,120 @@
 }
 
 .form-input{
-    text-align: left;
+    width: 100%;
+    padding: 8px 10px;
+    width: 100%;
+    background-color: #1e1e1e; /* fondo del input */
+    color: #f1f1f1; /* texto claro */
+    border: 1px solid #333; /* borde sutil */
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.form-input::placeholder{
+    border-color: #555;
+}
+
+.form-input:focus{
+    border-color: #ed3a3a55; /* color de enfoque brillante */
+    box-shadow: 0 0 6px #ed3a3a55;
+    background-color: #252525;
+}
+
+
+.terms{
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
 }
 
 .form-text{
     display: inline-block;
 }
+
+.submit-btn-container{
+    display: flex;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+.form-label{
+    margin-top: 10px;
+}
+
+.form-submit{
+    padding: 8px 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.15s ease, background 0.3s ease, box-shadow 0.3s ease;
+    background: #ed3a3a;
+    color: white;
+    box-shadow: 0 4px 8px rgba(124,58,237,0.4);
+    margin-top: 10px;
+}
+
+.form-submit:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 2px 8px rgba(237, 79, 58, 0.6);
+    background: #e5645d;
+}
+
+.form-footer{
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.form-checkbox{
+    appearance: none;
+    flex-shrink: 0;
+    color: white;
+    margin-right: 5px;
+    border-radius: 3px;
+    width: 15px;
+    height: 15px;
+    background-color: #e5645d;
+    transition: all 0.2s ease-in-out normal;
+}
+
+.form-checkbox:hover{
+    cursor: pointer;
+    background-color: #e5645daa;
+}
+
+.form-checkbox:checked::before{
+    content: '✔';
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-link{
+    color: #e5645dbb;
+    transition: text-shadow, 0.2s ease-in;
+}
+
+
+.form-link:hover{
+text-shadow: 0 0 2px #e5645d88;
+}
+
+.error-list{
+    max-width: 350px;
+    font-size: 0.65rem;
+}
+
+.error-item{
+    padding: 10px;
+    background-color: #e5645d44;
+    margin: 5px 5px;
+    border-radius: 10px;
+    list-style: none;
+}
+

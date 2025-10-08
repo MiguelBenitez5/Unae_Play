@@ -1,7 +1,9 @@
+from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Dialogue, Game, Score, GlobalRank
 from django.db.models.functions import Random
-from accounts.models import CustomUser 
+from accounts.models import CustomUser
+from .utils import is_session_active 
 
 
 def get_dialogue(request,category:str, game:str):
@@ -37,14 +39,39 @@ def get_all_scores(request, game):
 
     return JsonResponse(response)
     
+"""
+Se obtienen los 10 primeros registros del ranking global ordenados de mayor a menor
+"""
+def get_global_ranking(request):
+    context = {'logged': True, 'clicked': False}
+    if not is_session_active(request):
+        context['logged'] = False
+        context['clicked'] = True #cuando no esta logueado no se mostrara la campaña
+    if 'clicked' in request.session:
+        context['clicked'] = True
+    global_rank = GlobalRank.objects.all()[:10].values('user__username', 'score')
+    context['global_rank'] = global_rank
+    return render(request, 'global_rank.html', context)
 
-
-
-
-
-
-
-
+"""
+Otorga 100 puntos a aquellos usuarios que sigan al perfil de 
+instagram del sponsor
+"""
+def click_campaign(request):
+    if not is_session_active(request):
+        return JsonResponse({'status':'error'})
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return JsonResponse({'status':'error'})
+    user = CustomUser.objects.get(id=user_id)
+    if not user.clicked_campaign:
+        user_score = GlobalRank.objects.filter(user=user).values('score').first() or 0
+        user_score += 100
+        _,_ = GlobalRank.objects.update_or_create(user, defaults={'score': user_score })
+        user.clicked_campaign = True
+        user.save()
+        return JsonResponse({'status': 'success'})
     
-
+    return JsonResponse({'status':'error'})
+    
 
