@@ -11,21 +11,28 @@
 
 {% block game %}
     <div class="game-box">
+        <h1 class="game-title">Ta-Te-Ti</h1>
         <!--Muestra la dificultad actual// es temporal, borrar en desarrollo-->
         <div class="header-game">
-            <p class="level">Facil</p>
-            <button class="reset"><i class="fa-solid fa-rotate-right" style="color: #fff; font-size: 26px;"></i></button>
+            <p class="level game-text">Facil</p>
+            <button class="reset game-reset-btn"><i class="fa-solid fa-rotate-right game-reset-icon" style="color: #fff;"></i></button>
             {% include 'timer.html' %}
         </div>
         <!--lugar para el tablero-->
         {% include 'tateti/tablero.html' %}
         <div class="footer-game">
-            <button class="giveup">Me rindo</button>
-            <button class="next-level hidden">Siguiente Nivel</button>
-            <button class="try-again hidden">Reintentar</button>
+            <button class="giveup game-button">Me rindo</button>
+            <button class="next-level hidden game-button">Siguiente Nivel</button>
+            <button class="try-again hidden game-button">Reintentar</button>
         </div>
     </div>
 
+{% endblock %}
+
+{% block audio%}
+    <audio id="bg-music" muted loop hidden preload="metadata">
+        <source src="{% static 'music/tateti.mp3' %}" type="audio/mpeg">
+    </audio>
 {% endblock %}
 
 {% block script %}

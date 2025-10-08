@@ -51,6 +51,8 @@ function paintBoard(board){
 }
 
 async function restart_game(){
+    reset.removeEventListener('click', restart_game)
+    setTimeout(()=> reset.addEventListener('click', restart_game), 500)
     try{
         const response = await fetch('/tateti/action/restart')
         if(!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
@@ -61,6 +63,7 @@ async function restart_game(){
         cleanBoard()
         level.textContent = 'Facil'
         nextLevel.classList.add('hidden')
+
     }
     catch(err){
         console.log(err)
@@ -68,6 +71,8 @@ async function restart_game(){
 }
 
 async function next_level() {
+    nextLevel.removeEventListener('click', next_level)
+    setTimeout(()=> nextLevel.addEventListener('click', next_level),500)
     try{
         const response = await fetch('/tateti/action/nextlevel')
         if (!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
@@ -82,13 +87,14 @@ async function next_level() {
             paintBoard(data.hard_machine_move.board)
             console.log('hey')
         }
-
     }catch(err){
         console.log(err)
     }
 }
 
 async function give_up() {
+    giveup.removeEventListener('click', give_up)
+    setTimeout(()=> giveup.addEventListener('click', give_up),500)
     try{
         const response = await fetch('/tateti/action/giveup/')
         if (!response.ok) throw new Error('Ocurrio un error al consultar al servidor: '+response.status)
@@ -102,36 +108,25 @@ async function give_up() {
         tryAgain.classList.add('hidden')
         removeEvents()
         stopCountingTimer()
+        
     }catch(err){
         console.log(err)
     }
 }
 
 //evento para el boton de siguiente nivel
-nextLevel.addEventListener('click', function(){
-    fetch('/tateti/action/nextlevel')
-        .then(response => response.json())
-            .then(data =>{
-
-                console.log(data)
-                nextLevel.classList.add('hidden')
-
-                level.textContent = data.level == 'easy'? 'Facil' : data.level == 'medium'? 'Normal' : 'Dificil'
-                cleanBoard()
-                if(data.hard_machine_move.board){
-                    paintBoard(data.hard_machine_move.board)
-                }
-            }).catch(error => console.error('Ha ocurrido un error al consultar la url ',error))
-})
+nextLevel.addEventListener('click', next_level)
 
 async function try_again(){
+    tryAgain.removeEventListener('click', try_again)
+    setTimeout(()=> tryAgain.addEventListener('click', try_again),500)
+    tryAgain.classList.add('hidden')
     try{
         const response = await fetch('/tateti/action/tryagain')
         if(!response.ok) throw new Error("Error en la conexion con el servidor"+response.status)
         const data = await response.json()
         cleanBoard()
         paintBoard(data.board)
-
     }catch(err){
         console.log(err)
     }

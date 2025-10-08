@@ -29,15 +29,18 @@ def render_reg(request):
                 return render(request, 'accounts/register.html') 
             user = CustomUser(username=username, email=email, age=age)
             user.set_password(password)
+            from django.core.exceptions import ValidationError
             try:
                 user.full_clean()
                 user.save()
                 messages.success(request, f'Bienvenido {username}, ahora ingresa y empieza a jugar')
                 return redirect("login")
-            except Exception as e:
+            except ValidationError as e:
                 for message in e.message_dict.values():
                     for error in message:
                         messages.error(request, error)
+            except Exception as e:
+                messages.error(request, str(e))
 
     return render(request, 'accounts/register.html')
 

@@ -6,5 +6,5 @@ urlpatterns = [
     path('getdialogue/<str:category>/<str:game>/', views.get_dialogue),
     path('getscores/<str:game>', views.get_all_scores),
     path('globalrank/', views.get_global_ranking),
-    path('campaign/', views.click_campaign),
+    path('campaign/follow', views.click_campaign),
 ]

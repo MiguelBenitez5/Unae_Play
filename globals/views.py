@@ -47,8 +47,11 @@ def get_global_ranking(request):
     if not is_session_active(request):
         context['logged'] = False
         context['clicked'] = True #cuando no esta logueado no se mostrara la campaña
-    if 'clicked' in request.session:
-        context['clicked'] = True
+    user_id = request.session.get('user_id')   
+
+    user = CustomUser.objects.get(id=user_id)
+    context['clicked'] = user.clicked_campaign 
+    
     global_rank = GlobalRank.objects.all()[:10].values('user__username', 'score')
     context['global_rank'] = global_rank
     return render(request, 'global_rank.html', context)
@@ -66,8 +69,8 @@ def click_campaign(request):
     user = CustomUser.objects.get(id=user_id)
     if not user.clicked_campaign:
         user_score = GlobalRank.objects.filter(user=user).values('score').first() or 0
-        user_score += 100
-        _,_ = GlobalRank.objects.update_or_create(user, defaults={'score': user_score })
+        total_score = user_score['score'] + 100
+        _,_ = GlobalRank.objects.update_or_create(user=user, defaults={'score': total_score })
         user.clicked_campaign = True
         user.save()
         return JsonResponse({'status': 'success'})

@@ -20,9 +20,15 @@
             <!--Teclado-->
             {% include 'ahorcado/keyboard.html' %}
             <!--Requerir nueva palabra-->
-            <button class="new-word-btn" type="button">Nueva palabra</button>
+            <button class="new-word-btn game-button" type="button">Nueva palabra</button>
         </div>
     </div>
+{% endblock %}
+
+{% block audio %}
+    <audio id="bg-music" muted loop hidden preload="metadata">
+        <source src="{% static 'music/ahorcado.mp3' %}" type="audio/mpeg">
+    </audio>
 {% endblock %}
 
 {% block script %}

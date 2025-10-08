@@ -36,12 +36,14 @@ function getCookie(name) {
 const csrftoken = getCookie("csrftoken");
 // evento para el boton de inicio de partida al finalizar la pantalla de carga
 loadingBtn.addEventListener('click', ()=>{
-   first_events_for_answers()
+    first_events_for_answers()
     show_dialogue('inicio', 'questions') 
 })
 
 // se obtiene una nueva pregunta y se muestra en pantalla
-async function new_question(){ 
+async function new_question(){
+    next_btn.removeEventListener('click', new_question)
+    setTimeout(()=> next_btn.addEventListener('click', new_question), 500) 
     show_dialogue('siguiente', 'questions')
     repaint_answers()
     add_events_for_answers()

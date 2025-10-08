@@ -1,36 +1,240 @@
 <section class="arcade-section">
-  <h2 class="arcade-title">🎮 Juegos</h2>
-  <div class="arcade-line"></div> <!-- Línea decorativa -->
-  
-  <div class="arcade-grid">
-    <!-- Juego 1 -->
-    <article class="arcade-card">
-      <div class="arcade-icon">
-        <img src="https://cdn-icons-png.flaticon.com/512/3081/3081340.png" alt="Arcade" />
-      </div>
-      <h3 class="arcade-name">Space Invaders</h3>
-      <p class="arcade-desc">Dispara y sobrevive a la invasión alienígena.</p>
-      <button class="arcade-btn">Jugar</button>
-    </article>
+    <h2 class="arcade-title">🎮 Juegos</h2>
+    <div class="arcade-line"></div> 
+    
+    <div class="carousel-wrapper"> 
+        <div class="carousel-container">
+            <div class="carousel-track">
+                <article class="arcade-card">
+                    <h3 class="arcade-name">Buscaminas</h3>
+                    <p class="arcade-desc">Descubre las minas ocultas y evita las explosiones.</p>
+                    <a href="{% url 'buscaminas_game' %}"><button class="arcade-btn">Jugar</button></a>
+                </article>
 
-    <!-- Juego 2 -->
-    <article class="arcade-card">
-      <div class="arcade-icon">
-        <img src="https://cdn-icons-png.flaticon.com/512/188/188918.png" alt="RPG" />
-      </div>
-      <h3 class="arcade-name">Fantasy Quest</h3>
-      <p class="arcade-desc">Embárcate en una aventura mágica llena de retos.</p>
-      <button class="arcade-btn">Jugar</button>
-    </article>
+                <article class="arcade-card">
+                    <h3 class="arcade-name">Ahorcado</h3>
+                    <p class="arcade-desc">Adivina la palabra antes de que se acaben los intentos.</p>
+                    <a href="{% url 'ahorcado' %}"><button class="arcade-btn">Jugar</button></a>
+                </article>
 
-    <!-- Juego 3 -->
-    <article class="arcade-card">
-      <div class="arcade-icon">
-        <img src="https://cdn-icons-png.flaticon.com/512/869/869636.png" alt="Carreras" />
-      </div>
-      <h3 class="arcade-name">Turbo Racer</h3>
-      <p class="arcade-desc">Corre a toda velocidad y gana la carrera.</p>
-      <button class="arcade-btn">Jugar</button>
-    </article>
-  </div>
+                <article class="arcade-card">
+                    <h3 class="arcade-name">Prueba tu memoria</h3>
+                    <p class="arcade-desc">Encuentra todos los pares de cartas.</p>
+                    <a href="{% url 'memorygame' %}"><button class="arcade-btn">Jugar</button></a>
+                </article>
+                
+                <article class="arcade-card">
+                    <h3 class="arcade-name">Piedra, Papel o Tijera</h3>
+                    <p class="arcade-desc">Gana a la máquina en este clásico juego.</p>
+                    <a href="{% url 'piedrapapeltijera' %}"><button class="arcade-btn">Jugar</button></a>
+                </article>
+                
+                <article class="arcade-card">
+                    <h3 class="arcade-name">TaTeTi</h3>
+                    <p class="arcade-desc">Consigue tres en raya antes que la máquina.</p>
+                    <a href="{% url 'tateti' %}"><button class="arcade-btn">Jugar</button></a>
+                </article>
+                
+                <article class="arcade-card">
+                    <h3 class="arcade-name">Wordle</h3>
+                    <p class="arcade-desc">Adivina la palabra oculta en seis intentos.</p>
+                    <a href="{% url 'wordle' %}"><button class="arcade-btn">Jugar</button></a>
+                </article>
+                
+                <article class="arcade-card">
+                    <h3 class="arcade-name">Preguntas</h3>
+                    <p class="arcade-desc">Responde correctamente a las preguntas para ganar.</p>
+                    <a href="{% url 'questions' %}"><button class="arcade-btn">Jugar</button></a>
+                </article>
+                
+                <article class="arcade-card">
+                    <h3 class="arcade-name">Adivinar el numero</h3>
+                    <p class="arcade-desc">Adivina el numero para ganar.</p>
+                    <a href="{% url 'adivinarnumero' %}"><button class="arcade-btn">Jugar</button></a>
+                </article>
+            </div>
+        </div>
+        
+        <button id="prev-button" class="carousel-button prev">❮</button>
+        <button id="next-button" class="carousel-button next">❯</button>
+    </div>
 </section>
+<style>
+.arcade-section {
+    padding: 40px 20px;
+    text-align: center;
+    background: transparent; 
+}
+.arcade-title {
+    font-size: 2.2rem;
+    color: #e100ff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+.carousel-wrapper {
+    position: relative;
+    padding: 0 50px; 
+}
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #e100ff;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); 
+}
+.carousel-button:hover {
+    background: rgba(225, 0, 255, 0.4);
+    color: #ffffff;
+}
+.carousel-button.prev {
+    left: 0;
+}
+.carousel-button.next {
+    right: 0;
+}
+.carousel-container {
+    width: 100%;
+    overflow: hidden; 
+}
+.carousel-track {
+    display: flex; 
+    flex-wrap: nowrap; 
+    transition: transform 0.5s ease-in-out; 
+}
+.arcade-card {
+    flex: 0 0 auto;
+    width: calc(100% / 4); 
+    box-sizing: border-box; 
+    padding: 20px;
+    margin: 15px; 
+    background: #1e1e1e; 
+    color: #f0f0f0; 
+    border-radius: 12px; 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+.arcade-card:hover {
+    transform: translateY(-2px) scale(1.01); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); 
+}
+.arcade-name {
+    margin-top: 0;
+    color: #e100ff; 
+}
+.arcade-desc {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #cccccc;
+    font-size: 0.9em;
+}
+.arcade-btn {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background: linear-gradient(to right, #e100ff, #ff007f); 
+    border: none;
+    color: #ffffff;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s ease; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.arcade-btn:hover {
+    background: linear-gradient(to left, #e872f7, #fd78ba);
+    transform: scale(1.05); 
+}
+@media (max-width: 768px) {
+    .arcade-card {
+        width: calc(100% / 2); 
+    }
+}
+@media (max-width: 480px) {
+    .arcade-card {
+        width: 100%; 
+    }
+}
+@media (max-width: 600px) {
+    .carousel-button {
+        display: none;
+    }
+}
+</style>
+<script>
+    const track = document.querySelector('.carousel-track');
+    const cards = document.querySelectorAll('.arcade-card');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    let cardsPerView;
+    function calculateCardsPerView() {
+        const cardWidth = cards[0].offsetWidth + (parseFloat(window.getComputedStyle(cards[0]).marginRight) * 2);
+        const containerWidth = document.querySelector('.carousel-container').offsetWidth;
+        cardsPerView = Math.floor(containerWidth / cardWidth); 
+        return cardsPerView > 0 ? cardsPerView : 1;
+    }
+    let cardIndex = 0;
+    const totalCards = cards.length / 2;
+    function moveToCard(index) {
+        cardsPerView = calculateCardsPerView();
+        if (index >= totalCards) {
+            index = 0; 
+            track.style.transition = 'none';
+            track.style.transform = `translateX(0)`;
+            void track.offsetWidth; 
+            track.style.transition = 'transform 0.5s ease-in-out';
+        } 
+        if (index < 0) {
+            index = totalCards - cardsPerView;
+        }
+        cardIndex = index; 
+        const offset = cardIndex * (cards[0].offsetWidth + 30);
+        track.style.transform = `translateX(-${offset}px)`;
+    }
+    nextButton.addEventListener('click', () => {
+        pauseAutoScroll();
+        moveToCard(cardIndex + cardsPerView);
+    });
+    prevButton.addEventListener('click', () => {
+        pauseAutoScroll();
+        moveToCard(cardIndex - cardsPerView);
+    });
+    let scrollInterval;
+    const scrollTime = 4000;
+    function startAutoScroll() {
+        if (scrollInterval) return;
+        scrollInterval = setInterval(() => {
+            moveToCard(cardIndex + cardsPerView);
+        }, scrollTime);
+    }
+    function pauseAutoScroll() {
+        clearInterval(scrollInterval);
+        scrollInterval = null;
+        setTimeout(startAutoScroll, 10000);
+    }
+    window.addEventListener('resize', () => {
+        moveToCard(cardIndex);
+    });
+    window.onload = () => {
+        calculateCardsPerView();
+        startAutoScroll();
+    };
+</script>

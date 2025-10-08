@@ -2,12 +2,12 @@
 .mascotas-section {
     padding: 60px 20px;
     text-align: center;
-    background: transparent; /* respeta el fondo */
+    background: transparent; 
 }
 
 .mascotas-title {
     font-size: 2.2rem;
-    color: #e100ff; /* mismo tono violeta/rosa que usaste */
+    color: #e100ff; 
     text-transform: uppercase;
     margin-bottom: 20px;
     position: relative;
@@ -61,4 +61,96 @@
 .mascota-card p {
     font-size: 0.95rem;
     color: #ccc;
+}
+
+/* --- Responsiveness & Mobile Tweaks --- */
+/* Make images adapt a bit better across sizes */
+.mascota-card img {
+    width: clamp(72px, 20vw, 110px);
+    height: auto;
+}
+
+/* Tablets and small laptops */
+@media (max-width: 992px) {
+    .mascotas-section {
+        padding: 48px 18px;
+    }
+    .mascotas-title {
+        font-size: 2rem;
+    }
+    .mascotas-container {
+        gap: 20px;
+    }
+    .mascota-card {
+        padding: 18px;
+    }
+}
+
+/* Phones (portrait) and small screens */
+@media (max-width: 768px) {
+    .mascotas-section {
+        padding: 40px 16px;
+    }
+    .mascotas-title {
+        font-size: 1.8rem;
+    }
+    .mascotas-title span {
+        display: block; /* Pasa a segunda línea para mejor legibilidad */
+        margin-top: 4px;
+    }
+    .mascotas-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 28px;
+    }
+    .mascota-card {
+        padding: 16px;
+    }
+    .mascota-card h3 {
+        font-size: 1.1rem;
+    }
+    .mascota-card p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+    .mascotas-section {
+        padding: 32px 14px;
+    }
+    .mascotas-title {
+        font-size: 1.5rem;
+    }
+    .mascotas-container {
+        grid-template-columns: 1fr; /* Una columna para máxima claridad */
+        gap: 12px;
+        margin-top: 24px;
+    }
+    .mascota-card {
+        padding: 14px;
+    }
+    .mascota-card h3 {
+        font-size: 1rem;
+    }
+    .mascota-card p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Preferencias de accesibilidad: reducir animaciones si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+    .mascota-card {
+        transition: none;
+    }
+    .mascota-card:hover,
+    .mascota-card:active {
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+}
+
+/* Pequeña retroalimentación táctil en móviles */
+.mascota-card:active {
+    transform: scale(0.98);
 }

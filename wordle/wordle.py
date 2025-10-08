@@ -77,14 +77,18 @@ class Wordle:
                 self.__score += 1
     
     def __calculate_final_score(self):
+        if self.__tries <= 3:
+            tries = 1
+        else:
+            tries = self.__tries - 2
         #puntaje facil
         word_len = len(self.__word)
         if word_len <= 4:
-            return ((self.__score / (word_len*2)) * 500 ) / self.__tries
+            return ((self.__score / (word_len*2)) * 500 ) / tries
         elif word_len <= 9:
-            return ((self.__score / (word_len*2)) * 700 ) / self.__tries
+            return ((self.__score / (word_len*2)) * 700 ) / tries
         else:
-            return ((self.__score / (word_len*2)) * 1000 ) / self.__tries
+            return ((self.__score / (word_len*2)) * 1000 ) / tries
 
     """
     Se compara la palabra generada con la ingresada por el usuario\n

@@ -3,7 +3,7 @@ const sponsorLink2 = document.getElementById('sponsor-link-2')
 
 async function clickCampaign(){
     try{
-        const response = await fetch('asdasda')
+        const response = await fetch('/campaign/follow')
         if(!response.ok) throw new Error('Error en la respuesta del servidor: '+response.status)
         const data = await response.json()
             if (data){

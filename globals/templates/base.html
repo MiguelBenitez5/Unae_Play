@@ -8,8 +8,9 @@
         <link rel="stylesheet" href="{% static 'style.css' %}">
         <link rel="stylesheet" href="{% static 'header.css' %}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/superglobals-components.css' %}">
     {% endblock %}
-    <title>{% block title %}Un@e Play{% endblock %}</title>
+    <title>{% block title %}Unae Play{% endblock %}</title>
 </head>
 <body class='bg-body'>
     <section class="section">
@@ -30,8 +31,8 @@
     </section> 
   
     {%block audio%}
-        <audio id="bg-music" autoplay muted loop hidden preload="metadata">
-            <source src="{% static 'music/landing_page.wav' %}" type="audio/wav">
+        <audio id="bg-music" muted loop hidden preload="metadata">
+            <source src="{% static 'music/landing_page.mp3' %}" type="audio/mpeg">
         </audio>
     {% endblock %}
 
