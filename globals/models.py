@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser
+from django.utils.html import format_html
 
 # Create your models here.
 
@@ -80,4 +81,17 @@ class GlobalRank(models.Model):
     def __str__(self):
         return f'{self.user.username}->{self.score}'
 
+
+class BugReport(models.Model):
+    id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=10, default='', null=True, verbose_name='Usuario')
+    subject = models.CharField(max_length=150, default='', null=True, verbose_name='Asunto')
+    description = models.TextField(default='', null=True, verbose_name='Descripcion')
+    image_url = models.URLField(default='', null=True)
+
+    def image_preview(self):
+        if self.image_url:
+            return format_html('<img src="{}" style="max-width: 200px; max-height: 200px;" />', self.image_url)
+        return '(Sin imagen)'
+    image_preview.short_description = 'Imagen'
 

@@ -1,10 +1,36 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Dialogue, Game, Score, GlobalRank
+from .models import Dialogue, Game, Score, GlobalRank, BugReport
 from django.db.models.functions import Random
 from accounts.models import CustomUser
 from .utils import is_session_active 
 
+def report_bug(request):
+    if request.method == 'POST':
+        user_id = request.session.get('user_id', None)
+        if not user_id:
+            username = 'Anonimo'
+        else:
+            user = CustomUser.objects.filter(id=user_id).first()
+            if not user:
+                usename = 'Anonimo'
+            else:
+                username = user.username
+        
+        subject = request.POST.get('subject')
+        description = request.POST.get('description')
+        if 'image' in request.FILES:
+            image = request.FILES.get('image')
+            image.save('reports/'+image.name)
+            image_url = '/globals/reports/'+image.name
+        else:
+            image_url = None
+        
+        report = BugReport(subject=subject, description=description, image_url=image_url)
+        report.save()
+    
+    return render(request, 'report.html')
+        
 
 def get_dialogue(request,category:str, game:str):
     dialogue = Dialogue.objects.filter(category__category_name=category, game__game_name=game).order_by(Random()).values().first()

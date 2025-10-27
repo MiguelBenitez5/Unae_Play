@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static%}
+
+{% block head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+{% endblock %}
+
+{% block title %} Reportar un error {% endblock%}
+
+{% block content %}
+    <section class="form-container">
+        <form class="form" action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label class="form-label game-text fs-6" for="subject">Asunto</label>
+            <input class="form-input" name="subject" id="subject" type="text" required>
+            <label class="form-label game-text fs-6" for="description">Descripcion del error</label>
+            <textarea class="form-input" name="description" id="description" required></textarea>
+            <label class="form-label game-text fs-6" for="screenshot">Imagen del error *Opcional</label>
+            <input class="form-input" type="file" name="image" accept="image/*">
+            <div class="form-footer">
+                <button class="form-submit game-text" type="submit">Enviar</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}
+
