@@ -8,6 +8,7 @@ async function startGame(rows = 8, cols = 8) {
         if (!response.ok) throw new Error('Server returned ' + response.status);
         const data = await response.json();
         console.log('Game started:', data);
+        show_dialogue('inicio', 'buscaminas')
         boardState = data.board || boardState;
         updateBoard();
     } catch (err) {
@@ -26,10 +27,14 @@ async function reveal(r, c) {
         boardState = data.board;
         updateBoard();
 
-        if (data.result === "game_over") {
-            setTimeout(() => startGame(boardState.length, boardState[0].length), 2000);
-        } else if (data.result === "win") {
-            setTimeout(() => startGame(boardState.length, boardState[0].length), 1500);
+        if (data.game_status === "defeat") {
+            // setTimeout(() => startGame(boardState.length, boardState[0].length), 2000); //here dialogos y modal
+            show_dialogue('derrota', 'buscaminas')
+            showModalScreen('buscaminas', data)
+        } else if (data.game_status === "win") {
+            // setTimeout(() => startGame(boardState.length, boardState[0].length), 1500); //here dialogos y modal
+            show_dialogue('victoria', 'buscaminas')
+            showModalScreen('buscaminas', data)
         }
     } catch (err) {
         console.error(err);
@@ -99,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
             boardState = data.board;
             drawBoard(boardState.length, boardState[0].length);
             console.log("Juego reiniciado");
+            show_dialogue('inicio', 'buscaminas')
         } catch (err) {
             console.error(err);
         }
