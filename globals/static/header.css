@@ -297,11 +297,11 @@
     transition: 2s ease;
 }
 
-.dropdown {
+/* .dropdown {
     position: relative; 
     display: flex;      
     justify-content: flex-end; 
-}
+} */
 
 /* Desktop / pantallas grandes */
 .dropdown-content {
@@ -327,10 +327,15 @@
     cursor: pointer;
     color: var(--light);
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
     text-align: center;
     transition: background 0.2s;
+}
+
+.dropdown-menu-mod{
+  background-color: #40368eee;
+  font-family: sans-serif;
 }
 
 .dropdown-item:hover {

@@ -12,6 +12,31 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'general-font';
+    src: url('fonts/04B_30__.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.header-font{
+    font-size: 1.4rem;
+    font-family: 'general-font', monospace;
+}
+
+.header-item{
+    font-size: 1rem;
+    font-family: 'general-font', monospace;
+    margin: 0.2rem 0.2rem;
+    outline: none;
+    background-color: rgba(108, 92, 231, 0.85);
+    border-color: white;
+}
+
+.header-bg{
+    background-color: rgba(108, 92, 231, 0.85);
+}
+
 .game-title{
     font-size: 1.6rem;
     font-family: 'pixel-font', monospace;
