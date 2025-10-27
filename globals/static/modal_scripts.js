@@ -107,9 +107,9 @@ async function showModalScreen(game, game_data){
             wordTitle.style.display = 'block'
             wordContainer.style.display = 'block'
             if (game === 'wordle'){
-                wordContainer.textContent = "La palabra es: "+ game_data.game_data.word
+                wordContainer.textContent = game_data.game_data.word
             }else{
-                wordContainer.textContent = "La palabra es: "+ game_data.word
+                wordContainer.textContent = game_data.word
             }
             
         }
