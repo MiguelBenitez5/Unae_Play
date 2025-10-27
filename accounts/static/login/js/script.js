@@ -17,4 +17,10 @@ tosAcceptBtn.addEventListener('click', ()=>{
     checkbox.checked = true
 })
 
+window.addEventListener('click', (e)=>{
+    if (e.target == tosModal){
+        tosModal.style.display = 'none'
+    }
+})
+
 
