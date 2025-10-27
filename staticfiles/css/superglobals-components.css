@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'pixel-font';
+    src: url('/static/fonts/PixelEmulator-xq08.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'char-font';
+    src: url('/static/fonts/MontserratExtrabold-qZ7Rx.OTF') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.game-title{
+    font-size: 1.6rem;
+    font-family: 'pixel-font', monospace;
+}
+
+.game-text{
+    font-size: 1.1rem;
+    font-family: 'pixel-font', monospace;
+}
+
+.game-reset-icon{
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+}
+.game-reset-btn{
+    padding: 0.2rem;
+    aspect-ratio: 2/1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.game-char{
+    font-size: 0.5rem;
+    font-family: 'char-font', monospace;
+}
+
+.game-button{
+    padding: 0.5rem 0.6rem;
+    margin: 0.2rem 0;
+    font-size: 0.8rem;
+    font-family: 'pixel-font', monospace;
+}
+
+.game-keyboard-key{
+    font-size: 1.2rem;
+    min-width: 2.4rem;
+    font-family: sans-serif;
+}
+
+.dialogue-responsive-img{
+    max-width: 4.5rem;
+}
+
+.dialogue-responsive-text{
+    font-family: 'pixel-font', monospace;
+    font-size: 1.1rem;
+    min-width: 18.6rem;
+    max-width: 25rem;
+}
+
+.game-score-icon{
+    font-size: 3rem;
+}
+
+.label{
+    font-size: 0.8rem;
+    font-family: 'pixel-font';
+}
+
+@media (max-width:700px), (max-height: 870px) {
+    :root{
+        font-size: 12px;
+    }
+}
+
+@media (max-width:400px){
+    :root{
+        font-size: 9px;
+    }
+    .dialogue-responsive-text{
+        min-width: 12rem;
+    }
+    .game-keyboard-key{
+        font-size: 2.5rem;
+        min-width: 3rem;
+    }
+}
+

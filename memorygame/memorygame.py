@@ -1,7 +1,4 @@
 import random
-import time
-
-PAIR_POINTS = 50
 
 class MemoryGame:
 
@@ -52,7 +49,7 @@ class MemoryGame:
         user_choice_1, user_choice_2 = None, None
 
         # a partir de 17 intentos, el jugador pierde 50 puntos por intento
-        if self.__tries > 16:
+        if self.__tries > 26:
             self.__score -= 50
         
         if not self.__user_choose_1:

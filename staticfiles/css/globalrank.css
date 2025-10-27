@@ -1,0 +1,43 @@
+.sponsor-campaign{
+    font-size: 1rem;
+    margin: 0.75rem auto;
+    text-align: center;
+    max-width: 600px;
+    padding: 0.8rem;
+}
+
+.ranking-table{
+    max-width: 1600px;
+    margin: 0 auto;
+    min-width: 50rem;
+}
+
+.sponsor-text{
+    margin-bottom: 0.5rem;
+}
+
+.sponsor-img{
+    max-width: 3.4rem;
+    width: 100%;
+    object-fit: contain;
+    aspect-ratio: 1/1;
+    transition: all 0.15s ease-in;
+}
+
+.sponsor-img:hover{
+    filter: drop-shadow(0 0 2px #ddda);
+    transform: scale(1.1);
+}
+
+.sponsor-title{
+    color: #c29a0a;
+}
+.table-title{
+    text-align: center;
+}
+
+@media (max-width:630px) {
+    .sponsor-campaign{
+        margin: 0.75rem 0.75rem;
+    }
+}

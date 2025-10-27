@@ -33,8 +33,8 @@ urlpatterns = [
     path('adivinarnumero/', include('adivinarnumero.urls')),
 ]
 
-# Servir archivos estáticos durante el desarrollo
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
-else:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# # Servir archivos estáticos durante el desarrollo
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+# else:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

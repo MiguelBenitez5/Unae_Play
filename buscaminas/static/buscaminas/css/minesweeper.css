@@ -1,33 +1,39 @@
 .body {
     font-family: 'general-font', monospace;
     text-align: center;
-    padding: 20px;
-    width: 100%;
+    /* width: 900px; */
     height: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #1f1f1f;
+    border-radius: 15px;
 }
 
 .text {
-    margin-bottom: 20px;
+    margin-bottom: 1.2rem;
 }
 
-.grid { 
-    display: grid; 
-    grid-template-columns: repeat(8, 40px); 
-    gap: 4px;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.3rem;
     justify-content: center;
 }
 
-.cell { 
-    width: 40px; 
-    height: 40px; 
-    border: 1px solid #ccc; 
-    text-align: center; 
-    cursor: pointer; 
+.cell {
+    /* width: 70px;
+    height: 80px; */
+    font-size: 2rem;
+    aspect-ratio: 1/1;
+    border: 1px solid #ccc;
+    text-align: center;
+    cursor: pointer;
     font-weight: bold;
-    line-height: 40px;
+    /* line-height: 40px; */
     background-color: #343434;
     transition: background 0.3s, transform 0.2s;
     user-select: none;
+    border-radius: 0.8rem;
 }
 
 .cell:not(.revealed):hover {
@@ -48,11 +54,101 @@
     transform: scale(1);
 }
 
-.cell-number-1 { color: blue; }
-.cell-number-2 { color: green; }
-.cell-number-3 { color: red; }
-.cell-number-4 { color: darkblue; }
-.cell-number-5 { color: brown; }
-.cell-number-6 { color: cyan; }
-.cell-number-7 { color: black; }
-.cell-number-8 { color: gray; }
+.cell-number-1 {
+    color: blue;
+}
+
+.cell-number-2 {
+    color: green;
+}
+
+.cell-number-3 {
+    color: red;
+}
+
+.cell-number-4 {
+    color: darkblue;
+}
+
+.cell-number-5 {
+    color: brown;
+}
+
+.cell-number-6 {
+    color: cyan;
+}
+
+.cell-number-7 {
+    color: black;
+}
+
+.cell-number-8 {
+    color: gray;
+}
+
+#reset-btn {
+    font-family: 'general-font', monospace;
+  background-color: #3a3a3a;
+  color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 0.8rem 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#reset-btn:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+
+/* @media (max-width: 900px) {
+    .body {
+        max-width: 450px;
+        padding: 15px;
+    }
+
+    .grid {
+        gap: 35px;
+    }
+
+    .cell {
+        width: 65px;
+        height: 65px;
+    }
+} */
+
+/* @media (max-width: 600px) {
+    .body {
+        max-width: 350px;
+        padding: 10px;
+    }
+
+    .grid {
+        gap: 25px;
+    }
+
+    .cell {
+        width: 55px;
+        height: 55px;
+    }
+} */
+
+/* @media (max-width: 400px) {
+    .body {
+        max-width: 300px;
+        padding: 8px;
+    }
+
+    .grid {
+        gap: 15px;
+    }
+
+    .cell {
+        width: 45px;
+        height: 45px;
+    }
+} */

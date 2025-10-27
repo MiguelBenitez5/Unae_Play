@@ -31,19 +31,21 @@ document.addEventListener("click", (e) => {
 });
 
 toggle.addEventListener("click", () => {
-    if (isPlaying) {
+    const music_option = localStorage.getItem('music_state')
+    if (music_option == 'on') {
         audio.pause();
         msg.textContent = "Off";
+        localStorage.setItem('music_state', 'off')
     } else {
         audio.play()
         .then(() => {
             audio.muted = false;
             msg.textContent = "On";
+            localStorage.setItem('music_state', 'on')
         }).catch(err => {
             console.log("Autoplay bloqueado:", err);
         });
     }
-    isPlaying = !isPlaying;
 });
 
 volumeSlider.addEventListener("input", () => {
@@ -55,11 +57,45 @@ volumeSlider.addEventListener("input", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const audio = document.getElementById("bg-music");
+    const music_option = localStorage.getItem('music_state')
+    if (!music_option){
+        localStorage.setItem('music_state', 'on')
+    }
+    else if (music_option === 'off'){
+        msg.textContent = 'Off'
+        return
+    }
+
     audio.volume = 0.5; 
     document.addEventListener("click", () => {
-        if (audio.muted) {
-        audio.muted = false; 
-        }
+        audio.play()
+        .then(()=>{
+            audio.muted = false
+            }
+        )
+    }, { once: true });
+    document.addEventListener('touchstart', () => {
+        audio.play()
+        .then(()=>{
+            audio.muted = false
+            }
+        )
+    }, { once: true });
+    document.addEventListener('keydown', () => {
+        audio.play()
+        .then(()=>{
+            audio.muted = false
+            }
+        )
     }, { once: true });
 });
+
+const pets = document.getElementById('mascotas')
+
+pets.addEventListener('click', (e)=>{
+    const petbox = e.target.closest('.submenu-item')
+    if (petbox){
+        localStorage.setItem('theme', petbox.id)
+        toggleSubmenu('mascotas')
+    }
+})

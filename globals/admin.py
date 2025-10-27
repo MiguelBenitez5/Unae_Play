@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Game, DialogueCategory, Dialogue
+from .models import Game, DialogueCategory, Dialogue, BugReport
 from django.contrib.admin.models import LogEntry
 
 # Register your models here.
@@ -25,3 +25,7 @@ class LogEntryAdmin(admin.ModelAdmin):
     list_display = ("user", "content_type", "object_repr", "action_flag", "change_message", "action_time")
     list_filter = ("action_flag", "user", "content_type")
     search_fields = ("object_repr", "change_message")
+
+@admin.register(BugReport)
+class BugReportAdmin(admin.ModelAdmin):
+    list_display = ('subject', 'description', 'image_preview')

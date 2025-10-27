@@ -1,7 +1,8 @@
-import random
+import random, time
 
 class Minesweeper:
     def __init__(self, rows=10, cols=10, mines=10):
+        self.start_time = time.time()
         self.rows = rows
         self.cols = cols
         self.mines = mines
@@ -9,6 +10,14 @@ class Minesweeper:
         self.revealed = [[False for _ in range(cols)] for _ in range(rows)]
         self._place_mines()
         self._calculate_numbers()
+
+    def reset(self):
+        """Reinicia completamente el tablero."""
+        self.board = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
+        self.revealed = [[False for _ in range(self.cols)] for _ in range(self.rows)]
+        self._place_mines()
+        self._calculate_numbers()
+
     
     def _place_mines(self):
         count = 0

@@ -45,6 +45,14 @@ function preloadAudio(path){
     })
 }
 
+// promesa para esperar 5 segundos
+
+const waitingTime = new Promise((resolve) =>{
+    setTimeout(()=>{
+        return resolve('Pasaron 5 segundos')
+    }, 5000)
+})
+
 
 // carga de archivos
 async function preloadAll() {
@@ -71,6 +79,7 @@ async function preloadAll() {
     ]
 
     await Promise.all(promises)
+    await waitingTime
     loadingText.textContent = 'Juego completamente cargado'
     loadingIcon.innerHTML = successIcon
     loadingBtn.style.display = 'inline'
@@ -97,6 +106,7 @@ async function showLoadingScreen(){
     loadingIcon.innerHTML = loadIcon
     loadingBtn.style.display = 'none'
     await preloadAll()
+
 }
 
 window.onload = async()=>{
@@ -106,10 +116,14 @@ window.onload = async()=>{
 
 // evento para el boton de juego cargado
 loadingBtn.addEventListener('click', ()=>{
-    gameMusic.volume = 0.35
-    gameMusic.play()
+    const music_option = localStorage.getItem('music_state')
+    if (music_option === 'on'){
+        gameMusic.volume = 0.35
+        gameMusic.play()
+    }
     loadingScreen.style.display = 'none'
     gameScreen.style.display = 'block'
+    
 })
 
 

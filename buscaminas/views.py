@@ -1,6 +1,6 @@
 from django.http import JsonResponse
-from django.shortcuts import render
-from globals.utils import save_score, is_session_active
+from django.shortcuts import render, redirect
+from globals.utils import save_score, is_session_active, calculate_score
 from .game_logic import Minesweeper
 from accounts.models import CustomUser
 import logging
@@ -50,6 +50,8 @@ def reveal_all(game):
 # ------------------------------
 def game_page(request):
     """Renderiza la página principal del juego"""
+    if not is_session_active(request):
+        return redirect('login')
     try:
         ensure_user_session(request)
         return render(request, 'buscaminas.html', {'logged': True})
@@ -68,6 +70,27 @@ def start_game(request):
         logger.error(f"Error al iniciar juego: {e}")
         return JsonResponse({"error": str(e)}, status=500)
 
+def restart_game(request):
+    """Reinicia la partida actual y devuelve el nuevo tablero vacío"""
+    try:
+        ensure_user_session(request)
+        session_key = request.session.session_key
+
+        # Si no hay partida activa, simplemente crea una nueva
+        if session_key not in games:
+            games[session_key] = Minesweeper(rows=8, cols=8, mines=10)
+        else:
+            # Reinicia la partida existente
+            games[session_key].reset()
+
+        return JsonResponse({
+            "status": "restarted",
+            "board": [[None for _ in range(games[session_key].cols)] for _ in range(games[session_key].rows)]
+        })
+    except Exception as e:
+        logger.error(f"Error al reiniciar juego: {e}")
+        return JsonResponse({"error": str(e)}, status=500)
+
 def reveal_cell(request, row, col):
     """Revela una celda del tablero"""
     try:
@@ -82,23 +105,34 @@ def reveal_cell(request, row, col):
 
         # Si es mina
         if game.is_mine(row, col):
+            score = sum(sum(10 for c in row if c) for row in game.revealed)
+            start_time = game.start_time
+            max_points = 540
+            min_time = 20
+            max_time = 180
+            final_score = calculate_score(score, start_time, max_points, min_time, max_time)
             try:
-                save_score(request, "Buscaminas", 0)
+                save_score(request, "buscaminas", final_score)
             except Exception as e:
                 logger.warning(f"Error al guardar score: {e}")
-            return JsonResponse({"result": "game_over", "board": reveal_all(game)})
+            return JsonResponse({"game_status": "defeat", "board": reveal_all(game)})
 
         # Revelar celda seleccionada
         game.reveal(row, col)
 
         # Si se completó el juego
         if game.is_finished():
-            score = sum(sum(1 for c in row if c) for row in game.revealed)
+            score = sum(sum(10 for c in row if c) for row in game.revealed)
+            start_time = game.start_time
+            max_points = 540
+            min_time = 20
+            max_time = 180
+            final_score = calculate_score(score, start_time, max_points, min_time, max_time)
             try:
-                save_score(request, "Buscaminas", score)
+                save_score(request, "buscaminas", final_score)
             except Exception as e:
                 logger.warning(f"Error al guardar score: {e}")
-            return JsonResponse({"result": "win", "score": score, "board": reveal_all(game)})
+            return JsonResponse({"game_status": "win", "score": score, "board": reveal_all(game)})
 
         # Tablero visible hasta ahora
         return JsonResponse({"board": get_visible_board(game)})
