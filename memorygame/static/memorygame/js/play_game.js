@@ -77,7 +77,7 @@ function select_img(char){
         case 'e':   return '/static/memorygame/img/FACVA.png'
         case 'f':   return '/static/memorygame/img/FCJHS.png'
         case 'g':   return '/static/memorygame/img/ISEDE.png'
-        case 'h':   return '/static/memorygame/img/LASI.png'
+        case 'h':   return '/static/memorygame/img/PARANA.png'
     }
 }
 
