@@ -102,44 +102,45 @@ function random_dialogue(){
 // leer el localstorage para designar
 function get_char_img(){
     const userpet = localStorage.getItem('theme')
+    console.log('Macota: '+userpet)
     if (userpet){
         switch(userpet){
-            case "LASI":
+            case "lasi":
                 return {
                     normal_pose : '/static/img/carpincho-1.png',
                     talk_pose   : '/static/img/LASI_TALK.png'
                 }
-            case "COLONIAS":
+            case "colonias":
                 return {
                     normal_pose : '/static/img/leopardo.png',
                     talk_pose   : '/static/img/COLONIAS_TALK.png'
                 }
-            case "FACAT":
+            case "facat":
                 return {
                     normal_pose : '/static/img/camaleon.png',
                     talk_pose   : '/static/img/FACAT_TALK.png'
                 }
-            case "FACEM":
+            case "facem":
                 return {
                     normal_pose : '/static/img/tucan.png',
                     talk_pose   : '/static/img/FACEM_TALK.png'
                 }
-            case "FACQUF":
+            case "facquf":
                 return {
                     normal_pose : '/static/img/serpiente.png',
                     talk_pose   : '/static/img/FACQUF_TALK.png'
                 }
-            case "FACVA":
+            case "facva":
                 return {
                     normal_pose : '/static/img/caballo.png',
                     talk_pose   : '/static/img/FACVA_TALK.png'
                 }
-            case "FCJHS":
+            case "fcjhs":
                 return {
                     normal_pose : '/static/img/buho.png',
                     talk_pose   : '/static/img/FCJHS_TALK.png'
                 }
-            case "ISEDE":
+            case "isede":
                 return {
                     normal_pose : '/static/img/conejo.png',
                     talk_pose   : '/static/img/ISEDE_TALK.png'
