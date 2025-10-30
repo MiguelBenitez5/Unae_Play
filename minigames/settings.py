@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-o4*r76diz!m%jf0gzoz-jm7-_^rzakkjik_u1vqvmnt^w2aaqh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['182.122.183.61', '192.168.0.7', 'https://unaeplay.abrdns.com', 'http://unaeplay.abrdns.com', 'https://www.unaeplay.abrdns.com', 'unaeplay.abrdns.com', 'www.unaeplay.abrdns.com']
+ALLOWED_HOSTS = ['182.122.183.61', '192.168.0.7', 'https://unaeplay.abrdns.com', 'http://unaeplay.abrdns.com', 'https://www.unaeplay.abrdns.com', 'unaeplay.abrdns.com', 'www.unaeplay.abrdns.com', '127.0.0.1']
 
 
 # Application definition
@@ -116,6 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-game-cache',
+    }
+}
 
 
 # Internationalization

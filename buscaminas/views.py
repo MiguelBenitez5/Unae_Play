@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.core.cache import cache
 from django.shortcuts import render, redirect
 from globals.utils import save_score, is_session_active, calculate_score
 from .game_logic import Minesweeper
@@ -7,9 +8,6 @@ import logging
 
 # Configurar logging simple
 logger = logging.getLogger(__name__)
-
-# Diccionario global de partidas por sesión
-games = {}
 
 # ------------------------------
 # Funciones de utilidad
@@ -32,7 +30,7 @@ def get_user_game(request):
     if not session_key:
         request.session.save()
         session_key = request.session.session_key
-    return games.get(session_key)
+    return cache.get(f'game_{session_key}')
 
 def get_visible_board(game):
     """Devuelve solo los valores de las celdas reveladas"""
@@ -64,7 +62,7 @@ def start_game(request):
     try:
         ensure_user_session(request)
         game = Minesweeper(rows=8, cols=8, mines=10)
-        games[request.session.session_key] = game
+        cache.set(f'game_{request.session.session_key}', game, timeout=None)
         return JsonResponse({"status": "started"})
     except Exception as e:
         logger.error(f"Error al iniciar juego: {e}")
@@ -77,15 +75,17 @@ def restart_game(request):
         session_key = request.session.session_key
 
         # Si no hay partida activa, simplemente crea una nueva
-        if session_key not in games:
-            games[session_key] = Minesweeper(rows=8, cols=8, mines=10)
+        game = cache.get(f'game_{session_key}')
+        if not game:
+            game = Minesweeper(rows=8, cols=8, mines=10)
         else:
             # Reinicia la partida existente
-            games[session_key].reset()
+            game.reset()
+        cache.set(f'game_{session_key}', game, timeout=None)
 
         return JsonResponse({
             "status": "restarted",
-            "board": [[None for _ in range(games[session_key].cols)] for _ in range(games[session_key].rows)]
+            "board": [[None for _ in range(game.cols)] for _ in range(game.rows)]
         })
     except Exception as e:
         logger.error(f"Error al reiniciar juego: {e}")
@@ -119,6 +119,7 @@ def reveal_cell(request, row, col):
 
         # Revelar celda seleccionada
         game.reveal(row, col)
+        cache.set(f'game_{request.session.session_key}', game, timeout=None)
 
         # Si se completó el juego
         if game.is_finished():
