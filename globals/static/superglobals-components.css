@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'pixel-font';
-    src: url('fonts/PixelEmulator-xq08.TTF') format('truetype');
+    src: url('fonts/PixelEmulator-xq08.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'char-font';
-    src: url('fonts/MontserratExtrabold-qZ7Rx.OTF') format('opentype');
+    src: url('fonts/MontserratExtrabold-qZ7Rx.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
