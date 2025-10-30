@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'minigames.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'minigames_project_2',                          
+        'NAME': 'minigames_poject_3',                          
         'USER': 'postgres',                        
         'PASSWORD': 'Miguel1234',                   
         'HOST': '192.168.0.5',                          
