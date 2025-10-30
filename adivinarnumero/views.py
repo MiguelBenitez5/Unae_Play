@@ -10,7 +10,7 @@ import time
 def renderPage(request):
     if not is_session_active(request):
         return redirect('login')
-    return render(request, 'adivinarnumero/adivinarnumero.html')
+    return render(request, 'adivinarnumero/adivinarnumero.html', {'logged': True})
 
 def play(request, number):
     try:
