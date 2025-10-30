@@ -68,6 +68,10 @@
     max-width: 200px;
 }
 
+.select-container{
+    text-align: left;
+}
+
 .option{
     background-color: transparent;
 }
