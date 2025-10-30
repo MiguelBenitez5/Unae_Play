@@ -26,10 +26,11 @@ def report_bug(request):
         else:
             image_url = None
         
-        report = BugReport(subject=subject, description=description, image_url=image_url)
+        report = BugReport(usename=usename,subject=subject, description=description, image_url=image_url)
         report.save()
-    
-    return render(request, 'report.html')
+    is_logged = is_session_active(request)
+
+    return render(request, 'report.html', {'logged': is_logged})
         
 
 def get_dialogue(request,category:str, game:str):
