@@ -89,6 +89,9 @@ class BugReport(models.Model):
     description = models.TextField(default='', null=True, verbose_name='Descripcion')
     image_url = models.URLField(default='', null=True)
 
+    class Meta:
+        db_table = 'bug_reports'
+
     def image_preview(self):
         if self.image_url:
             return format_html('<img src="{}" style="max-width: 200px; max-height: 200px;" />', self.image_url)
