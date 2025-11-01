@@ -87,7 +87,7 @@ class BugReport(models.Model):
     username = models.CharField(max_length=10, default='', null=True, verbose_name='Usuario')
     subject = models.CharField(max_length=150, default='', null=True, verbose_name='Asunto')
     description = models.TextField(default='', null=True, verbose_name='Descripcion')
-    image = models.FileField(upload_to='reports/', null=True, default='')
+    image = models.ImageField(upload_to='reports/', null=True, default='')
 
     class Meta:
         db_table = 'bug_reports'
