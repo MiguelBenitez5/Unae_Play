@@ -3,7 +3,9 @@ from django.http import JsonResponse
 from .models import Dialogue, Game, Score, GlobalRank, BugReport
 from django.db.models.functions import Random
 from accounts.models import CustomUser
-from .utils import is_session_active 
+from .utils import is_session_active
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile 
 
 def report_bug(request):
     if request.method == 'POST':
@@ -13,7 +15,7 @@ def report_bug(request):
         else:
             user = CustomUser.objects.filter(id=user_id).first()
             if not user:
-                usename = 'Anonimo'
+                username = 'Anonimo'
             else:
                 username = user.username
         
@@ -21,12 +23,12 @@ def report_bug(request):
         description = request.POST.get('description')
         if 'image' in request.FILES:
             image = request.FILES.get('image')
-            image.save('reports/'+image.name)
-            image_url = '/globals/reports/'+image.name
+            path = default_storage.save(f'reports/{image.name}', ContentFile(image.read()))
+            image_url = f'{path}'
         else:
             image_url = None
         
-        report = BugReport(usename=usename,subject=subject, description=description, image_url=image_url)
+        report = BugReport(username=username,subject=subject, description=description, image_url=image_url)
         report.save()
     is_logged = is_session_active(request)
 
