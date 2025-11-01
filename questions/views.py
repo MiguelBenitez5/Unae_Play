@@ -77,7 +77,7 @@ def answer_question(request):
             score = response['score']
             start_time = response['start_time']
             max_score = 300
-            min_time = 30
+            min_time = 15
             max_time = 500
             final_score = calculate_score(score,start_time,max_score,min_time,max_time)
             save_score(request, 'questions', final_score)
