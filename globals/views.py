@@ -23,13 +23,12 @@ def report_bug(request):
         description = request.POST.get('description')
         if 'image' in request.FILES:
             image = request.FILES.get('image')
-            path = default_storage.save(f'reports/{image.name}', ContentFile(image.read()))
-            image_url = f'{path}'
+            report = BugReport(username=username, subject=subject, description=description, image=image)
         else:
-            image_url = None
+            report = BugReport(username=username,subject=subject, description=description)
         
-        report = BugReport(username=username,subject=subject, description=description, image_url=image_url)
         report.save()
+
     is_logged = is_session_active(request)
 
     return render(request, 'report.html', {'logged': is_logged})
