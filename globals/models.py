@@ -94,7 +94,7 @@ class BugReport(models.Model):
 
     def image_preview(self):
         if self.image:
-            return format_html('<img src="{}" style="max-width: 200px; max-height: 200px;" />', self.image.url)
+            return format_html(f'<a href="{self.image.url}" target="_blank"><img src="{self.image.url}" style="max-width: 200px; max-height: 200px;" /></a>')
         return '(Sin imagen)'
     image_preview.short_description = 'Imagen'
 
