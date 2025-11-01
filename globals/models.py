@@ -93,7 +93,7 @@ class BugReport(models.Model):
         db_table = 'bug_reports'
 
     def image_preview(self):
-        if self.image_url:
+        if self.image:
             return format_html('<img src="{}" style="max-width: 200px; max-height: 200px;" />', self.image.url)
         return '(Sin imagen)'
     image_preview.short_description = 'Imagen'
