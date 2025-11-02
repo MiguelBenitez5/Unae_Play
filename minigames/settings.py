@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': 'minigames_poject_3',                          
         'USER': 'postgres',                        
         'PASSWORD': 'Miguel1234',                   
-        'HOST': '192.168.0.5',                          
+        'HOST': '192.168.0.3',                          
         'PORT': '5432',   
     }
 }
