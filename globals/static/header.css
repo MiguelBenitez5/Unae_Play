@@ -83,13 +83,13 @@
 
 .select-container select {
     width: 100%;
-    padding: 10px 36px 10px 12px; 
-    border-radius: 10px;
+    padding: 0.8rem 1.5rem 0.8rem 1.5rem; 
+    border-radius: 8px;
     border: 1px solid var(--accent);
     background: var(--card-bg);
     backdrop-filter: blur(4px);
     color: var(--text-color);
-    font-size: 14px;
+    font-size: 0.9rem;
     font-family: 'general-font', monospace;
     appearance: none; 
     cursor: pointer;
@@ -464,11 +464,11 @@
     justify-content: center;
   }
   
-  .select-container {
+  /* .select-container {
     width: 100%;
     max-width: 300px;
     margin: 0 auto;
-  }
+  } */
   
   .dropdown-content {
     position: fixed;

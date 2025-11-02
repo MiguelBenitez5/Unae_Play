@@ -62,10 +62,13 @@
     border: 1px solid #fd79a8;
     background: rgba(255,255,255,0.1);
     color: #dfe6e9;
-    font-size: 0.9rem;
     cursor: pointer;
     outline: none;
     max-width: 200px;
+}
+
+.select-container{
+    text-align: left;
 }
 
 .option{

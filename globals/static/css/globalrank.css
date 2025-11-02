@@ -7,9 +7,8 @@
 }
 
 .ranking-table{
-    max-width: 1600px;
+    max-width: 100rem;
     margin: 0 auto;
-    min-width: 50rem;
 }
 
 .sponsor-text{
@@ -39,5 +38,11 @@
 @media (max-width:630px) {
     .sponsor-campaign{
         margin: 0.75rem 0.75rem;
+        min-width: 0;
+    }
+}
+@media (min-width: 700px){
+    .ranking-table{
+        min-width: 50rem;
     }
 }

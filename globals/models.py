@@ -87,11 +87,14 @@ class BugReport(models.Model):
     username = models.CharField(max_length=10, default='', null=True, verbose_name='Usuario')
     subject = models.CharField(max_length=150, default='', null=True, verbose_name='Asunto')
     description = models.TextField(default='', null=True, verbose_name='Descripcion')
-    image_url = models.URLField(default='', null=True)
+    image = models.ImageField(upload_to='reports/', null=True, default='')
+
+    class Meta:
+        db_table = 'bug_reports'
 
     def image_preview(self):
-        if self.image_url:
-            return format_html('<img src="{}" style="max-width: 200px; max-height: 200px;" />', self.image_url)
+        if self.image:
+            return format_html(f'<a href="{self.image.url}" target="_blank"><img src="{self.image.url}" style="max-width: 200px; max-height: 200px;" /></a>')
         return '(Sin imagen)'
     image_preview.short_description = 'Imagen'
 

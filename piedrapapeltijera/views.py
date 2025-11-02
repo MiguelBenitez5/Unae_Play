@@ -18,7 +18,7 @@ def renderPage(request):
             'rounds_played': 0,
             'start_time': time.time(),  # Guarda el tiempo de inicio
         }
-    return render(request, 'piedrapapeltijera/piedrapapeltijera.html')
+    return render(request, 'piedrapapeltijera/piedrapapeltijera.html', {'logged': True})
 
 def play(request, player_choice):
     if not is_session_active(request):

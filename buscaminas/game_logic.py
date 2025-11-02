@@ -1,7 +1,7 @@
 import random, time
 
 class Minesweeper:
-    def __init__(self, rows=10, cols=10, mines=10):
+    def __init__(self, rows=8, cols=8, mines=10):
         self.start_time = time.time()
         self.rows = rows
         self.cols = cols

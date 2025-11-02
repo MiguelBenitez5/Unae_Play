@@ -8,9 +8,6 @@ import logging
 # Configurar logging simple
 logger = logging.getLogger(__name__)
 
-# Diccionario global de partidas por sesión
-games = {}
-
 # ------------------------------
 # Funciones de utilidad
 # ------------------------------
@@ -28,11 +25,23 @@ def ensure_user_session(request):
 
 def get_user_game(request):
     """Obtiene la partida asociada a la sesión"""
-    session_key = request.session.session_key
-    if not session_key:
-        request.session.save()
-        session_key = request.session.session_key
-    return games.get(session_key)
+    data = request.session.get('buscaminas')
+    game = Minesweeper(rows=8, cols=8, mines=10)
+    if not data:
+        return game
+    
+    game.board = data['board']
+    game.start_time = data['start_time']
+    game.revealed = data['revealed']
+
+    return game
+
+def save_user_game(request, game):
+    request.session['buscaminas'] = {
+        'start_time': game.start_time,
+        'board' : game.board,
+        'revealed' : game.revealed
+    }
 
 def get_visible_board(game):
     """Devuelve solo los valores de las celdas reveladas"""
@@ -64,7 +73,7 @@ def start_game(request):
     try:
         ensure_user_session(request)
         game = Minesweeper(rows=8, cols=8, mines=10)
-        games[request.session.session_key] = game
+        save_user_game(request, game)
         return JsonResponse({"status": "started"})
     except Exception as e:
         logger.error(f"Error al iniciar juego: {e}")
@@ -74,18 +83,11 @@ def restart_game(request):
     """Reinicia la partida actual y devuelve el nuevo tablero vacío"""
     try:
         ensure_user_session(request)
-        session_key = request.session.session_key
-
-        # Si no hay partida activa, simplemente crea una nueva
-        if session_key not in games:
-            games[session_key] = Minesweeper(rows=8, cols=8, mines=10)
-        else:
-            # Reinicia la partida existente
-            games[session_key].reset()
+        request.session.pop('buscaminas')
 
         return JsonResponse({
             "status": "restarted",
-            "board": [[None for _ in range(games[session_key].cols)] for _ in range(games[session_key].rows)]
+            "board": [[None for _ in range(8)] for _ in range(8)]
         })
     except Exception as e:
         logger.error(f"Error al reiniciar juego: {e}")
@@ -119,6 +121,7 @@ def reveal_cell(request, row, col):
 
         # Revelar celda seleccionada
         game.reveal(row, col)
+        save_user_game(request, game)
 
         # Si se completó el juego
         if game.is_finished():
