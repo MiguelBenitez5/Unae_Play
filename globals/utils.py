@@ -4,6 +4,7 @@ from accounts.models import CustomUser
 from django.db.models import Max, Sum
 import language_tool_python
 import time
+from .config import END_GAME, START_GAME, WINNER_MESSAGE, END_MESSAGE, START_MESSAGE, PREV_MESSAGE, WINNER_TITLE, TITLE
 
 #funciones en comun que se utilizan en varias aplicaciones
 
@@ -14,14 +15,47 @@ def is_session_active(request):
 
 def render_homepage(request):
     data = {}
+    if END_GAME:
+        data['end'] = True
+    
+    is_in_top_3 = False
+
     if not is_session_active(request):
         data['logged'] = False
     else:
         data['logged'] = True
+        user_id = request.session.get('user_id')
+        user = CustomUser.objects.get(id=user_id)
+        data['winner'] = False
+        is_in_top_3 = GlobalRank.objects.filter(user=user)[:3].exists()
+        if is_in_top_3 and END_GAME:
+            data['winner'] = True
+    
+    data['title'] = get_title(is_in_top_3)
+    data['message'] = get_message(END_GAME, START_GAME, is_in_top_3)
+
     return render(request, 'index.html', data)
+
+def get_message(is_end,is_start, is_winner):
+    if is_end:
+        if is_winner:
+            return WINNER_MESSAGE
+        return END_MESSAGE
+    if is_start:
+        return START_MESSAGE
+    
+    return PREV_MESSAGE
+
+def get_title(is_winner):
+    if END_GAME and is_winner:
+        return WINNER_TITLE
+    return TITLE
 
 
 def save_score(request, game_name:str, score:int) -> None:
+    #solo se guardan los puntajes cuando comience la competencia hasta llegar al final
+    if not START_GAME or END_GAME:
+        return
     user_id = request.session.get('user_id')
     user = CustomUser.objects.get(id=user_id)
     game = Game.objects.get(game_name = game_name)
