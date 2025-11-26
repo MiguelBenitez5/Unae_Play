@@ -5,7 +5,8 @@ from django.db.models.functions import Random
 from accounts.models import CustomUser
 from .utils import is_session_active
 from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile 
+from django.core.files.base import ContentFile
+from .config import END_GAME, START_GAME 
 
 def report_bug(request):
     if request.method == 'POST':
@@ -64,6 +65,9 @@ def get_all_scores(request, game):
         'global_ranking': list(global_rank),
         'username': user.username  
     }
+
+    if not START_GAME or END_GAME:
+        response['player_score'] = 0
 
     return JsonResponse(response)
     

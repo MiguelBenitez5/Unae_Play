@@ -10,12 +10,15 @@
     <link rel="stylesheet" href="{% static 'css/mobile-fixes.css' %}">
     <link rel="stylesheet" href="{% static 'css/quick-fixes.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'login/css/tos-modal.css' %}">
+    <link rel="stylesheet" href="{% static 'login/css/style.css '%}">
 {% endblock %}
 
 
 {% block title %}Inicio | Unae Play{% endblock %}
 
 {% block content %}
+    {% include 'info_modal.html' %}
     <main class="main-content">
         <section class="hero-section">
             <h1 class="hero-title">Bienvenido a Unae Play</h1>
@@ -29,4 +32,9 @@
         <!-- añadimos el apartado de descripcion de las mascotas de las facultades -->
         {% include 'landing/pets.html' %}
     </main>
+{% endblock %}
+
+{% block script %}
+    {{block.super}}
+    <script src="{% static 'js/info_modal.js' %}"></script>
 {% endblock %}
