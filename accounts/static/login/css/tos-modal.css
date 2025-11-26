@@ -1,6 +1,6 @@
 .modal-tos{
     display: flex;
-    position: absolute;
+    position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
@@ -45,7 +45,7 @@
 }
 
 .tos-close-btn{
-    position: absolute;
+    position:absolute;
     top: 0;
     right: 0;
     width: 2.5rem;
