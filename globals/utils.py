@@ -62,13 +62,19 @@ def save_score(request, game_name:str, score:int) -> None:
     # Comprobar puntaje maximo para compararlo con el puntaje actual
     max_score = Score.objects.filter(game=game, user=user).aggregate(Max('score'))
     # Si el jugador obtiene un nuevo mejor puntaje, se recalcula su posicion en el ranking, si es su primer puntaje
+    print(f'max score: {max_score["score__max"]}')
+    # se guarda el puntaje actual
+    score_game = Score(game = game, user = user, score = score)
+    score_game.save()
+    
+    if not max_score['score__max']:
+        max_score['score__max'] = 0
     # se registra en el rankig global
-    if max_score and (max_score['score__max'] or 0) < score:
+    if max_score['score__max'] < score:
         total = Score.objects.filter(user=user).values('game').annotate(best_scores=Max('score')).aggregate(total_score=Sum('best_scores'))
         # aqui utilizo un _ para indicar que no utilizare la variable que en este caso se trata de created que retorna True o False en caso de ser primer, registro o actualizacion
-        global_rank, _ = GlobalRank.objects.update_or_create(user=user,defaults={'score': total['total_score'] or 0})
-    score = Score(game = game, user = user, score = score)
-    score.save()
+        print(f'Total Score: {total["total_score"]}')
+        global_rank, _ = GlobalRank.objects.update_or_create(user=user,defaults={'score': total['total_score'] or score})
     
 
 def correct_word(userword):

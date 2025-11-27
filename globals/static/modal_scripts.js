@@ -70,14 +70,14 @@ async function showModalScreen(game, game_data){
             if(rankingFilter.value === 'game'){
                 if (i < data.game_ranking.length){
                     player.textContent = data.game_ranking[i].user__username || ''
-                    score.textContent = data.game_ranking[i].score || ''
+                    score.textContent = data.game_ranking[i].score || '0'
                     continue
                 }
                 
             }else if(rankingFilter.value === 'global'){
                 if(i < data.global_ranking.length){
                     player.textContent = data.global_ranking[i].user__username || '' 
-                    score.textContent = data.global_ranking[i].score || ''
+                    score.textContent = data.global_ranking[i].score || '0'
                     continue
                 }
             }

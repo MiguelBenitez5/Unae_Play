@@ -1,5 +1,5 @@
-END_GAME = True
-START_GAME = True
+END_GAME = False
+START_GAME = False
 
 # antes de comenzar el evento
 TITLE = 'Importante'
@@ -12,7 +12,7 @@ START_MESSAGE = ('La competencia esta actualemnte en curso, suma la mayor cantid
                  ' Si quedas entre los primeros 3 puestos vuelve a consultar esta pagina al finalizar la competencia para reclamar tu premio.'+
                  ' Esperamos que te diviertas y disfrutes de esta experiencia.')
 
-END_MESSAGE = ('La competencia ha finalizado, esperamos que te hayas divertidos con nuestros minijuegos.')
+END_MESSAGE = ('La competencia ha finalizado, esperamos que te hayas divertido con nuestros minijuegos.')
 
 WINNER_TITLE = 'Felicidades, ganaste un premio'
 
