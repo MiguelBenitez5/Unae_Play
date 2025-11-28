@@ -1,5 +1,5 @@
 END_GAME = False
-START_GAME = False
+START_GAME = True
 
 # antes de comenzar el evento
 TITLE = 'Importante'
